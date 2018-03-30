@@ -54,6 +54,13 @@ set ruler
 ````
 
 #### snipmate 定制
+* 修改触发键
+> vim /Users/jacky/.vim/bundle/snipmate.vim/after/plugin/snipMate.vim
+
+````
+
+````
+
 
 * 注释
 ````
@@ -69,4 +76,13 @@ snippet ////
      * @Author  : lijundong
      * @Time    : `system("date +%Y-%m-%d")`
      */  
+````
+
+#### PowerLine
+> 先按转PowerLine,配置如下
+
+````
+set rtp+=/Users/jacky/.vim/bundle/powerline/powerline/bindings/vim/
+set laststatus=2
+set t_Co=256           
 ````
