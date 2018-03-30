@@ -20,7 +20,6 @@ Plugin 'SirVer/ultisnips'
 Plugin 'klen/python-mode'
 Plugin 'scrooloose/syntastic'
 
-"例如：Plugin 'xxx/xxx'
 
 
 " All of your Plugins must be added before the following line
@@ -33,7 +32,7 @@ set cursorline
 set autoindent
 set number
 set ignorecase
-set lines=70 columns=200
+set lines=50 columns=200
 set transparency=4
 set syntax=on
 set iskeyword+=_,$,@,%,#,-
@@ -51,6 +50,38 @@ set softtabstop=4
 set shortmess=atI
 
 set ruler
+
+set rtp+=/Users/jacky/.vim/bundle/powerline/powerline/bindings/vim/
+set laststatus=2
+set t_Co=256
+
+
+"-- Taglist setting --
+let Tlist_Process_File_Always=1 "实时更新tags
+
+let Tlist_Inc_Winwidth=0
+
+"不同时显示多个文件的tag，仅显示一个
+let Tlist_Show_One_File = 1
+
+"taglist为最后一个窗口时，退出vim
+let Tlist_Exit_OnlyWindow = 1
+
+"taglist窗口显示在右侧，缺省为左侧
+let Tlist_Use_Right_Window =1
+
+"设置taglist窗口大小
+"let Tlist_WinHeight = 100
+let Tlist_WinWidth = 40
+
+"设置taglist打开关闭的快捷键F8
+noremap <F2> :TlistToggle<CR>
+
+"更新ctags标签文件快捷键设置
+noremap <F0> :!ctags -R<CR>
+
+let Tlist_File_Fold_Auto_Close=1 "非当前文件，函数列表折叠隐藏 
+
 ````
 
 #### snipmate 定制
