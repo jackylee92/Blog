@@ -1,5 +1,5 @@
 # Vim
-===
+---
 #### 个人配置
 ````
 " set the runtime path to include Vundle and initialize
@@ -54,3 +54,19 @@ set ruler
 ````
 
 #### snipmate 定制
+
+* 注释
+````
+snippet ////
+    /*  
+     * @Content : ${1}
+     * @Param   : ${2}
+     * @Return  : array(
+     *                  'status' => true/false,
+     *                  'msg'    => string,
+     *                  'data'   => array()
+     *              )   
+     * @Author  : lijundong
+     * @Time    : `system("date +%Y-%m-%d")`
+     */  
+````
