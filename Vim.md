@@ -57,9 +57,7 @@ set ruler
 * 修改触发键
 > vim /Users/jacky/.vim/bundle/snipmate.vim/after/plugin/snipMate.vim
 
-````
-
-````
+![snipmate](https://github.com/jackylee92/Blog/blob/master/Images/vim_snipMate.png?raw=true)
 
 
 * 注释
