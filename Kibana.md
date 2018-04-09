@@ -64,9 +64,12 @@ systemctl restart kibana
 systemctl restart elasticsearch
 ````
 
-* elasticsearch 配置
+* elasticsearch 配置 vim /etc/elasticsearch/elasticsearch.yml
+
+> 如果浏览器无法访问 修改 network.host 为本机IP network.port 为9200端口
 
 ````
+
 cluster.name:  elasticsearch
 #这是集群名字，我们 起名为 elasticsearch
 #es启动后会将具有相同集群名字的节点放到一个集群下。
@@ -102,4 +105,26 @@ discovery.zen.ping.unicast.hosts: ["192.168.137.100",  "192.168.137.101","192.16
 #第一对引号里是node1，默认端口是9300,
 #第二个是 node2 ，在另外一台机器上,
 #第三个引号里是node3，因为它和node1在一台机器上，所以指定了9301端口。
+
 ````
+
+* elasticsearch-head install
+
+````
+git clone https://github.com/mobz/elasticsearch-head.git
+cd elasticsearch-head
+npm install
+````
+<font color=red>
+npm: relocation error: npm: symbol SSL_set_cert_cb, version libssl.so.10 not defined in file libssl.so.10 with link time reference
+</font>
+> 解决方案：升级openssl
+  
+````
+yum update openssl -y
+````
+> again
+
+````
+npm install
+```` 
