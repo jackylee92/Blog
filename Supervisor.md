@@ -46,9 +46,11 @@ killall supervisor
 ````
 supervisord -c /etc/supervisord.conf
 ````
+<del>
 * 一个监控执行多条命令
 
 ````
 在一个shell脚本中写如多行需要执行的命令
 然后在配置中shell执行该脚本
 ````
+</del>

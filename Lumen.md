@@ -17,6 +17,16 @@ $router->group([ 'namespace' => 'Api', 'prefix' => 'api','middleware' => ['token
 * middleware => ['中间件']
 * $app->请求方式('action','controllerName@functionName') => 请求方法 www.xxx.com/prefix/action 访问的是controllerName下的functionName方法
 * ![目录](https://github.com/jackylee92/Blog/blob/master/Images/Snip20180417_1.png?raw=true)
+* ``bootstrap/app``中定义了路由使用的文件
+  *
+  
+   ````
+	$app->router->group([
+   		'namespace' => 'App\Http\Controllers',
+	], function ($router) {
+   		require __DIR__.'/../routes/web.php';
+	});
+	````
 
 ----
 
@@ -32,7 +42,7 @@ $router->group([ 'namespace' => 'Api', 'prefix' => 'api','middleware' => ['token
 });
 ````
 
-* 为路由指派中间件,``'middleware' => ['token']``中token对应``App\Http\Middleware\TokenMiddleware``文件
+* 为路由指派中间件``bootstrap\app.php``中``'middleware' => ['token']``中token对应``App\Http\Middleware\TokenMiddleware``文件
 
 ````
 $app->routeMiddleware([
@@ -60,3 +70,28 @@ class TokenMiddleware
 
 }
 ````
+
+__配置文件__
+
+* 在``vendor\larvel\lumen-framework``中config文件夹复制到根目录中
+* 配置启用config文件,例如config中有一个app.php配置文件。则在``bootstrap.app.php``中添加``$app->configure('app');``即可；
+* 在任何地方都可使用``config('app.key');``,``app => 配置文件名``,'key => 配置参数的key'``
+
+__自定义公共函数__
+
+* 在``app``中添加``Common\function.php`` 这当中写入公共函数；
+* 在根目录composer.json中添加自动加载
+  *
+
+  ````
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        },
+        "files": [
+            "app/Common/function.php"
+        ]
+    },
+  ````
+* 根目录执行 ``composer dump-autoload -o`` 
+* 在控制器中即可使用
