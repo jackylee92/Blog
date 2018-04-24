@@ -85,6 +85,13 @@ docker ps -a
 docker rm 记录名
 ````
 
+* 保存image生成新的image
+
+````
+# docker commit -m "提交备注" 运行的dockerID 保存设置的image名
+docker commit -m "add" 121212323 name
+````
+
 * 将文件转移至docker中
 
 ````
