@@ -8,7 +8,7 @@ __PHP__
 
 ````
 wget http://cn2.php.net/get/php-7.0.2.tar.gz/from/this/mirror
-    tar -zxvf php-7.1.0.tar.gz
+tar -zxvf php-7.1.0.tar.gz
 ````
 * 安装需要的软件支持:
 
@@ -21,25 +21,19 @@ yum install libxmal2 libxml2-devel openssl openssl-devel curl curl-devel libjpeg
 cd php-7.0.2
 ./configure –prefix=/usr/local/php –with-curl –with-freetype-dir –with-gd –with-gettext –with-iconv-dir –with-kerberos –with-libdir=lib64 –with-libxml-dir –with-mysqli –with-openssl –with-pcre-regex –with-pdo-mysql –with-pdo-sqlite –with-pear –with-png-dir –with-jpeg-dir –with-xmlrpc –with-xsl –with-zlib –with-bz2 –with-mhash –enable-fpm –enable-bcmath –enable-libxml –enable-inline-optimization –enable-gd-native-ttf –enable-mbregex –enable-mbstring –enable-opcache –enable-pcntl –enable-shmop –enable-soap –enable-sockets –enable-sysvsem –enable-sysvshm –enable-xml –enable-zip
 ````
+
 > 缺少什么组件在安装；出现错误，解决方案
 
-````
-freetype.h not fount　　=>　　yum install freetype-devel 
-```` 
 
 ````
+freetype.h not fount =>　yum install freetype-devel
+
 configure: error: Please reinstall the libcurl distribution - easy.h should be in /include/curl/　　=>　　yum install curl curl-devel
-````
 
-````
-annot find openssl's<evp.h>　　=>　　yum install openssl openssl-devel 
-````
+annot find openssl's<evp.h>　　=>　　yum install openssl openssl-devel
 
-````
 configure error xml2-config not found. please check your libxml2 installation　　=>　　yum install libxml2 libxml2-devel 
-````
 
-````
 png.h not found.　　=>　　yum install libpng-devel ````    
 ````
 
