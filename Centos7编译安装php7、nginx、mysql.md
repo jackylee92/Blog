@@ -22,6 +22,7 @@ cd php-7.0.2
 ./configure –prefix=/usr/local/php –with-curl –with-freetype-dir –with-gd –with-gettext –with-iconv-dir –with-kerberos –with-libdir=lib64 –with-libxml-dir –with-mysqli –with-openssl –with-pcre-regex –with-pdo-mysql –with-pdo-sqlite –with-pear –with-png-dir –with-jpeg-dir –with-xmlrpc –with-xsl –with-zlib –with-bz2 –with-mhash –enable-fpm –enable-bcmath –enable-libxml –enable-inline-optimization –enable-gd-native-ttf –enable-mbregex –enable-mbstring –enable-opcache –enable-pcntl –enable-shmop –enable-soap –enable-sockets –enable-sysvsem –enable-sysvshm –enable-xml –enable-zip
 ````
 > 缺少什么组件在安装；
+
 出现错误，解决方案
 
 ````
