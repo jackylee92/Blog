@@ -95,3 +95,19 @@ __自定义公共函数__
   ````
 * 根目录执行 ``composer dump-autoload -o`` 
 * 在控制器中即可使用
+
+__本地化 自定义语言包__
+
+* 在``resources/lang/zh_cn``中添加自己的语言包文件 没有目录则创建目录和文件
+  ````
+  //语言包内容如下
+  
+  <?php
+  return [
+  		100 => [‘en’=>'success','zh'=>'请求成功'],
+  		400 => [‘en’=>'fail','zh'=>'请求失败'] 
+  ];
+  ?>
+  ````
+* 在config.php 没有则添加 有则修改 ``'locale' => env('APP_LOCALE', 'zh_cn'),``;
+* 在项目中使用辅助函数``trans('文件名.配置项')`` 返回的为当前配置项为key的value；
