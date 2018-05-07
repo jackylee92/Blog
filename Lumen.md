@@ -18,8 +18,7 @@ $router->group([ 'namespace' => 'Api', 'prefix' => 'api','middleware' => ['token
 * $app->请求方式('action','controllerName@functionName') => 请求方法 www.xxx.com/prefix/action 访问的是controllerName下的functionName方法
 * ![目录](https://github.com/jackylee92/Blog/blob/master/Images/Snip20180417_1.png?raw=true)
 * ``bootstrap/app``中定义了路由使用的文件
-  *
-  
+
    ````
 	$app->router->group([
    		'namespace' => 'App\Http\Controllers',
@@ -27,6 +26,23 @@ $router->group([ 'namespace' => 'Api', 'prefix' => 'api','middleware' => ['token
    		require __DIR__.'/../routes/web.php';
 	});
 	````
+	
+* 路由错误
+
+````
+vim app/Exceptions/Handler.php
+    public function render($request, Exception $e)
+    {
+        // 如果config配置debug为true ==>debug模式的话让laravel自行处理
+        if(config('app.debug')){
+            return parent::render($request, $e);
+        }
+        //重写路由错误返回 lijundong
+        return returnData(404,[]);
+        //return $this->handle($request, $e);
+    }
+````
+
 
 ----
 
