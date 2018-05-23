@@ -40,3 +40,4 @@
 
 * ps 1111:查看1111进程情况；
 * hostname -i:查看ip
+* find .|xargs grep -ri "IBM" 查询所有文件中内容
