@@ -33,4 +33,8 @@ server -c /etc/shadowsocks.json -d start
 * 下载ShadowsocksX app
 
 * 配置服务
-* ![目录](https://github.com/jackylee92/Blog/blob/master/Images/Snip20180417_1.png?raw=true)
+![目录](https://github.com/jackylee92/Blog/blob/master/Images/vpnconfig.jpg?raw=true)
+* 打开google测试
+````
+www.google.com
+````
