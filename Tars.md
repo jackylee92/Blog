@@ -315,12 +315,63 @@
   mvn clean package
   
   #web发布 将tars.war放置到/usr/local/resin/webapps/中
+  
+  **** 注意：需要将pom.xml中59行、81行中qq-cloud-central 改为 com.tencent.tars
   cp ./target/tars.war /usr/local/resin/webapps/
+  
+  # 创建日志目录
+  mkdir -p /data/log/tars
+  
+  # 修改Resin安装目录下的conf/resin.xml配置文件 将默认的配置
+  <host id="" root-directory=".">
+  # 改为<web-app id="/" document-directory="webapps/tars"/>
+      <web-app id="/" root-directory="webapps/ROOT"/> 
+  </host>
+  
+  # 启动resin
+  /usr/local/resin/bin/resin.sh start
+  
+  ````
+
+> 要么关闭防火墙
+>
+> 要么开启指定端口
+>
+> 注意阿里云安全组设置
+
+
+
+
+* 启动总结
+
+  ````
+  service mysql start
+  /usr/local/app/tars/tars_install.sh
+  /usr/local/app/tars/tarspatch/util/init.sh
+  /usr/local/app/tars/tarsnode/bin/tarsnode --config=/usr/local/app/tars/tarsnode/conf/tarsnode.conf
+  /usr/local/resin/bin/resin.sh start
+  
+  ````
+
+*  正常启动进程服务如下
+
+  ````
+  [root@centos data]# ps -ef|grep tars
+  root       5495      1  0 11:35 pts/0    00:00:03 /usr/local/app/tars/tarsregistry/bin/tarsregistry --config=/usr/local/app/tars/tarsregistry/conf/tarsregistry.conf
+  root       5504      1  0 11:35 pts/0    00:00:01 /usr/local/app/tars/tarsAdminRegistry/bin/tarsAdminRegistry --config=/usr/local/app/tars/tarsAdminRegistry/conf/adminregistry.conf
+  root       5514      1  0 11:35 pts/0    00:00:02 /usr/local/app/tars/tarsconfig/bin/tarsconfig --config=/usr/local/app/tars/tarsconfig/conf/tarsconfig.conf
+  root       5523      1  0 11:35 pts/0    00:00:01 /usr/local/app/tars/tarspatch/bin/tarspatch --config=/usr/local/app/tars/tarspatch/conf/tarspatch.conf
+  root       5610      1  0 11:35 ?        00:00:00 rsync --address=192.168.222.132 --daemon --config=/usr/local/app/tars/tarspatch/conf/rsync.conf
+  root       5621      1  2 11:35 ?        00:00:18 /usr/local/app/tars/tarsnode/bin/tarsnode --config=/usr/local/app/tars/tarsnode/conf/tarsnode.conf
+  root       6021   5621  0 11:36 ?        00:00:05 /usr/local/app/tars/tarsnode/data/tars.tarslog/bin/tarslog --config=/usr/local/app/tars/tarsnode/data/tars.tarslog/conf/tars.tarslog.config.conf
+  root       6022   5621  0 11:36 ?        00:00:05 /usr/local/app/tars/tarsnode/data/tars.tarsnotify/bin/tarsnotify --config=/usr/local/app/tars/tarsnode/data/tars.tarsnotify/conf/tars.tarsnotify.config.conf
+  root       6054   5621  0 11:36 ?        00:00:03 /usr/local/app/tars/tarsnode/data/tars.tarsqueryproperty/bin/tarsqueryproperty --config=/usr/local/app/tars/tarsnode/data/tars.tarsqueryproperty/conf/tars.tarsqueryproperty.config.conf
+  root       6108   5621  0 11:36 ?        00:00:03 /usr/local/app/tars/tarsnode/data/tars.tarsquerystat/bin/tarsquerystat --config=/usr/local/app/tars/tarsnode/data/tars.tarsquerystat/conf/tars.tarsquerystat.config.conf
+  root       6163   5621  0 11:37 ?        00:00:04 /usr/local/app/tars/tarsnode/data/tars.tarsstat/bin/tarsstat --config=/usr/local/app/tars/tarsnode/data/tars.tarsstat/conf/tars.tarsstat.config.conf
+  root       7097   5621  0 11:42 ?        00:00:01 /usr/local/app/tars/tarsnode/data/tars.tarsproperty/bin/tarsproperty --config=/usr/local/app/tars/tarsnode/data/tars.tarsproperty/conf/tars.tarsproperty.config.conf
   ````
 
   
-
-
 
 
 
