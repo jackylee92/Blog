@@ -23,7 +23,7 @@ __iptables__
 > 下面是iptables命令,实用80%
 
 ````
-yum install iptables-servuces：安装iptables
+yum install iptables-services：安装iptables
 systemctl status iptables：查看iptables状态；
 systemctl stop iptables：关闭iptables;
 systemctl start iptables：开启iptables;
