@@ -80,7 +80,22 @@
   yum install ncurses-devel
   ````
 
+* install perl
+
+  ````
+  yum install perl
+  yum install -y perl-Module-Install.noarch
+  perl scripts/mysql_install_db --user=mysql
+  ````
+
+* install git
+
+  ````
+  yum install git
+  ````
+
 * install zlib-devel
+
   ````
   yum install zlib-devel
   ````
@@ -91,26 +106,23 @@
   # 下载mysql-5.6.25.tar到opt中
   # 创建mysql 用户、用户组
   groupadd mysql
-  useradd mysql
+  useradd -g mysql mysql
   cd /use/local
-  mkdir mysql-5.6.25
-  chown mysql:mysql mysql-5.6.25
+  mkdir mysql
+  chown mysql:mysql mysql
   cd /opt
   tar -zxvf mysql-5.6.25
   cd mysql-5.6.25
   cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql-5.6.25 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DMYSQL_USER=mysql -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci
+  make
+  make install
   
-  yum install perl
   cd /usr/local/mysql
-  useradd mysql
   rm -rf /usr/local/mysql/data
-  mkdir -p /data/mysql-data
-  ln -s /data/mysql-data /usr/local/mysql/data
-  chown -R mysql:mysql /data/mysql-data /usr/local/mysql/data
+  chown -R mysql:mysql /use/local/mysql
   cp support-files/mysql.server /etc/init.d/mysql
   **如果/etc/目录下有my.cnf存在，需要把这个配置删除了**
-  yum install -y perl-Module-Install.noarch
-  perl scripts/mysql_install_db --user=mysql
+  
   vim /usr/local/mysql/my.cnf
   
   # 修改my.cnf
@@ -123,7 +135,7 @@
   
   # Remove leading # to turn on a very important data integrity option: logging
   # changes to the binary log between backups.
-  log_bin
+  # log_bin
   
   # These are commonly set, remove the # and set as required.
   basedir = /usr/local/mysql
@@ -176,7 +188,14 @@
 * tars源码
 
   ````
-  wget https://github.com/Tencent/Tars.git
+  git clone https://github.com/Tencent/Tars.git
+  git checkout -b phptars remotes/origin/phptars
+  
+  # 下载tars源码，首先进入cpp/thirdparty目录，执行thirdparty.sh脚本，下载依赖的rapidjson
+  cd {$source_folder}/cpp/build
+  chmod u+x build.sh
+  ./build.sh all
+  
   cd Tars/java
   
   mvn clean install 
