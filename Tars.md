@@ -19,6 +19,7 @@
 
   ````
   yum install gcc
+  yum install gcc-c++
   ````
 
 * install bison
