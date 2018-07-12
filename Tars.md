@@ -373,7 +373,7 @@
   
   ````
 
-*  正常启动进程服务如下
+* 正常启动进程服务如下
 
   ````
   [root@centos data]# ps -ef|grep tars
@@ -391,7 +391,25 @@
   root       7097   5621  0 11:42 ?        00:00:01 /usr/local/app/tars/tarsnode/data/tars.tarsproperty/bin/tarsproperty --config=/usr/local/app/tars/tarsnode/data/tars.tarsproperty/conf/tars.tarsproperty.config.conf
   ````
 
-  
+* 异常排查
+
+  查看log是否报错
+
+  > /use/local/app/tars/app_log/tars 下所有文件中的log文件；
+  >
+  > tarsAdminRegistry 中如果出现数据库连接错误：
+  >
+  > >  cd /use/local/app/tars/tarsAdminRegistry/conf
+  > >
+  > >  `````
+  > >  sed -i "s/tars2015/tars@password1/g" `grep tars2015 -rl ./*`
+  > >  `````
+  > >
+  > >  cd /usr/local/app/tars/tarsAdminRegistry/util
+  > >
+  > >  ./stop.sh
+  > >
+  > >  ./start.sh
 
 
 
