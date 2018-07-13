@@ -1,6 +1,6 @@
 
 " set the runtime path to include Vundle and initialize
-set rtp+=/Applications/MacVim.app/Contents/Resources/vim/bundle/vundle/ "我这是macvim 我试了我这边写绝对路径就没有问题；这个就是runtimepath 的缩写
+set rtp+=vimrc_path "我这是macvim 我试了我这边写绝对路径就没有问题；这个就是runtimepath 的缩写
 call vundle#begin()
 
 " let Vundle manage Vundle, required  这下面三个就是插件啦。其实在github 中你如果找到其他插件，安装下面格式加在下面即可
