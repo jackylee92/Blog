@@ -53,15 +53,53 @@ cp sapi/fpm/php-fpm /usr/local/bin
 ````
 vi /usr/local/php/php.ini
 ````
-打开php配置文件找到cgi.fix_pathinfo配置项，这一项默认被注释并且值为1，根据官方文档的说明，这里为了当文件不存在时，阻止Nginx将请求发送到后端的PHP-FPM模块，从而避免恶意脚本注入的攻击，所以此项应该去掉注释并设置为0
+<del>打开php配置文件找到cgi.fix_pathinfo配置项，这一项默认被注释并且值为1，根据官方文档的说明，这里为了当文件不存在时，阻止Nginx将请求发送到后端的PHP-FPM模块，从而避免恶意脚本注入的攻击，所以此项应该去掉注释并设置为0
 
 修改php-fpm
 然后网上一些教程说让修改php-fpm.conf添加以上创建的用户和组，
 vim /usr/local/php/etc
 默认情况下etc/php-fpm.d/下有一个名为www.conf.defalut的配置用户的文件，执行下面命令复制一个新文件并且打开：
 cp www.conf.default www.conf
-vi www.conf
-默认user和group的设置为nobody，将其改为合适的。
+vi www.conf 
+默认user和group的设置为nobody，将其改为合适的。</del>
+
+
+
+``php --ini ``检查配置：
+
+````
+Configuration File (php.ini) Path: /usr/local/php/lib
+Loaded Configuration File:         /usr/local/php/lib/php.ini
+Scan for additional .ini files in: (none)
+Additional .ini files parsed:      (none)
+````
+
+第一个表示安装路径须正确；
+
+第二个位加载的php.ini配置文件，须正确；
+
+后面两个暂未知；
+
+``php-config`` 显示扩展、版本等信息；
+
+````
+Usage: /usr/local/php/bin/php-config [OPTION]
+Options:
+  --prefix            [/usr/local/php]
+  --includes          [-I/usr/local/php/include/php -I/usr/local/php/include/php/main -I/usr/local/php/include/php/TSRM -I/usr/local/php/include/php/Zend -I/usr/local/php/include/php/ext -I/usr/local/php/include/php/ext/date/lib]
+  --ldflags           []
+  --libs              [-lcrypt   -lz -lexslt -lresolv -lcrypt -lrt -lpng -lz -ljpeg -lbz2 -lz -lrt -lm -ldl -lnsl  -lxml2 -lz -lm -ldl -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err -lssl -lcrypto -lcurl -lxml2 -lz -lm -ldl -lfreetype -lxml2 -lz -lm -ldl -lxml2 -lz -lm -ldl -lcrypt -lxml2 -lz -lm -ldl -lxml2 -lz -lm -ldl -lxml2 -lz -lm -ldl -lxml2 -lz -lm -ldl -lxslt -lxml2 -lz -ldl -lm -lssl -lcrypto -lcrypt ]
+  --extension-dir     [/usr/local/php/lib/php/extensions/no-debug-non-zts-20170718]
+  --include-dir       [/usr/local/php/include/php]
+  --man-dir           [/usr/local/php/php/man]
+  --php-binary        [/usr/local/php/bin/php]
+  --php-sapis         [ cli fpm phpdbg cgi]
+  --configure-options [--prefix=/usr/local/php --with-curl --with-freetype-dir --with-gd --with-gettext --with-iconv-dir --with-kerberos --with-libdir=lib64 --with-libxml-dir --with-mysqli --with-openssl --with-pcre-regex --with-pdo-mysql --with-pdo-sqlite --with-pear --with-png-dir --with-jpeg-dir --with-xmlrpc --with-xsl --with-zlib --with-bz2 --with-mhash --enable-fpm --enable-bcmath --enable-libxml --enable-inline-optimization --enable-mbregex --enable-mbstring --enable-opcache --enable-pcntl --enable-shmop --enable-soap --enable-sockets --enable-sysvsem --enable-sysvshm --enable-xml --enable-zip]
+  --version           [7.2.0]
+  --vernum            [70200]
+````
+
+
 
 启动php-fpm
 
