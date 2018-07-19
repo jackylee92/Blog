@@ -411,5 +411,72 @@
   > >
   > >  ./start.sh
 
+* swoole版本最低2.0
+
+
+
+* TCP 为tars协议；HTTP为非tars协议
+
+### PHP服务模版配置
+
+每个Tars服务启动运行时，必须指定一个模版配置文件，在Tars web管理系统中部署的服务的模版配置由node进行组织生成，若不是在web管理系统上，则需要自己创建一个模版文件。具体<https://github.com/Tencent/Tars/blob/phptars/docs/tars_template.md>
+
+对php开发，首先在web管理界面中->运维管理->模板管理，找到tars.tarsphp.default模板，根据实际php安装位置修改，如:
+
+```
+php=/usr/bin/php/bin/php
+```
+
+同时，将tars.tarsphp.default内容复制，新建tcp和http版本的模板 
+相比较将tars.tarsphp.default,http模板，差异为：
+
+http模板在server节点增加：
+
+```
+protocolName=http
+
+type=http
+```
+
+TCP模板在server节点增加：
+
+```
+package_length_type=N
+
+open_length_check=1
+
+package_length_offset=0
+
+package_body_offset=0
+
+package_max_length=2000000
+
+protocolName=tars
+
+type=tcp
+```
+
+注：
+
+- 父模板名均选择tars.default即可
+
+- 文档中protocolName、type的说明缺失，实际使用中发现会报错，保险起见按照以上说明配置
+
+- 删除端口的所有进程
+
+  ````
+  netstat -apn | grep 19386|awk '{print $7}'|awk -F '/' '{print $1}'|xargs kill -9
+  ````
+
+- 删除Tars的所有进程
+
+  ````
+  ps -ef | grep tars| grep -v grep |awk '{print $2}'|xargs kill -9
+  ````
+
+  
+
+
+
 
 
