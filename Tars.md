@@ -180,8 +180,8 @@
 ``ps -ef | grep rsync 查看进程是否启动 ``  
 ``cd /opt/Tars/web ``  
 ``sed -i "s/tars2015/${mysql的tars密码}/g" \`grep tars2015 -rl ./*\` ``  
-``sed -i "s/registry1.tars.com/172.19.56.110/g" \`grep registry1.tars.com -rl ./src/main/resources/tars.conf\` ``  
-``sed -i "s/registry2.tars.com/172.19.56.110/g" \`grep registry2.tars.com -rl ./src/main/resources/tars.conf\` ``  
+``sed -i "s/registry1.tars.com/{$ip}/g" \`grep registry1.tars.com -rl ./src/main/resources/tars.conf\` ``  
+``sed -i "s/registry2.tars.com/{$ip}/g" \`grep registry2.tars.com -rl ./src/main/resources/tars.conf\` ``  
 ``mvn clean package ``  
 ``cp ./target/tars.war /usr/local/resin/webapps/ ``  
 ``mkdir -p /data/log/tars ``  
