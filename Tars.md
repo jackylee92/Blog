@@ -66,7 +66,7 @@
     # server_id = .....
     socket = /tmp/mysql.sock
     
-    bind-address={$ip}
+    bind-address=${your machine ip}
     
     # Remove leading # to set options mainly useful for reporting servers.
     # The server defaults are faster for transactions and fast SELECTs.
@@ -123,7 +123,7 @@
 `chmod u+x build.sh`     
 > 编译时默认使用的mysql开发库路径：include的路径为/usr/local/mysql/include，lib的路径为/usr/local/mysql/lib/，若mysql开发库的安装路径不在默认路径，则需要修改build目录下CMakeLists.txt文件中的mysql相关的路径，再编译  
   
-`./build.sh all`
+`./build.sh all`  
 `cd /usr/local`  
 `mkdir tars`  
 `chown cloud-user:cloud-user tars`  
@@ -148,6 +148,7 @@
 ``grant all on *.* to 'tars'@'localhost' identified by 'password' with grant option;``  
 ``grant all on *.* to 'tars'@'{你的机器名}' identified by 'password' with grant option;``  
 ``flush privileges;``  
+
 ###安装Tars服务  
 > 核心服务：tarsAdminRegistry,tarsregistry,tarsnode,tarsconfig,tarspath
   
@@ -169,10 +170,10 @@
 ``cp framework.tgz /usr/local/app/tars/ ``  
 ``cd /usr/local/app/tars ``  
 ``tar -zxvf framework.tgz ``  
-``sed -i "s/192.168.2.131/{$ip}/g" \`grep 192.168.2.131 -rl ./*\` ``  
-``sed -i "s/db.tars.com/{$ip}/g" \`grep db.tars.com -rl ./*\` ``  
-``sed -i "s/registry.tars.com/{$ip}/g" \`grep registry.tars.com -rl ./*\` ``  
-``sed -i "s/web.tars.com/{$ip}/g" \`grep web.tars.com -rl ./*\` ``  
+``sed -i "s/192.168.2.131/${your machine ip}/g" \`grep 192.168.2.131 -rl ./*\` ``  
+``sed -i "s/db.tars.com/${your machine ip}/g" \`grep db.tars.com -rl ./*\` ``  
+``sed -i "s/registry.tars.com/${your machine ip}/g" \`grep registry.tars.com -rl ./*\` ``  
+``sed -i "s/web.tars.com/${your machine ip}/g" \`grep web.tars.com -rl ./*\` ``  
 ``sed -i "s/tars2015/{$tars_password}/g" \`grep tars2015 -rl ./*\` ``  
 ``chmod u+x tars_install.sh ``  
 ``./tars_install.sh ``  
@@ -180,8 +181,8 @@
 ``ps -ef | grep rsync 查看进程是否启动 ``  
 ``cd /opt/Tars/web ``  
 ``sed -i "s/tars2015/${mysql的tars密码}/g" \`grep tars2015 -rl ./*\` ``  
-``sed -i "s/registry1.tars.com/{$ip}/g" \`grep registry1.tars.com -rl ./src/main/resources/tars.conf\` ``  
-``sed -i "s/registry2.tars.com/{$ip}/g" \`grep registry2.tars.com -rl ./src/main/resources/tars.conf\` ``  
+``sed -i "s/registry1.tars.com/${your machine ip}/g" \`grep registry1.tars.com -rl ./src/main/resources/tars.conf\` ``  
+``sed -i "s/registry2.tars.com/${your machine ip}/g" \`grep registry2.tars.com -rl ./src/main/resources/tars.conf\` ``  
 ``mvn clean package ``  
 ``cp ./target/tars.war /usr/local/resin/webapps/ ``  
 ``mkdir -p /data/log/tars ``  
@@ -242,7 +243,7 @@ __命令：__
     export PATH=$PATH:/usr/local/php/bin/:/usr/local/php/sbin/
 
 ``source /etc/profile.d/php.sh  ``  
-``启动：php-fpm  ``  
+启动：php-fpm    
 查看PHP配置：``php --ini   ``  
 
 查看php-fpm进程状态：``netstat -tln | grep 9000  ``
