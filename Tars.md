@@ -1,6 +1,6 @@
-## Tars
+# Tars
 
-* 环境依赖
+## 环境依赖
 
   | 软件           | 软件要求                                         |
   | -------------- | ------------------------------------------------ |
@@ -15,401 +15,288 @@
   | mysql版本:     | 4.1.17及以上版本（框架运行依赖）                 |
   | rapidjson版本: | 1.0.2版本（c++语言框架依赖）                     |
 
-* install gcc
+##安装服务器环境
+### install (提前安装好需要的扩展)
+    yum install -y gcc gcc-c++ bison flex glibc-devel ncurses-devel perl perl-Module-Install.noarch git zlib-devel ncurses-devel curl-devel autoconf
+###  关闭selinux防火墙  
+    setenforce 0    
+### 准备软件包：  
+1. jdk-8u171-linux-x64.tar.gz 
+2. resin-pro-4.0.56.tar.gz
+3. cmake-3.6.2.tar.gz
+4. mysql-5.6.25.tar.gz
+5. swoole-4.0.1.tgz
+6. Tars  
+`cd /opt`  
+`git clone https://github.com/Tencent/Tars.git`  
+### 安装Cmake  
+`tar -zxvf cmake-3.6.2.tar.gz`  
+`cd cmake-3.6.2`  
+`./bootstrap`  
+`make`  
+`make install`  
+### 安装resion
+`tar -zxvf resin-pro-4.0.56.tar.gz`  
+`cp -rf resin-pro-4.0.56 /usr/local/resin`  
+### 安装mysql
+`tar -zxvf mysql-5.6.25.tar.gz`  
+` cd mysql-5.6.25`  
+`cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DWITH_INNOBASE_STORAGE_ENGINE=1 -DMYSQL_USER=mysql -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci`  
+`make`  
+`make install`  
+`chown -R mysql:mysql /usr/local/mysql/`  
+`cd /usr/local/mysql/`  
+`cp support-files/mysql.server /etc/init.d/mysq`  
+`vim /etc/my.cnf`  
 
-  ````
-  yum install gcc
-  yum install gcc-c++
-  ````
+    [mysqld]
+    
+    # Remove leading # and set to the amount of RAM for the most important data
+    # cache in MySQL. Start at 70% of total RAM for dedicated server, else 10%.
+    innodb_buffer_pool_size = 128M
+    
+    # Remove leading # to turn on a very important data integrity option: logging
+    # changes to the binary log between backups.
+    # log_bin
+    
+    # These are commonly set, remove the # and set as required.
+    basedir = /usr/local/mysql
+    datadir = /usr/local/mysql/data
+    # port = .....
+    # server_id = .....
+    socket = /tmp/mysql.sock
+    
+    bind-address={$ip}
+    
+    # Remove leading # to set options mainly useful for reporting servers.
+    # The server defaults are faster for transactions and fast SELECTs.
+    # Adjust sizes as needed, experiment to find the optimal values.
+    join_buffer_size = 128M
+    sort_buffer_size = 2M
+    read_rnd_buffer_size = 2M
+    
+    sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
+    
+    perl scripts/mysql_install_db --user=mysql
 
-* install bison
-  ````
-  yum install bison
-  ````
+### 配置mysql
+`service mysql start`  
+`chkconfig mysql on`  
+`vim /etc/profile`  
 
-* install flex
+    PATH=$PATH:/usr/local/mysql/bin
+    
+`export PATH`  
+`mysql   进入mysql`  
 
-  ````
-  yum install flex
-  ````
+    update user set password=PASSWORD('new_password') where user='root';
+    flush privileges
+    exit
 
+### 安装JDK环境
+`cd /opt`  
+`tar -zxvf jdk-8u171-linux-x64.tar.gz`  
+`cp -rf jdk1.8.0_171 /usr/local/java`  
+`vim /etc/profile`  
+
+    export JAVA_HOME=${jdk source dir}
+    CLASSPATH=$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+    PATH=$JAVA_HOME/bin:$PATH
+    export PATH JAVA_HOME CLASSPATH  
+
+`source /etc/profile`
+
+`java -version （查看版本）`
+
+### 安装maven
+`yum install maven`  
+`cd /opt/Tars/cpp/thirdparty`  
+`chmod u+x thirdparty.sh`  
+`./thirdparty.sh`  
+### java语言框架开发环境安装
+`cd /opt/Tars/java`    
+`mvn clean install`  
+`mvn clean install -f core/client.pom.xml`  
+`mvn clean install -f core/server.pom.xml`  
+### c++ 开发环境安装
+`cd /opt/Tars/cpp/build`  
+`chmod u+x build.sh`     
+> 编译时默认使用的mysql开发库路径：include的路径为/usr/local/mysql/include，lib的路径为/usr/local/mysql/lib/，若mysql开发库的安装路径不在默认路径，则需要修改build目录下CMakeLists.txt文件中的mysql相关的路径，再编译  
   
+`./build.sh all`
+`cd /usr/local`  
+`mkdir tars`  
+`chown cloud-user:cloud-user tars`  
+`cd /opt/Tars/cpp/build`  
+`./build.sh install`  
+### mysql配置
+`cd /opt/Tars/cpp/framework/sql`  
+`vim exec-sql.sh`  
 
-* install glibc-devel
+    mysql -u'root' -p'root' -e "create database db_tars"
+    mysql -u'root' -p'root' -e "create database tars_stat"
+    mysql -u'root' -p'root' -e "create database tars_property"
+    mysql -u'root' -p'root' db_tars < db_tars.sql
 
-  ````
-  yum install glibc-devel
-  ````
-
-* install cmake
-
-  ````
-  下载cmake
-  # 解压
-  tar zxvf cmake-3.6.2.tar.gz
-  # 进入cmake-3.6.2
-  ./bootstrap
-  cd cmake-3.6.2
-  # 安装
-  make
-  make install
-  ````
-
-  问题：
-
-  > make: *** 没有指明目标并且找不到 makefile。 停止。
-  >
-  > Cannot find appropriate C++ compiler on this system
-  >
-  > Curses libraries were not found. Curses GUI for CMake will not be built
-  >
-  > 解决方案：yum install gcc-c++ ncurses-devel curl-devel 
-  > 
-
-
-* install resin 
-
-  ````
-  下载resin-pro-4.0.56.tar.gz
-  # 解压resin-pro-4.0.56.tar.gz
-  tar zxvf resin-pro-4.0.56.tar.gz
-  # 将resin-pro-4.0.56 copy到/use/local/resin
-  ````
-
-* install ncurses-devel
-  ````
-  yum install ncurses-devel
-  ````
-
-* install perl
-
-  ````
-  yum install perl
-  yum install -y perl-Module-Install.noarch
-  perl scripts/mysql_install_db --user=mysql
-  ````
-
-* install git
-
-  ````
-  yum install git
-  ````
-
-* install zlib-devel
-
-  ````
-  yum install zlib-devel
-  ````
-
-* install mysql
-
-  ````
-  # 下载mysql-5.6.25.tar到opt中
-  # 创建mysql 用户、用户组
-  groupadd mysql
-  useradd -g mysql mysql
-  cd /use/local
-  mkdir mysql
-  chown mysql:mysql mysql
-  cd /opt
-  tar -zxvf mysql-5.6.25
-  cd mysql-5.6.25
-  cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql-5.6.25 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DMYSQL_USER=mysql -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci
-  make
-  make install
+``sed -i "s/192.168.2.131/${your machine ip}/g" `grep 192.168.2.131 -rl ./*` ``  
+``sed -i "s/db.tars.com/${your machine ip}/g" `grep db.tars.com -rl ./*` ``  
+``chmod u+x exec-sql.sh``  
+``./exec-sql.sh``  
+``mysql -uroot -p``    
+``root``  
+``grant all on *.* to 'tars'@'%' identified by 'password' with grant option;``  
+``grant all on *.* to 'tars'@'localhost' identified by 'password' with grant option;``  
+``grant all on *.* to 'tars'@'{你的机器名}' identified by 'password' with grant option;``  
+``flush privileges;``  
+###安装Tars服务  
+> 核心服务：tarsAdminRegistry,tarsregistry,tarsnode,tarsconfig,tarspath
   
-  cd /usr/local/mysql
-  rm -rf /usr/local/mysql/data
-  chown -R mysql:mysql /use/local/mysql
-  cp support-files/mysql.server /etc/init.d/mysql
-  **如果/etc/目录下有my.cnf存在，需要把这个配置删除了**
-  
-  vim /usr/local/mysql/my.cnf
-  
-  # 修改my.cnf
-  vim my.cnf
-  [mysqld]
-  
-  # Remove leading # and set to the amount of RAM for the most important data
-  # cache in MySQL. Start at 70% of total RAM for dedicated server, else 10%.
-  innodb_buffer_pool_size = 128M
-  
-  # Remove leading # to turn on a very important data integrity option: logging
-  # changes to the binary log between backups.
-  # log_bin
-  
-  # These are commonly set, remove the # and set as required.
-  basedir = /usr/local/mysql
-  datadir = /usr/local/mysql/data
-  # port = .....
-  # server_id = .....
-  socket = /tmp/mysql.sock
-  
-  bind-address={$your machine ip}
-  
-  # Remove leading # to set options mainly useful for reporting servers.
-  # The server defaults are faster for transactions and fast SELECTs.
-  # Adjust sizes as needed, experiment to find the optimal values.
-  join_buffer_size = 128M
-  sort_buffer_size = 2M
-  read_rnd_buffer_size = 2M
-  
-  sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
-  ````
+> 普通基础服务：tarsstat,tarsproperty,tarsnotify,tarslog,tarsquerystat,tarsqueryproperty
+一下几个make 是指打包服务，没有先后顺序和影响，framework是核心服务，打包该服务会在当前目录生成framework.tgz 包 这个包包含了 tarsAdminRegistry, tarsregistry, tarsnode, tarsconfig, tarspatch 部署相关的文件，将这个服务拷到/usr/local/app/tars/ 中，将里面IP、数据库密码替换成正确的；
 
-  > $your machine ip 为ifconfig 的IP
+``cd /opt/Tars/cpp/build ``  
+``make framework-tar ``  
+``make tarsstat-tar ``  
+``make tarsnotify-tar ``  
+``make tarsproperty-tar ``  
+``make tarslog-tar ``  
+``make tarsquerystat-tar ``  
+``make tarsqueryproperty-tar ``  
+``cd /usr/local ``  
+``mkdir -f app/tars ``  
+``chown -R cloud-user:cloud-user app ``  
+``cd /opt/Tars/cpp/build/ ``  
+``cp framework.tgz /usr/local/app/tars/ ``  
+``cd /usr/local/app/tars ``  
+``tar -zxvf framework.tgz ``  
+``sed -i "s/192.168.2.131/{$ip}/g" \`grep 192.168.2.131 -rl ./*\` ``  
+``sed -i "s/db.tars.com/{$ip}/g" \`grep db.tars.com -rl ./*\` ``  
+``sed -i "s/registry.tars.com/{$ip}/g" \`grep registry.tars.com -rl ./*\` ``  
+``sed -i "s/web.tars.com/{$ip}/g" \`grep web.tars.com -rl ./*\` ``  
+``sed -i "s/tars2015/{$tars_password}/g" \`grep tars2015 -rl ./*\` ``  
+``chmod u+x tars_install.sh ``  
+``./tars_install.sh ``  
+``tarspatch/util/init.sh ``  
+``ps -ef | grep rsync 查看进程是否启动 ``  
+``cd /opt/Tars/web ``  
+``sed -i "s/tars2015/${mysql的tars密码}/g" \`grep tars2015 -rl ./*\` ``  
+``sed -i "s/registry1.tars.com/172.19.56.110/g" \`grep registry1.tars.com -rl ./src/main/resources/tars.conf\` ``  
+``sed -i "s/registry2.tars.com/172.19.56.110/g" \`grep registry2.tars.com -rl ./src/main/resources/tars.conf\` ``  
+``mvn clean package ``  
+``cp ./target/tars.war /usr/local/resin/webapps/ ``  
+``mkdir -p /data/log/tars ``  
 
-* install java
+### 配置resin
 
-  ````
-  # 下载jdk-8u171-linux-x64.tar.gz
-  # 解压 jdk-8u171-linux-x64.tar.gz
-  tar -zxvf jdk-8u171-linux-x64.tar.gz
-  cp -r jdk-8u171-linux-x64 /use/local/java
-  
-  vim /etc/profile
-  
-  export JAVA_HOME=${jdk source dir}
-  CLASSPATH=$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
-  PATH=$JAVA_HOME/bin:$PATH
-  export PATH JAVA_HOME CLASSPATH
-  
-  source /etc/profile
-  
-  java -version
-  ````
+> 修改Resin安装目录下的conf/resin.xml配置文件 将默认的配置
 
-* install maven
+    <host id="" root-directory=".">
+        <web-app id="/" root-directory="webapps/ROOT"/>
+    </host>
+    
+修改为:  
 
-  ````
-  yum install maven
-  mvn -v
-  ````
+    <host id="" root-directory=".">
+        <web-app id="/" document-directory="webapps/tars"/>
+    </host>
 
-* tars源码
+启动resin：`` /usr/local/resin/bin/resin.sh start ``  
+查看tars所有进程 : `` ps -ef | grep tars ``   
+杀死所有tars进程：``ps -ef | grep tars| grep -v grep |awk '{print $2}'|xargs kill -9``  
+杀死某一端口进程：``netstat -apn | grep 19386|awk '{print $7}'|awk -F '/' '{print $1}'|xargs kill -9``
 
-  ````
-  git clone https://github.com/Tencent/Tars.git
-  git checkout -b phptars remotes/origin/phptars
-  
-  # 下载tars源码，首先进入cpp/thirdparty目录，执行thirdparty.sh脚本，下载依赖的rapidjson
-  cd {$source_folder}/cpp/build
-  chmod u+x build.sh
-  ./build.sh all
-  
-  cd Tars/java
-  
-  mvn clean install 
-  mvn clean install -f core/client.pom.xml 
-  mvn clean install -f core/server.pom.xml
-  
-  cd /opt/Tars/cpp/thirdparty/
-  chmod u+x thirdparty.sh
-  ./thirdparty.sh
-  
-  cd ../build
-  chmod u+x build.sh
-  ./build.sh all
-  
-  cd /usr/local
-  mkdir tars
-  chown ${普通用户}:${普通用户} ./tars/
-  
-  cd {$source_folder}/cpp/build
-  ./build.sh install或者make install
-  ````
+### 启动总结  
+__命令：__    
+``service mysql start``   
+``/usr/local/app/tars/tars_install.sh``  
+``/usr/local/app/tars/tarspatch/util/init.sh``  
+``/usr/local/app/tars/tarsnode/bin/tarsnode --config=/usr/local/app/tars/tarsnode/conf/tarsnode.conf``  
+``/usr/local/resin/bin/resin.sh start``  
 
-  > c++: 编译器内部错误：已杀死(程序 cc1plus)
-  >
-  > 解决方案：可能是内存小了，增加内存
-  >
-  > **编译时默认使用的mysql开发库路径：include的路径为/usr/local/mysql/include，lib的路径为/usr/local/mysql/lib/，若mysql开发库的安装路径不在默认路径，则需要修改build目录下CMakeLists.txt文件中的mysql相关的路径，再编译**
+> 部署各个服务，期间某些服务未部署前log中会有error，不影响，部署完了error会变少，但是还有，继续分析error
 
-* Mysql 用户
+##安装开发依赖
+###安装php、php-swoole
+``wget http://cn2.php.net/get/php-7.0.2.tar.gz/from/this/mirror  ``  
+``tar -zxvf mirror  ``  
+``cd php-7.0.2  ``  
+``yum install -y libxml2-devel libtool* curl-devel libjpeg-devel libpng-devel freetype-devel libxmal2 libxml2-devel openssl openssl-devel curl curl-devel libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel pcre pcre-devel libxslt libxslt-devel bzip2 bzip2-devel  ``  
+没有configure ``则先phpize;  ``  
+``./configure --prefix=/usr/local/php --enable-fpm --enable-opcache --with-config-file-path=/usr/local/php/etc  --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --enable-static --enable-sockets --enable-wddx --enable-zip --enable-calendar --enable-bcmath --enable-soap --with-zlib --with-iconv --with-freetype-dir --with-gd --with-jpeg-dir --with-xmlrpc --enable-mbstring --with-sqlite3 --with-curl --enable-ftp  --with-openssl  --with-gettext  ``  
+``make  ``  
+``make install  ``  
+``将文件中php.ini-development 复制到 /usr/local/php/etc/php.ini  ``  
+``cp php.ini-development /usr/local/php/etc/php.ini  ``  
+``vim /usr/local/php/etc/php.ini  ``  
 
-  ````
-  grant all on *.* to 'tars'@'%' identified by 'tars2015' with grant option;
-  grant all on *.* to 'tars'@'localhost' identified by 'tars2015' with grant option;
-  grant all on *.* to 'tars'@'${主机名}' identified by 'tars2015' with grant option;
-  flush privileges;
-  ````
+    date.timezone = PRC
+    
+``cd /opt/php-7.0.2/sapi/fpm  ``  
+``cp init.d.php-fpm /etc/init.d/php-fpm  ``  
+``cd /usr/local/php/etc/  ``  
+``cp php-fpm.conf.default php-fpm.conf  ``  
+``cd /usr/local/php/etc/php-fpm.d  ``  
+``cp www.conf.default www.conf  ``  
+``vim /etc/profile.d/php.sh  ``  
 
-* Mysql tars 数据库
+    export PATH=$PATH:/usr/local/php/bin/:/usr/local/php/sbin/
 
-  ````
-  sql脚本在cpp/framework/sql目录下，修改部署的ip信息
-  创建三个数据库 db_tars、tars_stat、tars_property。
-  往db_tars中添加数据
-  ````
+``source /etc/profile.d/php.sh  ``  
+``启动：php-fpm  ``  
+查看PHP配置：``php --ini   ``  
 
-* 基础服务安装
+查看php-fpm进程状态：``netstat -tln | grep 9000  ``
+#### swoole:
+``wget http://pecl.php.net/get/swoole-2.2.0.tgz  ``  
+``tar -zxvf swoole-2.2.0.tgz  ``  
+``cd swoole-2.2.0  ``  
+``phpize  ``  
+``./configure  ``  
+``make && make install  ``  
+``vim /use/local/php/etc/php.ini  ``  
 
-  ````
-  # 在当前目录生成framework.tgz 包 这个包包含了 tarsAdminRegistry, tarsregistry, tarsnode, tarsconfig, tarspatch 部署相关的文件
-  make framework-tar
-  
-  # 第二种服务安装包可以单独准备,生成的发布包，在管理平台部署发布完成后，进行部署发布
-  make tarsstat-tar
-  make tarsnotify-tar
-  make tarsproperty-tar
-  make tarslog-tar
-  make tarsquerystat-tar
-  make tarsqueryproperty-tar
-  ````
+    extension=swoole.so
 
-* 核心基础服务安装
+查看swoole扩展是否安装成功：''php -m | grep swoole  ``  
 
-  ````
-  # 切换至root用户，创建基础服务的部署目录，如下：
-  cd /usr/local/app
-  mkdir tars
-  chown ${普通用户}:${普通用户} ./tars/
-  
-  # 将已打好的框架服务包复制到/usr/local/app/tars/，然后解压，如下：
-  cp build/framework.tgz /usr/local/app/tars/
-  cd /usr/local/app/tars
-  tar xzfv framework.tgz
-  
-  # 修改各个服务对应conf目录下配置文件，注意将配置文件中的ip地址修改为本机ip地址，如下：
-  cd /usr/local/app/tars
-  sed -i "s/192.168.2.131/${your_machine_ip}/g" `grep 192.168.2.131 -rl ./*`
-  sed -i "s/db.tars.com/${your_machine_ip}/g" `grep db.tars.com -rl ./*`
-  sed -i "s/registry.tars.com/${your_machine_ip}/g" `grep registry.tars.com -rl ./*`
-  sed -i "s/web.tars.com/${your_machine_ip}/g" `grep web.tars.com -rl ./*`
-  
-  # 然后在/usr/local/app/tars/目录下，执行脚本，启动tars框架服务
-  chmod u+x tars_install.sh
-  ./tars_install.sh
-  
-  # **注意，上面脚本执行后，看看rsync进程是否起来了，若没有看看rsync使用的配置中的ip是否正确（即把web.tars.com替换成本机ip）
-  /usr/local/app/tars/tarspatch/util/init.sh
-  
-  
-  #########################################
-  在管理平台上面配置tarspatch，注意需要配置服务的可执行目录(/usr/local/app/tars/tarspatch/bin/tarspatch)
-  
-  在管理平台上面配置tarsconfig，注意需要配置服务的可执行目录(/usr/local/app/tars/tarsconfig/bin/tarsconfig)
-  
-  tarsnode需要配置监控，避免不小心挂了以后会启动，需要在crontab里面配置
-  
-  * * * * * /usr/local/app/tars/tarsnode/util/monitor.sh
-  
-  #########################################
-  ````
+#### Tars扩展：
+``cd /opt/Tars/php/tars-extension  ``  
+``phpize  ``  
+``./configure --with-php-config=/usr/local/php/bin/php-config --enable-phptars  ``  
+``make && make install  ``  
+``vim /usr/local/php/etc/php.ini  ``   
 
-* 安装Web管理系统
+    extension=phptars.so
 
-  ````
-  # 修改配置文件，文件存放的路径在web/src/main/resources/目录下
-  修改 app.config.properties
-  # 数据库(db_tars)
-  tarsweb.datasource.tars.addr={$your_db_ip}:3306
-  tarsweb.datasource.tars.user=tars
-  tarsweb.datasource.tars.pswd=tars2015
-  # 发布包存储路径
-  upload.tgz.path=/usr/local/app/patchs/tars.upload/
-  
-  vim tars.conf
-  替换registry1.tars.com，registry2.tars.com为实际IP。可以只配置一个地址，多个地址用冒号“:”连接
-  <tars>
-      <application>
-          #proxy需要的配置
-          <client>
-              #地址
-              locator = tars.tarsregistry.QueryObj@tcp -h registry1.tars.com -p 17890:tars.tarsregistry.QueryObj@tcp -h registry2.tars.com -p 17890
-              sync-invoke-timeout = 30000
-              #最大超时时间(毫秒)
-              max-invoke-timeout = 30000
-              #刷新端口时间间隔(毫秒)
-              refresh-endpoint-interval = 60000
-              #模块间调用[可选]
-              stat = tars.tarsstat.StatObj
-              #网络异步回调线程个数
-              asyncthread = 3
-              modulename = tars.system
-          </client>
-      </application>
-  </tars>
-  
-  # 打包，在web目录下执行命令，会在web/target目录下生成tars.war
-  mvn clean package
-  
-  #web发布 将tars.war放置到/usr/local/resin/webapps/中
-  
-  **** 注意：需要将pom.xml中59行、81行中qq-cloud-central 改为 com.tencent.tars
-  cp ./target/tars.war /usr/local/resin/webapps/
-  
-  # 创建日志目录
-  mkdir -p /data/log/tars
-  
-  # 修改Resin安装目录下的conf/resin.xml配置文件 将默认的配置
-  <host id="" root-directory=".">
-  # 改为<web-app id="/" document-directory="webapps/tars"/>
-      <web-app id="/" root-directory="webapps/ROOT"/> 
-  </host>
-  
-  # 启动resin
-  /usr/local/resin/bin/resin.sh start
-  
-  ````
+查看PHPTars扩展是否安装成功：``php -m | grep tars``  
 
-> 要么关闭防火墙
->
-> 要么开启指定端口
->
-> 注意阿里云安全组设置
+#### PHP服务模版配置
+    > 每个Tars服务启动运行时，必须指定一个模版配置文件，在Tars web管理系统中部署的服务的模版配置由node进行组织生成，若不是在web管理系统上，则需要自己创建一个模版文件。具体https://github.com/Tencent/Tars/blob/phptars/docs/tars_template.md
+对php开发，首先在web管理界面中->运维管理->模板管理，找到tars.tarsphp.default模板，根据实际安装的php可执行文件php位置修改，如:
+php=/usr/bin/php/bin/php
 
+同时，将tars.tarsphp.default内容复制，新建tcp和http版本的模板 相比较将tars.tarsphp.default,http模板，差异为：  
+http模板在server节点增加：  
 
+    protocolName=http​
+    type=http
 
+TCP模板在server节点增加：
 
-* 启动总结
+    package_length_type=N
+    open_length_check=1
+    package_length_offset=0
+    package_body_offset=0
+    package_max_length=2000000
+    protocolName=tars
+    type=tcp
 
-  ````
-  service mysql start
-  /usr/local/app/tars/tars_install.sh
-  /usr/local/app/tars/tarspatch/util/init.sh
-  /usr/local/app/tars/tarsnode/bin/tarsnode --config=/usr/local/app/tars/tarsnode/conf/tarsnode.conf
-  /usr/local/resin/bin/resin.sh start
-  
-  ````
+_注:_
 
-* 正常启动进程服务如下
+> 父模板名均选择tars.default即可
 
-  ````
-  [root@centos data]# ps -ef|grep tars
-  root       5495      1  0 11:35 pts/0    00:00:03 /usr/local/app/tars/tarsregistry/bin/tarsregistry --config=/usr/local/app/tars/tarsregistry/conf/tarsregistry.conf
-  root       5504      1  0 11:35 pts/0    00:00:01 /usr/local/app/tars/tarsAdminRegistry/bin/tarsAdminRegistry --config=/usr/local/app/tars/tarsAdminRegistry/conf/adminregistry.conf
-  root       5514      1  0 11:35 pts/0    00:00:02 /usr/local/app/tars/tarsconfig/bin/tarsconfig --config=/usr/local/app/tars/tarsconfig/conf/tarsconfig.conf
-  root       5523      1  0 11:35 pts/0    00:00:01 /usr/local/app/tars/tarspatch/bin/tarspatch --config=/usr/local/app/tars/tarspatch/conf/tarspatch.conf
-  root       5610      1  0 11:35 ?        00:00:00 rsync --address=192.168.222.132 --daemon --config=/usr/local/app/tars/tarspatch/conf/rsync.conf
-  root       5621      1  2 11:35 ?        00:00:18 /usr/local/app/tars/tarsnode/bin/tarsnode --config=/usr/local/app/tars/tarsnode/conf/tarsnode.conf
-  root       6021   5621  0 11:36 ?        00:00:05 /usr/local/app/tars/tarsnode/data/tars.tarslog/bin/tarslog --config=/usr/local/app/tars/tarsnode/data/tars.tarslog/conf/tars.tarslog.config.conf
-  root       6022   5621  0 11:36 ?        00:00:05 /usr/local/app/tars/tarsnode/data/tars.tarsnotify/bin/tarsnotify --config=/usr/local/app/tars/tarsnode/data/tars.tarsnotify/conf/tars.tarsnotify.config.conf
-  root       6054   5621  0 11:36 ?        00:00:03 /usr/local/app/tars/tarsnode/data/tars.tarsqueryproperty/bin/tarsqueryproperty --config=/usr/local/app/tars/tarsnode/data/tars.tarsqueryproperty/conf/tars.tarsqueryproperty.config.conf
-  root       6108   5621  0 11:36 ?        00:00:03 /usr/local/app/tars/tarsnode/data/tars.tarsquerystat/bin/tarsquerystat --config=/usr/local/app/tars/tarsnode/data/tars.tarsquerystat/conf/tars.tarsquerystat.config.conf
-  root       6163   5621  0 11:37 ?        00:00:04 /usr/local/app/tars/tarsnode/data/tars.tarsstat/bin/tarsstat --config=/usr/local/app/tars/tarsnode/data/tars.tarsstat/conf/tars.tarsstat.config.conf
-  root       7097   5621  0 11:42 ?        00:00:01 /usr/local/app/tars/tarsnode/data/tars.tarsproperty/bin/tarsproperty --config=/usr/local/app/tars/tarsnode/data/tars.tarsproperty/conf/tars.tarsproperty.config.conf
-  ````
+> 文档中protocolName、type的说明缺失，实际使用中发现会报错，保险起见按照以上说明配置
 
-* 异常排查
-
-  查看log是否报错
-
-  > /use/local/app/tars/app_log/tars 下所有文件中的log文件；
-  >
-  > tarsAdminRegistry 中如果出现数据库连接错误：
-  >
-  > >  cd /use/local/app/tars/tarsAdminRegistry/conf
-  > >
-  > >  `````
-  > >  sed -i "s/tars2015/tars@password1/g" `grep tars2015 -rl ./*`
-  > >  `````
-  > >
-  > >  cd /usr/local/app/tars/tarsAdminRegistry/util
-  > >
-  > >  ./stop.sh
-  > >
-  > >  ./start.sh
-
+> 部署申请中服务类型为对应的语言
 
 
