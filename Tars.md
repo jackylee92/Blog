@@ -149,7 +149,7 @@
 ``grant all on *.* to 'tars'@'{你的机器名}' identified by 'password' with grant option;``  
 ``flush privileges;``  
 
-###安装Tars服务  
+### 安装Tars服务  
 > 核心服务：tarsAdminRegistry,tarsregistry,tarsnode,tarsconfig,tarspath
   
 > 普通基础服务：tarsstat,tarsproperty,tarsnotify,tarslog,tarsquerystat,tarsqueryproperty
