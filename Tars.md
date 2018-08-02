@@ -1,4 +1,7 @@
+[TOC]
+
 # Tars安装
+
 ## 介绍
 Tars是基于名字服务使用Tars协议的高性能RPC开发框架，同时配套一体化的服务治理平台，帮助个人或者企业快速的以微服务的方式构建自己稳定可靠的分布式应用。
 
@@ -16,18 +19,18 @@ __以下为多次安装后总结简单具体步骤__
 
 ## 环境依赖
 
-  | 软件           | 软件要求                                         |
-  | -------------- | ------------------------------------------------ |
-  | linux内核版本: | 2.6.18及以上版本（操作系统依赖）                 |
-  | gcc版本:       | 4.8.2及以上版本、glibc-devel（c++语言框架依赖）  |
-  | bison工具版本: | 2.5及以上版本（c++语言框架依赖）                 |
-  | flex工具版本:  | 2.5及以上版本（c++语言框架依赖）                 |
-  | cmake版本：    | 2.8.8及以上版本（c++语言框架依赖）               |
-  | resin版本：    | 4.0.49及以上版本（web管理系统依赖）              |
-  | Java JDK版本： | java语言框架（最低1.6），web管理系统（最低1.8）  |
-  | Maven版本：    | 2.2.1及以上版本（web管理系统、java语言框架依赖） |
-  | mysql版本:     | 4.1.17及以上版本（框架运行依赖）                 |
-  | rapidjson版本: | 1.0.2版本（c++语言框架依赖）                     |
+| 软件           | 软件要求                                         |
+| -------------- | ------------------------------------------------ |
+| linux内核版本: | 2.6.18及以上版本（操作系统依赖）                 |
+| gcc版本:       | 4.8.2及以上版本、glibc-devel（c++语言框架依赖）  |
+| bison工具版本: | 2.5及以上版本（c++语言框架依赖）                 |
+| flex工具版本:  | 2.5及以上版本（c++语言框架依赖）                 |
+| cmake版本：    | 2.8.8及以上版本（c++语言框架依赖）               |
+| resin版本：    | 4.0.49及以上版本（web管理系统依赖）              |
+| Java JDK版本： | java语言框架（最低1.6），web管理系统（最低1.8）  |
+| Maven版本：    | 2.2.1及以上版本（web管理系统、java语言框架依赖） |
+| mysql版本:     | 4.1.17及以上版本（框架运行依赖）                 |
+| rapidjson版本: | 1.0.2版本（c++语言框架依赖）                     |
 
 ##安装服务器环境
 ### install (提前安装好需要的扩展)
@@ -99,7 +102,7 @@ __以下为多次安装后总结简单具体步骤__
 `vim /etc/profile`  
 
     PATH=$PATH:/usr/local/mysql/bin
-    
+
 `export PATH`  
 `mysql   进入mysql`  
 
@@ -136,7 +139,7 @@ __以下为多次安装后总结简单具体步骤__
 `cd /opt/Tars/cpp/build`  
 `chmod u+x build.sh`     
 > 编译时默认使用的mysql开发库路径：include的路径为/usr/local/mysql/include，lib的路径为/usr/local/mysql/lib/，若mysql开发库的安装路径不在默认路径，则需要修改build目录下CMakeLists.txt文件中的mysql相关的路径，再编译  
-  
+
 `./build.sh all`  
 `cd /usr/local`  
 `mkdir tars`  
@@ -165,7 +168,7 @@ __以下为多次安装后总结简单具体步骤__
 
 ### 安装Tars服务  
 > 核心服务：tarsAdminRegistry,tarsregistry,tarsnode,tarsconfig,tarspath
-  
+
 > 普通基础服务：tarsstat,tarsproperty,tarsnotify,tarslog,tarsquerystat,tarsqueryproperty
 一下几个make 是指打包服务，没有先后顺序和影响，framework是核心服务，打包该服务会在当前目录生成framework.tgz 包 这个包包含了 tarsAdminRegistry, tarsregistry, tarsnode, tarsconfig, tarspatch 部署相关的文件，将这个服务拷到/usr/local/app/tars/ 中，将里面IP、数据库密码替换成正确的；
 
@@ -208,7 +211,7 @@ __以下为多次安装后总结简单具体步骤__
     <host id="" root-directory=".">
         <web-app id="/" root-directory="webapps/ROOT"/>
     </host>
-    
+
 修改为:  
 
     <host id="" root-directory=".">
@@ -245,7 +248,7 @@ __命令：__
 ``vim /usr/local/php/etc/php.ini  ``  
 
     date.timezone = PRC
-    
+
 ``cd /opt/php-7.0.2/sapi/fpm  ``  
 ``cp init.d.php-fpm /etc/init.d/php-fpm  ``  
 ``cd /usr/local/php/etc/  ``  
