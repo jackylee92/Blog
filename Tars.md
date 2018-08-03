@@ -1,5 +1,7 @@
 [TOC]
 
+
+
 # Tars安装
 
 ## 介绍
@@ -233,8 +235,8 @@ __命令：__
 
 > 部署各个服务，期间某些服务未部署前log中会有error，不影响，部署完了error会变少，但是还有，继续分析error
 
-##安装开发依赖
-###安装php、php-swoole
+## 安装开发依赖  
+### 安装php、php-swoole  
 ``wget http://cn2.php.net/get/php-7.0.2.tar.gz/from/this/mirror  ``  
 ``tar -zxvf mirror  ``  
 ``cd php-7.0.2  ``  
