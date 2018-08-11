@@ -63,6 +63,7 @@ __以下为多次安装后总结简单具体步骤__
 `cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DWITH_INNOBASE_STORAGE_ENGINE=1 -DMYSQL_USER=mysql -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci`  
 `make`  
 `make install`  
+`useradd mysql`
 `chown -R mysql:mysql /usr/local/mysql/`  
 `cd /usr/local/mysql/`  
 `cp support-files/mysql.server /etc/init.d/mysq`  
@@ -95,10 +96,13 @@ __以下为多次安装后总结简单具体步骤__
     read_rnd_buffer_size = 2M
     
     sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
-    
-    perl scripts/mysql_install_db --user=mysql
+
+
+
+``perl scripts/mysql_install_db --user=mysql``
 
 ### 配置mysql
+
 `service mysql start`  
 `chkconfig mysql on`  
 `vim /etc/profile`  
@@ -137,6 +141,21 @@ __以下为多次安装后总结简单具体步骤__
 `mvn clean install`  
 `mvn clean install -f core/client.pom.xml`  
 `mvn clean install -f core/server.pom.xml`  
+
+> [ERROR] Unknown lifecycle phase "mvn". You must specify a valid lifecycle phase or a goal in the format <plugin-prefix>:<goal> or <plugin-group-id>:<plugin-artifact-id>[:<plugin-version>]:<goal>. Available lifecycle phases are: validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy, pre-clean, clean, post-clean, pre-site, site, post-site, site-deploy. -> [Help 1]
+>
+> 解决方案：
+>
+> ``mvn install``   
+>
+> `mvn compiler:compile   `
+>
+> `mvn org.apache.maven.plugins:maven-compiler-plugin:compile    `
+>
+> `mvn org.apache.maven.plugins:maven-compiler-plugin:2.0.2:compile   `
+>
+> 然后再执行：`mvn clean install -f core/client.pom.xml`  
+
 ### c++ 开发环境安装
 `cd /opt/Tars/cpp/build`  
 `chmod u+x build.sh`     
@@ -183,25 +202,25 @@ __以下为多次安装后总结简单具体步骤__
 ``make tarsquerystat-tar ``  
 ``make tarsqueryproperty-tar ``  
 ``cd /usr/local ``  
-``mkdir -f app/tars ``  
+``mkdir -p app/tars ``  
 ``chown -R cloud-user:cloud-user app ``  
 ``cd /opt/Tars/cpp/build/ ``  
 ``cp framework.tgz /usr/local/app/tars/ ``  
 ``cd /usr/local/app/tars ``  
 ``tar -zxvf framework.tgz ``  
-``sed -i "s/192.168.2.131/${your machine ip}/g" \`grep 192.168.2.131 -rl ./*\` ``  
-``sed -i "s/db.tars.com/${your machine ip}/g" \`grep db.tars.com -rl ./*\` ``  
-``sed -i "s/registry.tars.com/${your machine ip}/g" \`grep registry.tars.com -rl ./*\` ``  
-``sed -i "s/web.tars.com/${your machine ip}/g" \`grep web.tars.com -rl ./*\` ``  
-``sed -i "s/tars2015/{$tars_password}/g" \`grep tars2015 -rl ./*\` ``  
+``sed -i "s/192.168.2.131/${your machine ip}/g" `grep 192.168.2.131 -rl ./*` ``  
+``sed -i "s/db.tars.com/${your machine ip}/g" `grep db.tars.com -rl ./*` ``  
+``sed -i "s/registry.tars.com/${your machine ip}/g" `grep registry.tars.com -rl ./*` ``  
+``sed -i "s/web.tars.com/${your machine ip}/g" `grep web.tars.com -rl ./*` ``  
+``sed -i "s/tars2015/{$tars_password}/g" `grep tars2015 -rl ./*` ``  
 ``chmod u+x tars_install.sh ``  
 ``./tars_install.sh ``  
 ``tarspatch/util/init.sh ``  
 ``ps -ef | grep rsync 查看进程是否启动 ``  
 ``cd /opt/Tars/web ``  
-``sed -i "s/tars2015/${mysql的tars密码}/g" \`grep tars2015 -rl ./*\` ``  
-``sed -i "s/registry1.tars.com/${your machine ip}/g" \`grep registry1.tars.com -rl ./src/main/resources/tars.conf\` ``  
-``sed -i "s/registry2.tars.com/${your machine ip}/g" \`grep registry2.tars.com -rl ./src/main/resources/tars.conf\` ``  
+``sed -i "s/tars2015/${mysql的tars密码}/g" `grep tars2015 -rl ./*` ``  
+``sed -i "s/registry1.tars.com/${your machine ip}/g" `grep registry1.tars.com -rl ./*` ./src/main/resources/tars.conf\` ``  
+``sed -i "s/registry2.tars.com/${your machine ip}/g" `grep registry2.tars.com -rl ./*` ./src/main/resources/tars.conf\` ``  
 ``mvn clean package ``  
 ``cp ./target/tars.war /usr/local/resin/webapps/ ``  
 ``mkdir -p /data/log/tars ``  

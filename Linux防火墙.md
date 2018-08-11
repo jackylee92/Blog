@@ -33,7 +33,9 @@ systemctl restart iptables：重启iptables;
 > 取消firewall使用iptables
 
 ````
-systemctl mask firewall：取消使用firewall规则;
+systemctl mask firewalld.service：取消使用firewall规则;
+systemctl disable firewalld.service：使用iptables规则;
+
 systemctl enable iptables：使用iptables规则;
 systemctl enable ip6tables：启用ip6tables规则
 ````
