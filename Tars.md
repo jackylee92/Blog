@@ -63,7 +63,7 @@ __以下为多次安装后总结简单具体步骤__
 `cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DWITH_INNOBASE_STORAGE_ENGINE=1 -DMYSQL_USER=mysql -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci`  
 `make`  
 `make install`  
-`useradd mysql`
+`useradd mysql`  
 `chown -R mysql:mysql /usr/local/mysql/`  
 `cd /usr/local/mysql/`  
 `cp support-files/mysql.server /etc/init.d/mysq`  
