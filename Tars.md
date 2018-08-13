@@ -41,13 +41,34 @@ __以下为多次安装后总结简单具体步骤__
     setenforce 0    
 ### 准备软件包：  
 1. jdk-8u171-linux-x64.tar.gz 
+
 2. resin-pro-4.0.56.tar.gz
+
 3. cmake-3.6.2.tar.gz
+
 4. mysql-5.6.25.tar.gz
+
 5. swoole-4.0.1.tgz
+
 6. Tars  
-`cd /opt`  
-`git clone https://github.com/Tencent/Tars.git`  
+  `cd /opt`  
+  `git clone https://github.com/Tencent/Tars.git`  
+
+  替换tars中的ip、和mysql 的tars用户密码 
+
+  `` sed -i "s/tars2015/${tars_password}/g" `grep tars2015 -rl ./*` ``
+
+  `` sed -i "s/192.168.2.131/${$ip}/g" `grep 192.168.2.131 -rl ./*` ``
+
+  `` sed -i "s/web.tars.com/${$ip}/g" `grep web.tars.com -rl ./*` ``
+
+  `` sed -i "s/registry.tars.com/${$ip}/g" `grep registry.tars.com -rl ./*` ``
+
+  `` sed -i "s/db.tars.com/${$ip}/g" `grep db.tars.com -rl ./*` ``
+
+  `` sed -i "s/registry1.tars.com/${$ip}/g" `grep registry1.tars.com -rl ./web/src/main/resources/tars.conf` ``
+
+  `` sed -i "s/registry2.tars.com/${$ip}/g" `grep registry2.tars.com -rl ./web/src/main/resources/tars.conf` ``
 ### 安装Cmake  
 `tar -zxvf cmake-3.6.2.tar.gz`  
 `cd cmake-3.6.2`  
@@ -66,7 +87,7 @@ __以下为多次安装后总结简单具体步骤__
 `useradd mysql`  
 `chown -R mysql:mysql /usr/local/mysql/`  
 `cd /usr/local/mysql/`  
-`cp support-files/mysql.server /etc/init.d/mysq`  
+`cp support-files/mysql.server /etc/init.d/mysql`  
 `vim /etc/my.cnf`  
 
     [mysqld]
