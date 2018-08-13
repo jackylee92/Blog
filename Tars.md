@@ -66,7 +66,7 @@ __以下为多次安装后总结简单具体步骤__
 `useradd mysql`  
 `chown -R mysql:mysql /usr/local/mysql/`  
 `cd /usr/local/mysql/`  
-`cp support-files/mysql.server /etc/init.d/mysq`  
+`cp support-files/mysql.server /etc/init.d/mysql`  
 `vim /etc/my.cnf`  
 
     [mysqld]
@@ -108,8 +108,9 @@ __以下为多次安装后总结简单具体步骤__
 `vim /etc/profile`  
 
     PATH=$PATH:/usr/local/mysql/bin
+    export PATH  
 
-`export PATH`  
+` source /etc/profile `. 
 `mysql   进入mysql`  
 
     update user set password=PASSWORD('new_password') where user='root';

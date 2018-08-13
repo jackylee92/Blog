@@ -153,6 +153,10 @@ source /etc/profile
 
   `` vim /usr/local/php/etc/php.ini ``
 
+  ````
+  date.timezone = PRC
+  ````
+
   `` cd /opt/php-7.2.8/sapi/fpm ``
 
   ``  init.d.php-fpm /etc/init.d/php-fpm ``
