@@ -1,8 +1,12 @@
+[TOC]
+
+
+
 # Centos7编译安装php7、nginx、mysql
 
 > 整理之前centos7编译安装php、yum 安装 nginx、mysql服务；除php、nginx、mysql【简单】
 
-__PHP__
+##PHP7.0
 
 * 下载php7安装包:
 
@@ -115,4 +119,85 @@ export PATH
 
 source /etc/profile
 
-即可
+## PHP7.2
+
+* 删除原PHP
+
+  `` yum remove php ``
+
+  `` whereis php ``
+
+  `` rm -rf xxx `` 删除对应的文件夹
+
+* 下载php7.2
+
+  `` wget http://hk2.php.net/get/php-7.2.8.tar.gz/from/this/mirror ``
+
+* 解压
+
+  `` tar -xvf php-7.2.8.tar.gz ``
+
+* 安装所需程序
+
+  `` yum install -y libxml2-devel libtool* curl-devel libjpeg-devel libpng-devel freetype-devel libxmal2 libxml2-devel openssl openssl-devel curl curl-devel libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel pcre pcre-devel libxslt libxslt-devel bzip2 bzip2-devel ``
+
+* 编译安装
+
+  `` cd php-7.2.8 ``
+
+  `` ./configure --prefix=/usr/local/php --enable-fpm --enable-opcache --with-config-file-path=/usr/local/php/etc --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --enable-static --enable-sockets --enable-wddx --enable-zip --enable-calendar --enable-bcmath --enable-soap --with-zlib --with-iconv --with-freetype-dir --with-gd --with-jpeg-dir --with-xmlrpc --enable-mbstring --with-sqlite3 --with-curl --enable-ftp --with-openssl --with-gettext ``
+
+  `` make && make install``
+
+  `` cp php.ini-development /usr/local/php/etc/php.ini ``
+
+  `` vim /usr/local/php/etc/php.ini ``
+
+  `` cd /opt/php-7.2.8/sapi/fpm ``
+
+  ``  init.d.php-fpm /etc/init.d/php-fpm ``
+   ``  cd /usr/local/php/etc/ ``
+   ``  cp php-fpm.conf.default php-fpm.conf ``
+   ``  cd /usr/local/php/etc/php-fpm.d ``
+   ``  cp www.conf.default www.conf ``
+   ``  vim /etc/profile.d/php.sh ``
+   ``  source /etc/profile.d/php.sh ``
+
+* 重启
+
+  `` killall php-fpm ``
+
+* 查看版本，看配置
+
+  ``php -v ``
+   ``  php --ini ``
+
+## PHP7.2 安装swoole
+
+* 下载解压swoole
+
+  `` wget https://gitee.com/swoole/swoole/repository/archive/v2.2.0.zip``
+
+  `` unzip v2.2.0.zip ``
+
+* 编译安装
+
+  `` ./configure --with-php-config=/usr/local/php/bin/php-config ``
+   ``  make ``
+   ``  make install ``
+
+  > Phpize 提示错误：The php-devel package is required for use of this command.  
+  >
+  > 解决方案： yum install php70w-deve
+
+  `` vim /usr/local/php/etc/php.ini `` 添加：
+
+  ````
+  extension=swoole.so
+  ````
+
+* 查看结果：
+
+  `` php -m | grep swoole``
+
+  
