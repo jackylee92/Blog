@@ -200,4 +200,13 @@ source /etc/profile
 
   `` php -m | grep swoole``
 
-  
+## 安装Composer
+
+* 下载：
+
+  `` curl -sS https://getcomposer.org/installer | php ``
+
+* copy到环境变量中
+
+  `` mv composer.phar /usr/bin/composer ``
+
