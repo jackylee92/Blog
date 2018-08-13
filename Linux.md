@@ -1,5 +1,7 @@
-## Linux
+[TOC]
+# Linux
 
+## 命令
 > 整理记录平时常用难记Linux命令
 
 * whereis 命令名：搜索命令所在的路径及帮助文档所在的位置;
@@ -28,10 +30,16 @@
 * hostname -i:查看ip
 * find .|xargs grep -ri "IBM" 查询所有文件中内容
 
-快捷键：
+## 快捷键：
 
 * Ctrl+a 跳转命令行首
 * Ctrl+e 跳转命令行尾
 * Ctrl+l 清屏
 * Ctrl+u 删除光标至行首中所有
 * Ctrl+k 删除光标至行尾中所有
+
+## shell
+* 本地IP
+````
+local_ip=`ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1 -d '/'`
+````

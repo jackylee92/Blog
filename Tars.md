@@ -277,9 +277,9 @@ __命令：__
 
 ## 安装开发依赖  
 ### 安装php、php-swoole  
-``wget http://cn2.php.net/get/php-7.0.2.tar.gz/from/this/mirror  ``  
+``wget http://hk2.php.net/get/php-7.2.8.tar.gz/from/this/mirror  ``  
 ``tar -zxvf mirror  ``  
-``cd php-7.0.2  ``  
+``cd php-7.2.8  ``  
 ``yum install -y libxml2-devel libtool* curl-devel libjpeg-devel libpng-devel freetype-devel libxmal2 libxml2-devel openssl openssl-devel curl curl-devel libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel pcre pcre-devel libxslt libxslt-devel bzip2 bzip2-devel  ``  
 没有configure ``则先phpize;  ``  
 ``./configure --prefix=/usr/local/php --enable-fpm --enable-opcache --with-config-file-path=/usr/local/php/etc  --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --enable-static --enable-sockets --enable-wddx --enable-zip --enable-calendar --enable-bcmath --enable-soap --with-zlib --with-iconv --with-freetype-dir --with-gd --with-jpeg-dir --with-xmlrpc --enable-mbstring --with-sqlite3 --with-curl --enable-ftp  --with-openssl  --with-gettext  ``  
@@ -291,7 +291,7 @@ __命令：__
 
     date.timezone = PRC
 
-``cd /opt/php-7.0.2/sapi/fpm  ``  
+``cd /opt/php-7.2.8/sapi/fpm  ``  
 ``cp init.d.php-fpm /etc/init.d/php-fpm  ``  
 ``cd /usr/local/php/etc/  ``  
 ``cp php-fpm.conf.default php-fpm.conf  ``  
