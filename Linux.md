@@ -40,6 +40,13 @@
 
 ## shell
 * 本地IP
-````
-local_ip=`ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1 -d '/'`
-````
+	````
+	local_ip=`ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1 -d '/'`
+	````
+* 当前时间
+
+  ````
+  date "+%Y%m%d%H%M%S"
+  ````
+
+  
