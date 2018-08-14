@@ -78,7 +78,7 @@ __以下为多次安装后总结简单具体步骤__
 ### 安装resion
 `tar -zxvf resin-pro-4.0.56.tar.gz`  
 `cp -rf resin-pro-4.0.56 /usr/local/resin`  
-### 安装mysql
+### 安装mysql  
 `tar -zxvf mysql-5.6.25.tar.gz`  
 ` cd mysql-5.6.25`  
 `cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DWITH_INNOBASE_STORAGE_ENGINE=1 -DMYSQL_USER=mysql -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci`  
