@@ -159,13 +159,13 @@ source /etc/profile
 
   `` cd /opt/php-7.2.8/sapi/fpm ``
 
-  ``  init.d.php-fpm /etc/init.d/php-fpm ``
-   ``  cd /usr/local/php/etc/ ``
-   ``  cp php-fpm.conf.default php-fpm.conf ``
-   ``  cd /usr/local/php/etc/php-fpm.d ``
-   ``  cp www.conf.default www.conf ``
-   ``  vim /etc/profile.d/php.sh ``
-   ``  source /etc/profile.d/php.sh ``
+  ``  cp init.d.php-fpm /etc/init.d/php-fpm `` 
+   ``  cd /usr/local/php/etc/  ``
+   ``  cp php-fpm.conf.default php-fpm.conf  ``	
+   ``  cd /usr/local/php/etc/php-fpm.d ``		
+   ``  cp www.conf.default www.conf ``		
+   ``  vim /etc/profile.d/php.sh ``		
+   ``  source /etc/profile.d/php.sh ``		
 
 * 重启
 
