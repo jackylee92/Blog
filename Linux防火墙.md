@@ -2,7 +2,7 @@
 
 > 对于服务器安全整理了firewall和iptables；介绍两种区别，和使用方式；
 
-__firewall__
+## firewall
 
 > firewall centos7 中自带的防火墙,下面是firewall命令实用80%
 
@@ -18,7 +18,7 @@ firewall-cmd –zone=public –remove-port=80/tcp –permanent
 firewall-cmd –zone=public –queay-port=80/tcp
 ````
 
-__iptables__
+##iptables
 
 > 下面是iptables命令,实用80%
 
@@ -39,3 +39,7 @@ systemctl disable firewalld.service：使用iptables规则;
 systemctl enable iptables：使用iptables规则;
 systemctl enable ip6tables：启用ip6tables规则
 ````
+## SELinux
+* 查看状态： setenforce status 
+* 关闭：setenforce 0
+* 开启：setenforce 1

@@ -214,3 +214,15 @@ source /etc/profile
 
   `` mv composer.phar /usr/bin/composer ``
 
+## 安装php mongodb扩展
+
+````
+wget http://pecl.php.net/get/mongodb-1.5.1.tgz
+````
+
+## 安装php redis扩展
+
+````
+wget https://github.com/phpredis/phpredis/archive/develop.zip -O redis.zip
+````
+
