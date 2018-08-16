@@ -126,13 +126,24 @@ __以下为多次安装后总结简单具体步骤__
 
 `service mysql start`  
 `chkconfig mysql on`  
-`vim /etc/profile`  
+`vim /etc/profile`       
 
     PATH=$PATH:/usr/local/mysql/bin
     export PATH  
 
-` source /etc/profile `. 
-`mysql   进入mysql`  
+` source /etc/profile `.   
+
+添加mysql库路径.   
+
+``vim /etc/ld.so.conf. ``    
+
+```
+/usr/local/mysql/lib/
+```
+
+``ldconfig    ``    
+
+`mysql   进入mysql`    
 
     update user set password=PASSWORD('new_password') where user='root';
     flush privileges
@@ -312,7 +323,8 @@ __命令：__
 ``tar -zxvf swoole-2.2.0.tgz  ``  
 ``cd swoole-2.2.0  ``  
 ``phpize  ``  
-``./configure  ``  
+``./configure --with-php-config=/usr/local/php/bin/php-config ``   
+
 ``make && make install  ``  
 ``vim /use/local/php/etc/php.ini  ``  
 
@@ -339,7 +351,7 @@ php=/usr/bin/php/bin/php
 同时，将tars.tarsphp.default内容复制，新建tcp和http版本的模板 相比较将tars.tarsphp.default,http模板，差异为：  
 http模板在server节点增加：  
 
-    protocolName=http​
+    protocolName=http
     type=http
 
 TCP模板在server节点增加：
