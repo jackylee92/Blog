@@ -71,7 +71,8 @@
   git clone git://github.com/mobz/elasticsearch-head.git
   cd elasticsearch-head
   npm install
-  npm run start
+  //速度较慢，就是用国内镜像 npm install -g cnpm --registry=https://registry.npm.taobao.org
+  √√√
   ````
 
   > WARN 警告可以暂忽略
@@ -105,3 +106,66 @@ __安装参考__:https://www.marsshen.com/2018/04/23/Elasticsearch-install-and-s
 
 ## 使用
 
+### 结构
+我们首先要做的是存储员工数据，每个文档代表一个员工。在Elasticsearch中存储数据的行为就叫做**索引(indexing)**，不过在索引之前，我们需要明确数据应该存储在哪里。
+
+在Elasticsearch中，文档归属于一种**类型(type)**,而这些类型存在于**索引(index)**中，我们可以画一些简单的对比图来类比传统关系型数据库：
+
+```
+Relational DB -> Databases -> Tables -> Rows -> Columns
+Elasticsearch -> Indices   -> Types  -> Documents -> Fields
+```
+
+
+
+###高亮我们的搜索
+
+很多应用喜欢从每个搜索结果中**高亮(highlight)**匹配到的关键字，这样用户可以知道为什么这些文档和查询相匹配。在Elasticsearch中高亮片段是非常容易的。
+
+让我们在之前的语句上增加`highlight`参数：
+
+```
+GET /megacorp/employee/_search
+{
+    "query" : {
+        "match_phrase" : {
+            "about" : "rock climbing"
+        }
+    },
+    "highlight": {
+        "fields" : {
+            "about" : {}
+        }
+    }
+}
+```
+
+ 当我们运行这个语句时，会命中与之前相同的结果，但是在返回结果中会有一个新的部分叫做`highlight`，这里包含了来自`about`字段中的文本，并且用`<em></em>`来标识匹配到的单词。
+
+```
+{
+   ...
+   "hits": {
+      "total":      1,
+      "max_score":  0.23013961,
+      "hits": [
+         {
+            ...
+            "_score":         0.23013961,
+            "_source": {
+               "first_name":  "John",
+               "last_name":   "Smith",
+               "age":         25,
+               "about":       "I love to go rock climbing",
+               "interests": [ "sports", "music" ]
+            },
+            "highlight": {
+               "about": [
+                  "I love to go <em>rock</em> <em>climbing</em>" <1>
+               ]
+            }
+         }
+      ]
+   }
+}
+```

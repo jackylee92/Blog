@@ -1,6 +1,6 @@
 # Vim
 ---
-#### 个人配置
+## 个人配置
 ````
 " set the runtime path to include Vundle and initialize
 set rtp+=/Applications/MacVim.app/Contents/Resources/vim/bundle/vundle/ "我这是macvim 我试了我这边写绝对路径就没有问题；这个就是runtimepath 的缩写
@@ -108,7 +108,7 @@ let g:syntastic_enable_highlighting=1
 
 ````
 
-#### snipmate 定制
+## snipmate 定制
 * 修改触发键
 > vim /Users/jacky/.vim/bundle/snipmate.vim/after/plugin/snipMate.vim
 
@@ -131,7 +131,7 @@ snippet ////
      */  
 ````
 
-#### PowerLine
+## PowerLine
 > 先按转PowerLine,配置如下
 
 ````
@@ -140,7 +140,7 @@ set laststatus=2
 set t_Co=256           
 ````
 
-#### nerdcommenter
+## nerdcommenter
 
 ````
 <leader>cc   加注释
@@ -150,7 +150,7 @@ set t_Co=256
 <leader>cy   先复制, 再注解(p可以进行黏贴)
 ````
 
-#### ctrlp.vim
+## ctrlp.vim
 > ctrl+p 打开搜索模式
 
 ````
@@ -159,7 +159,7 @@ set t_Co=256
 <c-h> 在水平视图中打开
 ````
 
-#### TagList
+## TagList
 ````
  <CR>          跳到光标下tag所定义的位置，用鼠标双击此tag功能也一样（但要在vimrc文件中打开此项功能）
 o                 在一个新打开的窗口中显示光标下tag
@@ -176,3 +176,25 @@ x             taglist窗口放大和缩小，方便查看较长的tag
 q            关闭taglist窗口
 <F1>      显示帮助
 ````
+##YouCompleteMe
+
+* vim vimrc 
+
+  ````
+  Plugin 'Valloric/YouCompleteMe'
+  ````
+
+* vim
+
+  ````
+  PluginInstall
+  ````
+
+* 安装（参考README.md文件）
+
+  ````
+  cd /Users/jacky/.vim/bundle/YouCompleteMe
+  ./install.sh
+  ````
+
+  

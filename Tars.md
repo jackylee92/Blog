@@ -373,3 +373,26 @@ _注:_
 > 部署申请中服务类型为对应的语言
 
 
+
+## 开机启动
+
+添加文件
+
+vim /etc/init.d/tars.sh
+
+`````
+#!/bin/bash
+#chkconfig:345 61 61 //此行的345参数表示,在哪些运行级别启动,启动序号(S61);关闭序号(K61)
+#description:myself//此行必写,描述服务.
+systemctl stop iptables
+service mysql start
+currentTimeStamp=`date "+%Y%m%d%H%M%S"`
+tar -cf /data/tars/app_log/tars_log_${currentTimeStamp}.tar /data/tars/app_log/tars/*
+rm -rf /data/tars/app_log/tars/*
+/usr/local/app/tars/tars_install.sh
+/usr/local/app/tars/tarspatch/util/init.sh
+netstat -apn | grep 19385|awk '{print $7}'|awk -F '/' '{print $1}'|xargs kill -9
+/usr/local/app/tars/tarsnode/bin/tarsnode --config=/usr/local/app/tars/tarsnode/conf/tarsnode.conf
+/usr/local/resin/bin/resin.sh start
+`````
+
