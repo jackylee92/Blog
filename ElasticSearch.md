@@ -72,7 +72,7 @@
   cd elasticsearch-head
   npm install
   //速度较慢，就是用国内镜像 npm install -g cnpm --registry=https://registry.npm.taobao.org
-  √√√
+  npm run start
   ````
 
   > WARN 警告可以暂忽略
