@@ -101,6 +101,13 @@ __中文文档__:https://es.xiaoleilu.com/
 
 __安装参考__:https://www.marsshen.com/2018/04/23/Elasticsearch-install-and-set-up/
 
+## 安装npm
+
+````
+$ curl -sL -o /etc/yum.repos.d/khara-nodejs.repo https://copr.fedoraproject.org/coprs/khara/nodejs/repo/epel-7/khara-nodejs-epel-7.repo
+$ yum install -y nodejs nodejs-npm
+````
+
 
 
 ## 使用
