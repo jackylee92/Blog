@@ -1,8 +1,12 @@
 # ElasticSearch
 
+> es 版本1.0x 、2.0x、5.0x   版本跳转是为了统一elk所有版本
+
 ## 安装
 
 > 不可用root用户操作，必须使用普通用户，且下载解压的所有文件所属用户为普通用户；
+>
+> elasticsearch 创建搜索时默认创建5个分片，一个备份
 
 * 下载 ( 官网：https://www.elastic.co/downloads/elasticsearch)
 
@@ -30,6 +34,16 @@
     http.cors.enabled: true
     http.cors.allow-origin: "*"
     ````
+
+  * cluster.name: 集群名【如果使用集群，多个节点这个属性需要一直】
+
+  * node.name : 节点名【如果使用集群，多个节点这个属性需要全部不同】
+
+  * node.master:是否为master (集群使用)【如果使用集群，Master节点此处为true，Slave节点此处为false】
+
+  * network.host:绑定iP
+
+  * discovery.zen.ping.unicast.hosts:["集群MasterIP"]　找到master主机iP，【集群salve节点必须设置，master节点不需要设置】
 
   * 配置参考：https://www.cnblogs.com/xiaochina/p/6855591.html
 
@@ -65,7 +79,7 @@
 
 > elasticsearch-head是个用来与Elasticsearch互动的图形化界面插件，有了他你可以很方便的管理你的Elasticsearch，查看你的Elasticsearch状态或者测试你的查询语句。这个是他官方的`GitHub页面`。
 
-* 安装(使用root用户)
+* 安装(使用root用户) 下载去githut搜索elasticsearch-head 选择mobz开头的
 
   ````
   git clone git://github.com/mobz/elasticsearch-head.git
@@ -175,9 +189,10 @@ $ yum install -y nodejs nodejs-npm
 
 
 
-## 使用
+## ES结构
 
-### 结构
+
+
 我们首先要做的是存储员工数据，每个文档代表一个员工。在Elasticsearch中存储数据的行为就叫做**索引(indexing)**，不过在索引之前，我们需要明确数据应该存储在哪里。
 
 在Elasticsearch中，文档归属于一种**类型(type)**,而这些类型存在于**索引(index)**中，我们可以画一些简单的对比图来类比传统关系型数据库：
@@ -189,12 +204,195 @@ Elasticsearch -> Indices   -> Types  -> Documents -> Fields
 
 每一个index都有一个Mapping来定义该index怎样去索引，需要注意的是，大体概念我们可以这样理解ES中的index和Mapping Type，index 对应SQL DB中的database，Mapping Type对应 SQL DB中的table，但是又不完全一样，因为在SQL DB中，不同table中的字段名称可以重复，但是定义可以不一样，再ES中却不可以存在这种情况，因为ES是基于Lucene,在ES映射到Lucene时，同一个index下面的不同mapping的同一字段名映射是同一个的，也就意味着，再不同的mapping中，相同字段名的类型也要保持一致
 
+分片：每个索引中分片，数据量大的时候分片利于查询；
+
+备份：索引的备份，备份也提供查询功能；
+
+elasticsearch-head概览中方框中的123表示索引的分片 方框比较宽的表示主分片，其他的表示分片的备份，细方框的为对应数字粗方框的分片备份；
+
+![1535040986682](C:\Users\ADONG&~1\AppData\Local\Temp\1535040986682.png)
+
+索引中_mappings中有字段接口表示结构索引，没有则是非结构话索引；
+
+## ES使用
+
+* 创建索引： url （post）： http://ip:端口/索引(index)/类型(type)/_mappings(【关键词】：映射 表示字段fields)
+
+  * ````
+    {
+         "类型" : {
+             //结构
+             "properties(关键词，定义每一个字段)" : {
+                 "字段1" :{
+                     "type(关键词，字段类型)" : "字段具体类型"
+                 }
+             }
+         }
+    }
+    ````
+
+ * 创建索引 url （put）：http://ip:端口/索引(index)
+
+   * ````
+     {
+     	//settings指定索引配置
+         "settings【关键词】" : {
+             "number_of_shards【关键词】" : 指定索引的分片数，
+             "number_of_replicas【关键词】" : 指定索引备份数，
+         }
+         //mappings索引的映射定义
+         "mappings【关键词】" : {
+             "类型名1(type)" : {
+                 "properties【关键词】属性定义集合" : {
+                     "属性名1" : {
+                         "type【关键词】类型值" : ""
+                     },
+                      "属性名2" : {
+                         "type【关键词】类型值" : ""
+                     }
+                 }
+             }，
+             "类型名2(type)" : {
+             	//可以为空，表示无结构类型
+             }
+         }
+     }
+     ````
+
+
+  * 插入数据: url (post) : http://ip:端口号/索引名(index)/类型名(type)/文档id(不填es默认会创建)
+
+    * ````
+      {
+          "属性名1" ： "属性值",
+          "属性名2" ： "属性值"
+      }
+      ````
+
+* 修改数据 :url (post) : htpp://ip:端口号/索引名(index)/类型名(type)/文档id/_update【关键词】(指定操作)
+
+  * ````
+    {
+    	//doc表示要修改的文档集合
+        "doc【关键词】" : {
+            "属性名1" : "新的属性值"
+        }
+    }
+    ````
+
+* 修改数据 :url (post) : htpp://ip:端口号/索引名(index)/类型名(type)/文档id/_update【关键词】(指定操作)
+
+  * ````
+    {
+    	
+        "script【关键词】(脚本的方式修改)" : {
+            "lang【关键词】(指定脚本语言)" : "painless【关键词】(es内置的脚本语言，es支持很多中脚本语言js\python等)",
+            
+            //方式1：es内置语法 ctx代表es上下文，_source代表es当前文档，当前文档url中定义id为1的, .age += 10 代表将age属性的值加10
+            "inline【关键词】(指定脚本内容)" : "ctx._source.age += 10"
+            
+            //方式2
+            "inline【关键词】(指定脚本内容)" : "ctx._source.age = params.数组key"
+            "params（修改的数组，在上面设置age的值时可以直接引用）" : {
+                "数组key1" : "数组的值value1",
+                "数组key2" : "数组的值value2"
+            }
+        }
+    }
+    ````
+
+* 删除文档：url (delete) : http://ip:端口/索引名(index)/类型名(type)/文档id      (直接delete方式请求即删除)
+
+* 删除索引：url (delete) : http://ip:端口/索引名(index)      (直接delete方式请求即删除)
+
+* 查询
+
+  * 简单查询 url (get)：httｐ://ip:端口号/索引(index)/类型名(type)/文档id		（直接get请求即可查询）
+
+  * 条件查询 url (post) : http://ip:端口号/索引(index)/_search【关键词】(指定查询)
+
+    ````
+    {
+        "query【关键词】(指定条件查询)" : {
+        	"from【关键词】(从第几条开始返回)" : 1,
+        	"size【关键词】(返回多少条)" ： 1,
+        	"sort【关键词】（排序）" : [
+                {"属性值" : { "order【关键词】(代表排序)" : "desc/asc(排序方式)"}}
+        	]
+        	
+        	//方式1:查询所有的内容
+            "match_all【关键词】(代表所有内容)" : {}
+            
+            //方式2：关键词查询
+            "match【关键词】（代表不是所有内容）" : {
+                "属性名" : "属性值"
+            }
+        },
+    }
+    ````
+
+    ````
+    //相应说明
+    ｛
+    	"took" : ""， //相应时间,
+    	"time_out" : "",	//是否超时"
+    	"hits" : { //相应的所有数据
+            "total" : ""	//不带分页 共多少数据
+            "hits" : {	//具体每条数据 默认返回10条数据
+                
+            }
+    	}
+    ｝
+    ````
+
+    
+
+  * 聚合查询 url (post) : http://ip:端口号/索引(index)/_search【关键词】(指定查询) 其实就是分组，每组条数
+
+    ````
+    {
+    	//方式1
+        "aggs【关键词】(指定聚合查询)" : {
+            "聚合查询名称1 例如：group_by_age 根据年龄分组，返回结果在返回json 数组中，key为名称" : {
+                "trems【关键词】（本组聚合内容）" : {
+                    "field【关键词】(指定属性)" : "属性名"
+                }
+            },
+            "聚合查询名称2例如：group_by_sex 根据性别分组，返回结果和1 并列在数组中，key为名称" : {
+                "trems【关键词】（本组聚合内容）" : {
+                    "field【关键词】(指定属性)" : "属性名"
+                }
+            },
+        }
+        
+        //方式2 ： 统计计算
+        //返回 count 数据条数、min 最小一条多少、max 最大一条多少、 avg 平均多少、 sum 共多少 
+        "aggs" : {
+            "grades_word_count" : {
+                "stats【关键词】（代表计算或者count/min/max/avg/sum指定计算的结果值）" : {
+                     "field【关键词】(指定属性)" : "属性名"
+                }
+            }
+        }
+    }
+    ````
+
+* 高级查询
+
+  * 子条件查询（特定字段查询所指特定值）
+
+    __Query Context_  : 在查询过程中，除了判断文档是否满足查询条件外，es还会计算一个_score来标示匹配的程度，旨在判断目标文档和查询条件匹配的 有多好;
+
+    
+
+  * 复合条件查询（以一定的逻辑组合子条件查询）
+
 ## 字段类型(elasticsearch6.0)
 
 ###基础类型：
 * 字符类型： `` text、keyword``    
 * 数字类型： `` long、integer、short、byte、double、float、half_float、sacled_float``     
-* 日期类型： ``date``    
+* 日期类型： ``date``    ( "yyyy-mm-dd HH:mm:ss || yyyy-MM-dd||epoch_millis")
 * 布尔类型： `` boolean``    
 * 字节型：`` binary``     
 * 范围型：`` integer_range、float_range、long_range、double_rang、date_range``    
