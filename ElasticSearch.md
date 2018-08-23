@@ -210,7 +210,7 @@ Elasticsearch -> Indices   -> Types  -> Documents -> Fields
 
 elasticsearch-head概览中方框中的123表示索引的分片 方框比较宽的表示主分片，其他的表示分片的备份，细方框的为对应数字粗方框的分片备份；
 
-![1535040986682](C:\Users\ADONG&~1\AppData\Local\Temp\1535040986682.png)
+![1535040986682](https://github.com/jackylee92/Blog/blob/master/Images/es1.png?raw=true)
 
 索引中_mappings中有字段接口表示结构索引，没有则是非结构话索引；
 
