@@ -65,14 +65,14 @@
 
 > elasticsearch-head是个用来与Elasticsearch互动的图形化界面插件，有了他你可以很方便的管理你的Elasticsearch，查看你的Elasticsearch状态或者测试你的查询语句。这个是他官方的`GitHub页面`。
 
-* 安装(使用普通用户)
+* 安装(使用root用户)
 
   ````
   git clone git://github.com/mobz/elasticsearch-head.git
   cd elasticsearch-head
   npm install
   //速度较慢，就是用国内镜像 npm install -g cnpm --registry=https://registry.npm.taobao.org
-  npm run start
+  grunt server
   ````
 
   > WARN 警告可以暂忽略
@@ -96,11 +96,82 @@
 
 * 安装完成后用http://localhost:9100/ 打开即可。
 
+  #### ERROR
+
+  * 1
+
+  ````
+  > grunt server
+  sh: grunt: 未找到命令
+  npm ERR! file sh
+  npm ERR! code ELIFECYCLE
+  npm ERR! errno ENOENT
+  npm ERR! syscall spawn
+  npm ERR! elasticsearch-head@0.0.0 start: `grunt server`
+  npm ERR! spawn ENOENT
+  npm ERR! 
+  npm ERR! Failed at the elasticsearch-head@0.0.0 start script.
+  npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+  npm WARN Local package.json exists, but node_modules missing, did you mean to install?
+  
+  
+  npm ERR! A complete log of this run can be found in:
+  
+  npm ERR!     /root/.npm/_logs/2018-04-21T08_42_24_584Z-debug.log
+  ````
+
+  解决方案：npm install -g grunt-cli 
+
+  
+
   
 
 __中文文档__:https://es.xiaoleilu.com/
 
 __安装参考__:https://www.marsshen.com/2018/04/23/Elasticsearch-install-and-set-up/
+
+## 安装npm
+
+````
+$ curl -sL -o /etc/yum.repos.d/khara-nodejs.repo https://copr.fedoraproject.org/coprs/khara/nodejs/repo/epel-7/khara-nodejs-epel-7.repo
+$ yum install -y nodejs nodejs-npm
+
+````
+
+* 修改npm 镜像源，下载安装超快：
+
+  ````
+  npm config set registry https://registry.npm.taobao.org  npm info underscore
+  ````
+
+* 安装 grunt 
+
+  `` npm install -g grunt-cli ``   
+
+  `` npm install grunt``    
+
+* 验证
+
+  `` grunt server   ``    
+
+  ````
+  ERROR:
+  [root@localhost elasticsearch-head]#    
+  >> Local Npm module "grunt-contrib-clean" not found. Is it installed?
+  >> Local Npm module "grunt-contrib-concat" not found. Is it installed?
+  >> Local Npm module "grunt-contrib-watch" not found. Is it installed?
+  >> Local Npm module "grunt-contrib-connect" not found. Is it installed?
+  >> Local Npm module "grunt-contrib-copy" not found. Is it installed?
+  >> Local Npm module "grunt-contrib-jasmine" not found. Is it installed?
+  Warning: Task "connect:server" not found. Use --force to continue.
+  ````
+  解决：
+
+  ``  npm install grunt-contrib-clean``
+
+  ``    npm install grunt-contrib-concat``     
+
+  依次安装缺少的依赖，完成；
 
 
 
