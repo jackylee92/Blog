@@ -212,7 +212,7 @@ elasticsearch-head概览中方框中的123表示索引的分片 方框比较宽�
 
 ![1535040986682](https://github.com/jackylee92/Blog/blob/master/Images/es1.png?raw=true)
 
-索引中_mappings中有字段接口表示结构索引，没有则是非结构话索引；
+索引中_mappings中有字段结构表示结构索引，没有则是非结构话索引；
 
 ## ES使用
 
