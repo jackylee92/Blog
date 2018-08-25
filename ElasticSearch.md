@@ -73,7 +73,6 @@
      vm.max_map_count=655360
     ````
 
-  
 
 ## 安装elasticsearch-head插件
 
@@ -106,8 +105,6 @@
   }
   ````
 
-  
-
 * 安装完成后用http://localhost:9100/ 打开即可。
 
   #### ERROR
@@ -136,9 +133,6 @@
 
   解决方案：npm install -g grunt-cli 
 
-  
-
-  
 
 __中文文档__:https://es.xiaoleilu.com/
 
@@ -336,16 +330,16 @@ elasticsearch-head概览中方框中的123表示索引的分片 方框比较宽�
     ｛
     	"took" : ""， //相应时间,
     	"time_out" : "",	//是否超时"
+    	"_shards" : "",		//涉及到的分片，所有分片，
     	"hits" : { //相应的所有数据
             "total" : ""	//不带分页 共多少数据
+            "max_score" : "" 	//匹配分数
             "hits" : {	//具体每条数据 默认返回10条数据
-                
+                ""
             }
     	}
     ｝
     ````
-
-    
 
   * 聚合查询 url (post) : http://ip:端口号/索引(index)/_search【关键词】(指定查询) 其实就是分组，每组条数
 
@@ -447,10 +441,6 @@ elasticsearch-head概览中方框中的123表示索引的分片 方框比较宽�
     }
     ````
 
-    
-
-    
-
   * 复合条件查询（以一定的逻辑组合子条件查询） 
 
     * 分数查询：通过query context查询会返回_score分数，该分数表示查询符合程度，分数查询就是给该分数一个条件例如：
@@ -491,7 +481,6 @@ elasticsearch-head概览中方框中的123表示索引的分片 方框比较宽�
     }
     ````
 
-    
 
 ## 字段类型(elasticsearch6.0)
 
