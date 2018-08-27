@@ -208,6 +208,24 @@ elasticsearch-head概览中方框中的123表示索引的分片 方框比较宽�
 
 索引中_mappings中有字段结构表示结构索引，没有则是非结构话索引；
 
+__elasticsearch 隐藏管理__：分片机制（将数据分摊到不同的分片中）shard机制
+
+__elasticsearch 扩容方案__：（现状：6台服务器，每台1T，数据两需要增长到8T容量）
+
+	垂直扩容：重新购买两台服务器，每台服务器的容量时2T，替换掉老的两套服务器；
+
+	水平扩容：新购两台服务器，每台服务器1T,直接加入集群中；
+
+__all_field__ : elasticsearch在创建index的document时会将多个field串连起来成为一个all_field 全局索引搜索没有指定某一个field搜索时会对这个all_field搜索
+
+__exact value__  :在建立倒排索引时，分词时是将整个值一起作为一个关键词建立索引；
+
+__full text__: 在建立倒排索引时，会经历各种处理，拆分词、同义词转换、大小写转换等；
+
+__keyword__: keyword不会进行分词
+
+
+
 ## ES使用
 
 * 创建索引： url （post）： http://ip:端口/索引(index)/类型(type)/_mappings(【关键词】：映射 表示字段fields)
@@ -239,7 +257,8 @@ elasticsearch-head概览中方框中的123表示索引的分片 方框比较宽�
              "类型名1(type)" : {
                  "properties【关键词】属性定义集合" : {
                      "属性名1" : {
-                         "type【关键词】类型值" : ""
+                         "type【关键词】类型值" : "",
+                         "analyzer【关键词】（分词设置）" : ""
                      },
                       "属性名2" : {
                          "type【关键词】类型值" : ""
@@ -312,7 +331,8 @@ elasticsearch-head概览中方框中的123表示索引的分片 方框比较宽�
         	"size【关键词】(返回多少条)" ： 1,
         	"sort【关键词】（排序）" : [
                 {"属性值" : { "order【关键词】(代表排序)" : "desc/asc(排序方式)"}}
-        	]
+        	],
+        	"_source【关键字】(表示需要查的字段)" : ["name","age"],
         	
         	//方式1:查询所有的内容
             "match_all【关键词】(代表所有内容)" : {}
@@ -332,8 +352,8 @@ elasticsearch-head概览中方框中的123表示索引的分片 方框比较宽�
     	"time_out" : "",	//是否超时"
     	"_shards" : "",		//涉及到的分片，所有分片，
     	"hits" : { //相应的所有数据
-            "total" : ""	//不带分页 共多少数据
-            "max_score" : "" 	//匹配分数
+            "total" : ""	//本次搜索共多少数据
+            "max_score" : "" 	//每一条docment对searching的相关度，愈大越前
             "hits" : {	//具体每条数据 默认返回10条数据
                 ""
             }
@@ -480,6 +500,14 @@ elasticsearch-head概览中方框中的123表示索引的分片 方框比较宽�
         }
     }
     ````
+
+  * 定制返回结果
+
+    ````
+    _source_field
+    ````
+
+
 
 
 ## 字段类型(elasticsearch6.0)
