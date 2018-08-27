@@ -83,4 +83,4 @@ url: http://ip:端口/website/_mapping/article
 
 > 无法修改
 
-![1535277759731](C:\Users\ADONG&~1\AppData\Local\Temp\1535277759731.png)
+![1535277759731](https://github.com/jackylee92/Blog/blob/master/Images/es_demo1.png)
