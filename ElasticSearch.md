@@ -220,7 +220,7 @@ __all_field__ : elasticsearch在创建index的document时会将多个field串连
 
 __exact value__  :在建立倒排索引时，分词时是将整个值一起作为一个关键词建立索引；
 
-__full text__: 在建立倒排索引时，会经历各种处理，拆分词、同义词转换、大小写转换等；
+__full text__: 在建立倒排索引时，会经历各种处理，拆分词 、同义词转换、大小写转换等；
 
 __keyword__: keyword不会进行分词
 
