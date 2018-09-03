@@ -1,4 +1,4 @@
-### 安装kibana
+### 安装kibana+elasticsearch
 * 添加静项源
 
 ````
@@ -14,7 +14,7 @@ type=rpm-md
 ````
 
 * 安装
- 
+
 ````
 yum install kibana
 ````
@@ -119,7 +119,7 @@ npm install
 npm: relocation error: npm: symbol SSL_set_cert_cb, version libssl.so.10 not defined in file libssl.so.10 with link time reference
 </font>
 > 解决方案：升级openssl
-  
+
 ````
 yum update openssl -y
 ````
@@ -127,4 +127,4 @@ yum update openssl -y
 
 ````
 npm install
-```` 
+````
