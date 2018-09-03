@@ -55,6 +55,7 @@
   systemctl start mysql
   ````
 
-  
 
 > 在启动MySQL服务时，会按照一定次序搜索my.cnf，先在/etc目录下找，找不到则会搜索"$basedir/my.cnf"，在本例中就是 /usr/local/mysql/my.cnf，这是新版MySQL的配置文件的默认位置！
+
+__出问题，在.err文件中查看ERROR，出现的问题可能是my.cnf 中的某些配置项错误__

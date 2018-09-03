@@ -396,3 +396,11 @@ netstat -apn | grep 19385|awk '{print $7}'|awk -F '/' '{print $1}'|xargs kill -9
 /usr/local/resin/bin/resin.sh start
 `````
 
+添加到开机启动
+
+````
+cd /etc/rc.d/init.d
+chkconfig --add tars.sh
+chkconfig tars.sh on
+````
+
