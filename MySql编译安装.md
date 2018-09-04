@@ -48,6 +48,7 @@
 * 开启biglog，注意先保证mysql是stop状态，log指向的目录权限 chown mysql:mysql msyql -R
 
   ````
+  查看狀態：show variables like "%bin%";
   #方法2
   # 或者使用log-bin=/data/mysql/mysql-bin确定上面三个
   #log-bin=/data/mysql/mysql-bin
