@@ -404,3 +404,98 @@ chkconfig --add tars.sh
 chkconfig tars.sh on
 ````
 
+
+
+## TimerJon
+
+tars模版中新建timer模版，copy对应服务端\客户端的模版内容，其中添加isTimer=1;继承tars.default
+
+````
+<tars>
+ <application>
+   <server>
+      isTimer=1
+    </server>
+ </application>
+</tars>
+````
+
+server中建timer目录
+
+目录下建NameQueueTimer.php文件
+
+````
+<?php
+namespace TimerServer\timer;
+class NameQueueTimer {
+    public $interval;
+    public function __construct()
+    {
+        $this->interval = 10000; //单位为毫秒
+    }
+    public function execute() {
+        // 你的业务代码
+    }
+}
+````
+
+
+
+修改：src/vendor/phptars/tars-server/src/core/Server.php
+
+````
+83行 添加	}
+````
+
+````
+84-94行 删除
+			// 判断是否是timer服务
+            if (isset($this->tarsConfig['tars']['application']['server']['isTimer']) &&
+                $this->tarsConfig['tars']['application']['server']['isTimer'] == true) {
+                $timerDir = $this->basePath.'src/timer/';
+                if (is_dir($timerDir)) {
+                    $files = scandir($timerDir);
+                    foreach ($files as $f) {
+                        $fileName = $timerDir.$f;
+                        if (is_file($fileName) && strrchr($fileName, '.php') == '.php') {
+                            $this->timers[] = $fileName;
+                        }
+添加
+	     // 判断是否是timer服务
+        if (isset($this->tarsConfig['tars']['application']['server']['isTimer']) &&
+            $this->tarsConfig['tars']['application']['server']['isTimer'] == true) {
+            $timerDir = $this->basePath.'src/timer/';
+            if (is_dir($timerDir)) {
+                $files = scandir($timerDir);
+                foreach ($files as $f) {
+                    $fileName = $timerDir.$f;
+                    if (is_file($fileName) && strrchr($fileName, '.php') == '.php') {
+                        $this->timers[] = $fileName;
+````
+
+````
+96-97 删除
+                } else {
+                    error_log('timer dir missing');
+````
+
+````
+98 添加
+ 			} else {
+                error_log('timer dir missing');
+````
+
+````
+186-187 删除
+ 		} else {
+            $this->namespaceName = $this->servicesInfo['namespaceName'];
+````
+
+````
+188 添加
+$this->namespaceName = isset($this->servicesInfo['namespaceName']) ? trim($this->servicesInfo['namespaceName']) : '';
+````
+
+![image-20180905213623425](/Users/jacky/Project/GitHub/Blog/Images/tars_timer1.png)
+
+![image-20180905213710884](/Users/jacky/Project/GitHub/Blog/Images/tars_timer2.png)

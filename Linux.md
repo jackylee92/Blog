@@ -8,7 +8,7 @@
 * whereis les_release
 * which 文件名：搜索文件所在的路径及别名
 * which ls
-* lsb_release -a:查看系统版本信息；
+* lsb_release -a:查看系统版本信息； yum install -y redhat-lsb
 * uname -a:查看服务器版本信息；
 * /proc/upuinfo:服务器CPU信息；
 * more /proc/cpuinfo | grep “model name” 查看服务器CPU型号；
@@ -40,13 +40,38 @@
 
 ## shell
 * 本地IP
-	````
-	local_ip=`ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1 -d '/'`
-	````
+  ````
+  local_ip=`ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1 -d '/'`
+  ````
 * 当前时间
 
   ````
   date "+%Y%m%d%H%M%S"
   ````
 
-  
+
+## 设置
+
+* 超时退出
+
+  ````
+  1.修改sshd_config文件 
+  vim /etc/ssh/sshd_config 
+  ClientAliveInterval 0 修改保持连接时间， 
+  ClientAliveCountMax 3 修改保持连接次数。 
+  说明： 保持连接为60(秒)，尝试连接数为3(次):表明每隔1分钟触发一次连接，3次连续失败后，自动断开连接
+  ````
+
+  ````
+  2.设置ssh超时断连 
+  vim /etc/profile 
+  在 
+  HOSTNAME 
+  HISTIZE 
+  后追加timeout超时时间 
+  MOUT=300；300表示超过300秒无操作即断开连接。
+  ````
+
+  ````
+  #/etc/init.d/sshd restart   #重启sshd服务
+  ````

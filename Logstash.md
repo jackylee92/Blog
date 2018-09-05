@@ -26,6 +26,25 @@ type=rpm-md
 yum install logstash
 ````
 
+或
+
+````
+ wget https://artifacts.elastic.co/downloads/logstash/logstash-6.0.0.tar.gz
+````
+
+````
+tar -zxvf logstash-6.0.0.tar.gz
+mkdir /use/local/logstash
+cp -rf logstash-6.0.0/* /use/local/logstash/
+````
+
+````
+echo "export PATH=\$PATH:/usr/local/logstash/bin" > /etc/profile.d/logstash.sh
+source /etc/profile
+````
+
+
+
 ### 測試
 
 ````
