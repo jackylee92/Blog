@@ -128,9 +128,9 @@ Installation successful
 
 https://dev.mysql.com/downloads/connector/j/
 
-![1535989361253](E:\技术\Blog\Images\mysql-connect-java001.png)
+![1535989361253](https://github.com/jackylee92/Blog/blob/master/Images/mysql-connect-java001.png?raw=true)
 
-![1535989416438](E:\技术\Blog\Images\mysql-connect-java002.png)
+![1535989416438](https://github.com/jackylee92/Blog/blob/master/Images/mysql-connect-java002.png?raw=true)
 
 > MySQL Connector/J is the official JDBC driver for MySQL. MySQL Connector/J 8.0 is compatible with all MySQL versions starting with MySQL 5.5. Additionally, MySQL Connector/J 8.0 supports the new X DevAPI for development with MySQL Server 8.0
 
@@ -207,19 +207,19 @@ file {
     }
 ````
 
-![logstash001](E:\技术\Blog\Images\logstash001.png)
+![logstash001](https://github.com/jackylee92/Blog/blob/master/Images/logstash001.png?raw=true)
 
 　**7 tags**
 
 　　用于增加一些标签，这个标签可能在后续的处理中起到标志的作用
 
-![logstash002](E:\技术\Blog\Images\logstash002.png)
+![logstash002](https://github.com/jackylee92/Blog/blob/master/Images/logstash002.png?raw=true)
 
 　**8 delimiter**
 
 　　是事件分行的标志，如果配置成123,那么就会如下所示。这个选项，通常在多行事件中比较有用。
 
-![logstash003](E:\技术\Blog\Images\logstash003.png)
+![logstash003](https://github.com/jackylee92/Blog/blob/master/Images/logstash003.png?raw=true)
 
 __官方文档__ :<https://www.elastic.co/guide/en/logstash/current/plugins-inputs-file.html#plugins-inputs-file-sincedb_path>
 
