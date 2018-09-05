@@ -406,7 +406,7 @@ chkconfig tars.sh on
 
 
 
-## TimerJon
+## TimerJob
 
 tars模版中新建timer模版，copy对应服务端\客户端的模版内容，其中添加isTimer=1;继承tars.default
 
@@ -496,6 +496,6 @@ class NameQueueTimer {
 $this->namespaceName = isset($this->servicesInfo['namespaceName']) ? trim($this->servicesInfo['namespaceName']) : '';
 ````
 
-![image-20180905213623425](/Users/jacky/Project/GitHub/Blog/Images/tars_timer1.png)
+![image-20180905213623425](https://github.com/jackylee92/Blog/blob/master/Images/tars_timer1.png?raw=true)
 
-![image-20180905213710884](/Users/jacky/Project/GitHub/Blog/Images/tars_timer2.png)
+![image-20180905213710884](https://github.com/jackylee92/Blog/blob/master/Images/tars_timer2.png?raw=true)
