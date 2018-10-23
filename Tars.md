@@ -571,7 +571,16 @@ composer joshcam/mysqli-database-class
 
    Unknown or incorrect time zone: '+-4:00'\n at Utils.Promise.tap.then.catch.err
 
-  解决方案：修改服务器时间区域，时间区域应为[CST] 1：mv /etc/localtime /etc/localtime.bak  2：ln -s /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime 3：重启mysql 4：重启web
+  解决方案：修改服务器时间区域，时间区域应为[CST] 1：
+
+````
+mv /etc/localtime /etc/localtime.bak  
+ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+重启mysql
+重启web
+````
+
+
 
 需要替换的:10.120.129.226  192.168.2.131 10.211.55.7
 
