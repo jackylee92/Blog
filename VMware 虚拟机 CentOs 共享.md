@@ -33,7 +33,7 @@
   ERROR:cannot mount filesystem: No such device
   yum install open-vm-tools-devel -y
   有的源的名字并不一定为open-vm-tools-devel(centos) ，而是open-vm-dkms(unbuntu)
-  执行：vmhgfs-fuse .host:/ /mnt/hgfs
+  执行：/usr/bin/vmhgfs-fuse .host:/ /mnt/win -o subtype=vmhgfs-fuse,allow_other
   cd /mnt/hgfs
   ````
 
@@ -42,5 +42,3 @@
   ````
   ln -s /home/cloud-user/win ./
   ````
-
-  

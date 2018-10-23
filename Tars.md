@@ -52,23 +52,28 @@ __以下为多次安装后总结简单具体步骤__
 
 6. Tars  
   `cd /opt`  
-  `git clone https://github.com/Tencent/Tars.git`  
+  `git clone https://github.com/TarsCloud/Tars.git`  
+
+  ``git clone https://github.com/TarsCloud/TarsWeb.git ``
 
   替换tars中的ip、和mysql 的tars用户密码 
 
-  `` sed -i "s/tars2015/${tars_password}/g" `grep tars2015 -rl ./*` ``
+  ````
+  sed -i "s/10.120.129.226/${YouIp}/g" `grep 10.120.129.226 -rl ./*`
+  
+  sed -i "s/db.tars.com/${YouIp}/g" `grep db.tars.com -rl ./*`
+  
+  sed -i "s/web.tars.com/${YouIp}/g" `grep web.tars.com -rl ./*`
+  
+  sed -i "s/tars2015/${MySqlPwd}/g" `grep tars2015 -rl ./*`
+  
+  sed -i "s/192.168.2.131/${YouIp}/g" `grep 192.168.2.131 -rl ./*`
+  
+  sed -i "s/web.tars.com/${YouIp}/g" `grep web.tars.com -rl ./*`
+  
+  sed -i "s/registry.tars.com/${YouIp}/g" `grep registry.tars.com -rl ./*`
+  ````
 
-  `` sed -i "s/192.168.2.131/${$ip}/g" `grep 192.168.2.131 -rl ./*` ``
-
-  `` sed -i "s/web.tars.com/${$ip}/g" `grep web.tars.com -rl ./*` ``
-
-  `` sed -i "s/registry.tars.com/${$ip}/g" `grep registry.tars.com -rl ./*` ``
-
-  `` sed -i "s/db.tars.com/${$ip}/g" `grep db.tars.com -rl ./*` ``
-
-  `` sed -i "s/registry1.tars.com/${$ip}/g" `grep registry1.tars.com -rl ./web/src/main/resources/tars.conf` ``
-
-  `` sed -i "s/registry2.tars.com/${$ip}/g" `grep registry2.tars.com -rl ./web/src/main/resources/tars.conf` ``
 ### 安装Cmake  
 `tar -zxvf cmake-3.6.2.tar.gz`  
 `cd cmake-3.6.2`  
@@ -499,3 +504,95 @@ $this->namespaceName = isset($this->servicesInfo['namespaceName']) ? trim($this-
 ![image-20180905213623425](https://github.com/jackylee92/Blog/blob/master/Images/tars_timer1.png?raw=true)
 
 ![image-20180905213710884](https://github.com/jackylee92/Blog/blob/master/Images/tars_timer2.png?raw=true)
+
+
+
+## mysqli-database-class
+
+````
+composer joshcam/mysqli-database-class
+````
+
+注意vendor/joshcam/mysqli-database-class/dbObject.php中$db 的权限
+
+## Question
+
+* log报错：swoole WARNING	swShareMemory_mmap_create: mmap(396932556) failed. Error: Cannot allocate memory[12]
+
+  查看该服务log文件过大，无法打开，删除重新建立
+
+* 启动Client时log报错：home-class or home-api not exist, please chech services.php!
+
+  查看 管理Servant-编辑-协议项是否为"非tars"；应选择"非TARS"
+
+* 服务发布成功，但log日志中：notice: Undefined offset: 3 in /usr/local/app/tars/tarsnode/data/User.Server/bin/src/vendor/phptars/tars-server/src/protocol/TARSProtocol.php on line 228
+
+	查看.tars文件 out 参数后面加数据类型 后还需要加 变量 例如：int index(User user, out User data)
+
+
+
+* 服务log一直刷 致命错误：ERROR	swManager_loop(:299): wait() failed. Error: No child processes[10]. PHP log：must be compatible
+
+  查看impl下的Class方法参数，参数是否与接口一直
+
+
+
+* Client log报出：Warning: Swoole\Http\Response::end(): Http request is finished
+
+  查看代码，controller 中 方法结束地方有没有return
+
+
+
+* 启动的时候失败，日志报出：ERROR	swManager_loop(:474): waitpid(159038) failed. Error: No child processes[10]
+
+  内存不够：目前方式是重启了机器
+
+
+
+* php log日志中报出：PHP Fatal error:  Redefinition of parameter $param
+
+  检查impl定义的方法，方法中的参数变量名是否重复
+
+
+
+* log:  PHP Warning:  unpack(): Type N: not enough input, need 4, have 0 in /usr/local/app/tars/tarsnode/data/Search.Client/bin/src/vendor/phptars/tars-client/src/Communicator.php on line 378
+
+  检查函数调用的数据类型，最好都要(int)、(string)强转
+
+
+
+* 插入数据时log：preg_match(): Delimiter must not be alphanumeric or backslash in /usr/local/app/tars/tarsnode/data/Job.Yqzl/bin/src/vendor/joshcam/mysqli-database-class/dbObject.php on line 667
+
+  该表的类中数据类型错误，数据库中varchar在模型类中为text bigint为int
+
+
+
+* 启动web是log中提示：
+
+   Unknown or incorrect time zone: '+-4:00'\n at Utils.Promise.tap.then.catch.err
+
+  解决方案：修改服务器时间区域，时间区域应为[CST] 1：mv /etc/localtime /etc/localtime.bak  2：ln -s /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime 3：重启mysql 4：重启web
+
+需要替换的:10.120.129.226  192.168.2.131 10.211.55.7
+
+````
+framwork
+
+sed -i "s/10.120.129.226/${YouIp}/g" `grep 10.120.129.226 -rl ./*`
+
+sed -i "s/db.tars.com/${YouIp}/g" `grep db.tars.com -rl ./*`
+
+sed -i "s/web.tars.com/${YouIp}/g" `grep web.tars.com -rl ./*`
+
+sed -i "s/tars2015/${MySqlPwd}/g" `grep tars2015 -rl ./*`
+
+sed -i "s/192.168.2.131/${YouIp}/g" `grep 192.168.2.131 -rl ./*`
+
+sed -i "s/web.tars.com/${YouIp}/g" `grep web.tars.com -rl ./*`
+
+sed -i "s/registry.tars.com/${YouIp}/g" `grep registry.tars.com -rl ./*`
+````
+
+
+
+

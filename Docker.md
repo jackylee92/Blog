@@ -48,6 +48,10 @@ docker run hello-world
 
 __使用__
 
+每一个docker只可以运行一个指定的程序
+
+> docker run --name -it centos /bin/bash 表示启动/bin/bash这个命令
+
 * 查看镜像
 
 ````
