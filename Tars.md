@@ -37,7 +37,7 @@ __以下为多次安装后总结简单具体步骤__
 ## 安装服务器环境  
 ###  install (提前安装好需要的扩展)  
     yum install -y gcc gcc-c++ bison flex glibc-devel ncurses-devel perl perl-Module-Install.noarch git zlib-devel ncurses-devel curl-devel autoconf
-###  关闭selinux防火墙  
+###  关闭selinux防火墙  (非必须)
     setenforce 0    
 ### 准备软件包：  
 1. jdk-8u171-linux-x64.tar.gz 
@@ -80,7 +80,7 @@ __以下为多次安装后总结简单具体步骤__
 `./bootstrap`  
 `make`  
 `make install`  
-### 安装resion
+### 安装resion（新版本已经不使用）
 `tar -zxvf resin-pro-4.0.56.tar.gz`  
 `cp -rf resin-pro-4.0.56 /usr/local/resin`  
 ### 安装mysql  
@@ -263,7 +263,7 @@ __以下为多次安装后总结简单具体步骤__
 ``cp ./target/tars.war /usr/local/resin/webapps/ ``  
 ``mkdir -p /data/log/tars ``  
 
-### 配置resin
+### 配置resin（新版本已经不使用）
 
 > 修改Resin安装目录下的conf/resin.xml配置文件 将默认的配置
 
@@ -282,13 +282,50 @@ __以下为多次安装后总结简单具体步骤__
 杀死所有tars进程：``ps -ef | grep tars| grep -v grep |awk '{print $2}'|xargs kill -9``  
 杀死某一端口进程：``netstat -apn | grep 19386|awk '{print $7}'|awk -F '/' '{print $1}'|xargs kill -9``
 
+
+
+## web管理系统开发环境安装
+
+以linux环境为例：
+
+以官网提供的nvm脚本安装
+
+执行以下命令：
+
+```
+wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+source ~/.bashrc
+```
+
+node和带有负载功能的node应用的进程管理器pm2安装
+
+```
+nvm install v8.11.3
+npm install -g pm2 --registry=https://registry.npm.taobao.org
+```
+
+安装web管理页面依赖，启动web
+
+```
+cd web
+npm install --registry=https://registry.npm.taobao.org
+npm run prd
+```
+
+创建日志目录
+
+```
+mkdir -p /data/log/tars
+```
+
 ### 启动总结  
+
 __命令：__    
 ``service mysql start``   
 ``/usr/local/app/tars/tars_install.sh``  
 ``/usr/local/app/tars/tarspatch/util/init.sh``  
 ``/usr/local/app/tars/tarsnode/bin/tarsnode --config=/usr/local/app/tars/tarsnode/conf/tarsnode.conf``  
-``/usr/local/resin/bin/resin.sh start``  
+``/usr/local/resin/bin/resin.sh start``  (新版本不使用)
 
 > 部署各个服务，期间某些服务未部署前log中会有error，不影响，部署完了error会变少，但是还有，继续分析error
 
@@ -331,7 +368,7 @@ __命令：__
 ``./configure --with-php-config=/usr/local/php/bin/php-config ``   
 
 ``make && make install  ``  
-``vim /use/local/php/etc/php.ini  ``  
+``vim /usr/local/php/etc/php.ini  ``  
 
     extension=swoole.so
 
