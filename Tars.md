@@ -140,7 +140,7 @@ __以下为多次安装后总结简单具体步骤__
 
 添加mysql库路径.   
 
-``vim /etc/ld.so.conf. ``    
+``vim /etc/ld.so.conf ``    
 
 ```
 /usr/local/mysql/lib/
