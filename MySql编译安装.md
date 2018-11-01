@@ -81,3 +81,15 @@ __出问题，在.err文件中查看ERROR，出现的问题可能是my.cnf 中�
 
 
 
+## ERROR
+
+* Segmentation fault
+
+  解决方案：vim  cmd-line-utils/libedit/terminal.c
+
+  ````
+  869 /*char buf[TC_BUFSIZE];*/ 注释
+  879 area = NULL; 修改
+  ````
+
+  重新编译
