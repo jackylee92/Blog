@@ -224,9 +224,3 @@ file {
 __官方文档__ :<https://www.elastic.co/guide/en/logstash/current/plugins-inputs-file.html#plugins-inputs-file-sincedb_path>
 
 
-
-
-
-
-
-bin/maxwell --user='maxwell' --password='maxwell@password1' --host='10.211.55.7' --producer=kafka --kafka.bootstrap.servers=10.211.55.7:9092 --output_binlog_position=1623115

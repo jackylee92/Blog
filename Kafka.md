@@ -78,15 +78,3 @@ bin/kafka-topics.sh --zookeeper localhost:2181 --describe --topic topic_name
 ````
 
 如果有问题查看/data/logstash的日志
-
-
-
-对老数据无效，新增的数据在es中存在，才会更新，老数据只会存在mysql中未同步至es中；
-
-
-
-Maxwell 会将
-
-
-
-	
