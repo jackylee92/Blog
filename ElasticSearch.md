@@ -661,7 +661,7 @@ __keyword__: keyword不会进行分词
 
 ## 字段类型(elasticsearch6.0)
 
-###基础类型：
+### 基础类型：
 * 字符类型： `` text、keyword``    
 * 数字类型： `` long、integer、short、byte、double、float、half_float、sacled_float``     
 * 日期类型： ``date``    ( "yyyy-mm-dd HH:mm:ss || yyyy-MM-dd||epoch_millis")
