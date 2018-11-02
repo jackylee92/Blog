@@ -770,6 +770,20 @@ https://github.com/medcl/elasticsearch-analysis-ik/releases
 
 解压下载的elasticsearch-analysis-ik-6.2.4内容copy到ik中
 
+##### 自定义词典
+
+​	cd ik/config
+
+​	vim yourdic.dic 一行代表一个词
+
+​	vim IKAnalyzer.cfg.xml
+
+````
+ <!--用户可以在这里配置自己的扩展字典 -->
+ <entry key="ext_dict">yourdic.dic</entry>
+ <!--用户可以在这里配置自己的扩展停止词字典-->
+````
+
 重启elasticsearch
 
 #### 测试中文分词器
