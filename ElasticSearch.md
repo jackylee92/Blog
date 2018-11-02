@@ -537,13 +537,13 @@ __keyword__: keyword不会进行分词
     }
     ````
 
-  * 定制返回结果
+* 定制返回结果
 
     ````
     _source_field
     ````
 
-  * 嵌套查询
+* 嵌套查询
 
     ````
     {
@@ -581,7 +581,7 @@ __keyword__: keyword不会进行分词
     }}}
     ````
 
-  * like 以下为数组 应转为json 放在"bool"中 
+* like 以下为数组 应转为json 放在"bool"中 
 
     ````
     "must" => [
@@ -592,7 +592,7 @@ __keyword__: keyword不会进行分词
     		]
     ````
 
-  * Between "bool" : {...}
+* Between "bool" : {...}
 
     ````
     'filter' => [
@@ -605,7 +605,7 @@ __keyword__: keyword不会进行分词
     		]
     ````
 
-  * in "bool" : {...}
+* in "bool" : {...}
 
     ````
      "must" => [
@@ -624,7 +624,7 @@ __keyword__: keyword不会进行分词
     			]
     ````
 
-  * 范围搜索 "bool" : {....}
+* 范围搜索 "bool" : {....}
 
     ````
     'must' => [
@@ -638,7 +638,7 @@ __keyword__: keyword不会进行分词
     		]
     ````
 
-  * sort 排序 "sort" :{...}
+* sort 排序 "sort" :{...}
 
     ````
     //距离排序
