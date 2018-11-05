@@ -203,7 +203,7 @@ redis_pub_channel=maxwell
   > 条件查新：SHOW BINLOG EVENTS IN 'mysql-bin.000005' FROM 194 LIMIT 2 \G;
   > ````
 
-* maxwell 不指定读取位置，每次都会从maxwell会从开始连上mysql的位置读取binlog，命令后追加 --init_position=mysql-bin.000003:19573225:0 设置读取位置；该位置可以在mysql中通过：show master status获取当前位置；
+* maxwell 不指定读取位置，每次都会从maxwell库position表中获取位置，如果位置不正确则会从开始连上mysql的位置读取binlog，命令后追加 --init_position=mysql-bin.000003:19573225:0 设置读取位置；该位置可以在mysql中通过：show master status获取当前位置；
 
 * tableMapCache
 
