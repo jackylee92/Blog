@@ -114,26 +114,22 @@
 
 ### ERROR
 
-* 
-
   ````
-    > grunt server
-    sh: grunt: 未找到命令
-    npm ERR! file sh
-    npm ERR! code ELIFECYCLE
-    npm ERR! errno ENOENT
-    npm ERR! syscall spawn
-    npm ERR! elasticsearch-head@0.0.0 start: `grunt server`
-    npm ERR! spawn ENOENT
-    npm ERR! 
-    npm ERR! Failed at the elasticsearch-head@0.0.0 start script.
-    npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
-    npm WARN Local package.json exists, but node_modules missing, did you mean to install?
-    
-    
-    npm ERR! A complete log of this run can be found in:
-    
-    npm ERR!     /root/.npm/_logs/2018-04-21T08_42_24_584Z-debug.log
+> grunt server
+sh: grunt: 未找到命令
+npm ERR! file sh
+npm ERR! code ELIFECYCLE
+npm ERR! errno ENOENT
+npm ERR! syscall spawn
+npm ERR! elasticsearch-head@0.0.0 start: `grunt server`
+npm ERR! spawn ENOENT
+npm ERR! 
+npm ERR! Failed at the elasticsearch-head@0.0.0 start script.
+npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+npm WARN Local package.json exists, but node_modules missing, did you mean to install?
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     /root/.npm/_logs/2018-04-21T08_42_24_584Z-debug.log
   ````
 
   >  解决方案：npm install -g grunt-cli 
@@ -772,11 +768,11 @@ https://github.com/medcl/elasticsearch-analysis-ik/releases
 
 ##### 自定义词典
 
-​	cd ik/config
-
-​	vim yourdic.dic 一行代表一个词
-
-​	vim IKAnalyzer.cfg.xml
+	cd ik/config
+	
+	vim yourdic.dic 一行代表一个词
+	
+	vim IKAnalyzer.cfg.xml
 
 ````
  <!--用户可以在这里配置自己的扩展字典 -->
