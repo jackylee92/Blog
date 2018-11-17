@@ -1,4 +1,4 @@
-# VMware 虚拟机 CentOs 共享
+# VMware 虚拟机 CentOs
 
 ##  设置虚拟机共享
 
@@ -42,3 +42,67 @@
   ````
   ln -s /home/cloud-user/win ./
   ````
+
+## 静态IP
+
+* 笔记本centos 
+
+  ifconfig查看网卡 一般为 enp3s0
+
+  Vim /etc/sysconfig/network-scripts/ifcfg-enp3s0
+
+````
+TYPE=Ethernet
+PROXY_METHOD=none
+BROWSER_ONLY=no
+DEFROUTE=yes
+IPV4_FAILURE_FATAL=no
+IPV6INIT=yes
+IPV6_AUTOCONF=yes
+IPV6_DEFROUTE=yes
+IPV6_FAILURE_FATAL=no
+IPV6_ADDR_GEN_MODE=stable-privacy
+NAME=enp3s0
+UUID=89d3d311-8ecc-474c-9dbe-8ffacb8c5979
+DEVICE=enp3s0
+# 以下参数需要注意
+ONBOOT=yes
+BOOTPROTO=static
+# 分配的IP
+IPADDR0=192.168.1.1
+PREFIXO0=24
+# 网关
+GATEWAY0=192.168.40.2
+# 一般都有用
+DNS1=8.8.8.8
+DNS2=114.114.114.114
+````
+
+* 虚拟机centos
+
+````
+TYPE=Ethernet
+PROXY_METHOD=none
+BROWSER_ONLY=no
+#BOOTPROTO=dhcp
+DEFROUTE=yes
+IPV4_FAILURE_FATAL=no
+IPV6INIT=yes
+IPV6_AUTOCONF=yes
+IPV6_DEFROUTE=yes
+IPV6_FAILURE_FATAL=no
+IPV6_ADDR_GEN_MODE=stable-privacy
+NAME=ens33
+UUID=94e31b66-67f7-42e7-9c72-0770691f4fd9
+DEVICE=ens33
+# 以下参数需要注意
+BOOTPROTO=static
+ONBOOT=yes
+IPADDR=192.168.1.1
+NETMASK=255.255.255.0
+GATEWAY=192.168.40.2
+DNS1=119.29.29.29
+````
+
+* 重启网络 systemctl restart network
+* ping www.baidu.com

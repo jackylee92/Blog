@@ -110,6 +110,7 @@ mkdir -p $tars_type"/tars"
 mkdir -p $tars_type"/src/service"
 mkdir -p $tars_type"/src/model"
 mkdir -p $tars_type"/src/traits"
+mkdir -p $tars_type"/src/middleware"
 
 cp impl.tars ./${tars_type}/tars/${appName}Service.tars
 

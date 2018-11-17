@@ -226,6 +226,13 @@ __keyword__: keyword不会进行分词
 
 ## ES使用
 
+* 关闭Elasticsearch
+
+  * Ctrl+c
+  * kill -9 进程好
+  * curl 请求关闭 : curl -XPOST http://localhost:9200/_cluster/nodes/_shutdown
+  * Curl 关闭某一个nod : curl -XPOST http://localhost:9200/_cluster/nodes/节点标识符/_shutdown 
+
 * 创建索引： url （post）： http://ip:端口/索引(index)/类型(type)/_mappings(【关键词】：映射 表示字段fields)
 
   * ````
@@ -270,6 +277,26 @@ __keyword__: keyword不会进行分词
      }
      ````
 
+     更多说明：
+
+     ````
+     "name":{
+     	"type":"string",
+     	//公共属性
+     	"store":"yes",
+     	"index":"not_analyzed", //analyzed:编入索引供搜索、no:不编入索引、not_analyzed(string专有):不经分析编入索引
+     	"boost":"1",    //文档中该字段的重要性，值越大表示越重要，默认1
+     	"null_value":"jim",  //当索引文档的此字段为空时填充的默认值，默认忽略该字段
+     	"include_in_all":"xxx"      //此属性是否包含在_all字段中,默认为包含
+     	//字符串特有属性
+     	"analyzer":"xxx",     //定义用于索引和搜索的分析器名称，默认为全局定义的分析器名称。可以开箱即用的分析器:standard,simple,whitespace,stop,keyword,pattern,language,snowball
+     	"index_analyzer":"xxx",           //定义用于建立索引的分析器名称
+     	"search_analyzer":"xxx",        //定义用于搜索时分析该字段的分析器名称
+     	"ignore_above":"xxx"      //定义字段中字符的最大值，字段的长度高于指定值时，分析器会将其忽略
+     	}
+     ````
+
+
 
   * 插入数据: url (post) : http://ip:端口号/索引名(index)/类型名(type)/文档id(不填es默认会创建)
 
@@ -281,6 +308,8 @@ __keyword__: keyword不会进行分词
       ````
 
 * 修改数据 :url (post) : htpp://ip:端口号/索引名(index)/类型名(type)/文档id/_update【关键词】(指定操作)
+
+  > 在内部，Elasticsearch必须首先获取文档，从_source属性获取数据，删除旧的文件，更改 _source 属性，然后把它作为新的文档来索引，因为信息一但在Lucene中倒排索引中存储就不能再被修改，当并发是，尝试写入一个已经更改的文档将会失败，提示version error版本错误，这是elasticsearch中文档的版本控制功能(乐观锁)
 
   * ````
     {
@@ -453,6 +482,35 @@ __keyword__: keyword不会进行分词
         }
     }
     ````
+    补充：
+
+    ````
+    POST /blogs/blog/_search
+    {
+      "query": {
+       "multi_match": {
+         "query": "elasticsearch match query",
+         "fields": ["title","descrption"],
+         "tie_breaker": 20
+       }
+      }
+    }
+    ````
+
+    通过设置tie_breaker参数来控制匹配的权重缓冲值,意思是每个字段都会在得到匹配之后都会对该值进行计算.
+    ​	参数理解
+    ​    multi_match查询收到许多参数控制,下面我们来看下这些参数对查询结果有哪些影响
+    ​	type
+    ​		* best_fields
+    ​			(默认) 查找与任何字段匹配的文档，使用最佳字段中的权重。 详情参见：best_fields
+    ​		* most_fields
+    ​			查找与任何字段匹配的文档，并组合每个字段的权重。详情参见：most_fields.
+    ​		* cross_fields
+    ​			使用相同的分析仪处理字段，就像它们是一个大字段。 在任何字段中查找每个字词，详情参见：cross_fields.
+    ​		* phrase
+    ​			对每个字段运行match_phrase查询，并合并每个字段的权重，详情参见：phrase and phrase_prefix.
+    ​		* phrase_prefix
+    ​			对每个字段运行match_phrase_prefix查询，并合并每个字段的权重，详情参见：phrase and phrase_prefix
 
 * analyze
 
@@ -780,6 +838,8 @@ https://github.com/medcl/elasticsearch-analysis-ik/releases
  <!--用户可以在这里配置自己的扩展停止词字典-->
 ````
 
+
+
 重启elasticsearch
 
 #### 测试中文分词器
@@ -856,6 +916,18 @@ GET user/_analyze
 ### 倒排索引
 
 倒排索引是由分词的词条组成
+
+### 分片/副本
+
+分片：大量文档时，可分为较小的分片，每个分片都是一个独立的Apache Lucene索引；
+
+* 更多分片使索引能传到更多的服务器，可并行处理更多文件；
+* 更多分片导致每个分片的资源量减少，处理效率提高；
+* 更多分片会导致搜索是面临更多问题，因为必须从更多分片中合并结果，使得查询的聚合阶段需要更多资源；
+
+> 分片数 视情况而定，默认值是一个不错的选择；
+
+副本：为提高查询的吞吐量或实现高可用可以时用副本，副本是一个分片的精确复制
 
 ### 高亮我们的搜索
 

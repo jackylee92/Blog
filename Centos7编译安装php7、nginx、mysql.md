@@ -6,7 +6,7 @@
 
 > 整理之前centos7编译安装php、yum 安装 nginx、mysql服务；除php、nginx、mysql【简单】
 
-##PHP7.0
+##PHP
 
 * 下载php7安装包:
 
@@ -119,7 +119,7 @@ export PATH
 
 source /etc/profile
 
-## PHP7.2
+### PHP7.2
 
 * 删除原PHP
 
@@ -176,7 +176,7 @@ source /etc/profile
   ``php -v ``
    ``  php --ini ``
 
-## PHP7.2 安装swoole
+### PHP7.2 安装swoole
 
 * 下载解压swoole
 
@@ -224,5 +224,23 @@ wget http://pecl.php.net/get/mongodb-1.5.1.tgz
 
 ````
 wget https://github.com/phpredis/phpredis/archive/develop.zip -O redis.zip
+````
+
+
+
+## Nginx
+
+### yum install nginx -y
+
+> 没有镜像源 解决方案
+
+官网：https://dl.fedoraproject.org/pub/epel/
+
+具体地址：https://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/e/epel-release-7-11.noarch.rpm
+
+````
+wget https://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/e/epel-release-7-11.noarch.rpm
+rpm -ivh epel-release-7-11.noarch.rpm
+yum install nginx -y
 ````
 
