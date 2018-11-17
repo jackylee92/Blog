@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# IP
 function check_ip() {
     local IP=$1
     VALID_CHECK=$(echo $IP|awk -F. '$1<=255&&$2<=255&&$3<=255&&$4<=255{print "yes"}')
@@ -16,135 +17,119 @@ function check_ip() {
     fi
 }
 while true; do
-    read -p "请输入Tars服务器IP: " IP
-    check_ip $IP
+    read -p "请输入Tars服务器IP: " local_ip
+    check_ip $local_ip
     [ $? -eq 0 ] && break
 done
 
-do_type=$1
-
-tars_type=$2
-
-project_name=$3
-
-local_ip=$IP
-
-
-if [ "$do_type" != "install" ] && [ "$do_type" != "update" ];then
-	echo "ERROR: ${tars_type} 第一个参数为安装还是更新，请填（install/update）"
-	exit 0
-fi
-
-if [ "$do_type" == "update" ];then
-    old_tars_path=${tars_type}"/tars"
-    old_src_path=${tars_type}"/src/servant"
-    oid_script=$tars_type"/script"
-
-    if [ -d "$old_tars_path"];then
-        echo "tars文件夹,不存在请先install"
-        exit 0
-    fi
-
-    if [ -d "$old_src_path"];then
-        echo "/src/servant文件夹,不存在请先install"
-        exit 0
-    fi
-
-    if [ -d "$oid_script"];then
-        echo "script文件夹,不存在,请先install"
-        exit 0
-    fi
-    
-    if [ -f "$old_tars_path/${appName}Service.tars"];then
-        currentTimeStamp=`date "+%Y%m%d%H%M%S"` 
-        mv $old_tars_file_path ${tars_type}/tars/${appName}Service.${currentTimeStamp}.tars
-    fi
-    cp impl.tars ./${tars_type}/tars/${appName}Service.tars
-
-    proto_php_name="tars.proto.php"
-    php ../src/vendor/phptars/tars2php/src/tars2php.php ./${proto_php_name}
-    exit 0
-fi
+# do_type
+function check_do_type() {
+	local do_type=$1
+	if [ "$do_type" != "install_client" ] && [ "$do_type" != "install_server" ] && [ "$do_type" != "update_client" ] && [ "$do_type" != "update_server" ];then
+		echo '动作不在给定范围内(install_client/install_server/update_client/update_server)！'
+        	return 1
+	fi
+}
+while true; do
+    read -p "请输入动作(install_client/install_server/update_client/update_server): " do_type
+    check_do_type $do_type
+    [ $? -eq 0 ] && break
+done
 
 
-appName=`echo "$project_name" | awk '{for (i=1;i<=NF;i++)printf toupper(substr($i,0,1))substr($i,2,length($i))" ";printf "\n"}' `
-appName=`echo "$appName" | sed 's/ //g'`
+# 服务端配置
+if [ "$do_type" == "install_server" ];then
 
-if [ "$tars_type" != "server" ] && [ "$tars_type" != "client" ];then
-	echo "ERROR: ${tars_type} 第二个参数为服务类型，请填（server/client）"
-	exit 0
-fi
+	# AppName
+	function checkAppName() {
+		local AppName=$1
+		if [ ! -n "$AppName" ];then
+			echo 'AppName错误！'
+	        	return 1
+		fi
+	}
+	while true; do
+	    read -p "请输入AppName: " AppName
+	    checkAppName $AppName
+	    [ $? -eq 0 ] && break
+	done
 
-if [ ! -n "$project_name" ];then
-	echo '请输入项目名'
-	exit 0
-fi
+	# ServerName
+	function checkServerName() {
+		local ServerName=$1
+		if [ ! -n "$ServerName" ];then
+			echo 'ServerName错误！'
+	        	return 1
+		fi
+	}
+	while true; do
+	    read -p "请输入ServerName: " ServerName
+	    checkServerName $ServerName
+	    [ $? -eq 0 ] && break
+	done
 
-if [ -d "$tars_type" ];then
-	echo $tars_type"文件夹已经存在"
-	exit 0
-fi
+	# ObjName
+	function checkObjName() {
+		local ObjName=$1
+		if [ ! -n "$ObjName" ];then
+			echo 'ObjName错误！'
+	        	return 1
+		fi
+	}
+	while true; do
+	    read -p "请输入ObjName: " ObjName
+	    checkObjName $ObjName
+	    [ $? -eq 0 ] && break
+	done
 
-if [ ! -n "$local_ip" ];then
-	echo '请输入参数3 ip'
-	exit 0
-fi
+	# impl.tars
+	if [ ! -f "impl.tars" ];then
+		echo "请先定义impl.tars文件！"
+		exit 0
+	fi
 
-if [ -d "impl.tars" ];then
-	echo "请先定义impl.tars文件"
-	exit 0
-fi
+	# appName 首字母转大写
+	appName=`echo "$AppName" | awk '{for (i=1;i<=NF;i++)printf toupper(substr($i,0,1))substr($i,2,length($i))" ";printf "\n"}' `
+	appName=`echo "$appName" | sed 's/ //g'`
+	# ServerName 首字母转大写
+	serverName=`echo "$ServerName" | awk '{for (i=1;i<=NF;i++)printf toupper(substr($i,0,1))substr($i,2,length($i))" ";printf "\n"}' `
+	serverName=`echo "$serverName" | sed 's/ //g'`
+	# ObjName 首字母转大写
+	objName=`echo "$ObjName" | awk '{for (i=1;i<=NF;i++)printf toupper(substr($i,0,1))substr($i,2,length($i))" ";printf "\n"}' `
+	objName=`echo "$objName" | sed 's/ //g'`
 
-class_name=`cat impl.tars | grep interface | awk '{print $NF}' | grep -Eo "\<[[:alnum:]_]+\>"`
+	# 获取impl.tars中类的名字
+	class_name=`cat impl.tars | grep interface | awk '{print $NF}' | grep -Eo "\<[[:alnum:]_]+\>"`
 
-if [ ! -n "$class_name" ];then
-	echo 'impl.tar文件内容错误'
-	exit 0
-fi
+	if [ ! -n "$class_name" ];then
+		echo 'impl.tar文件内容错误'
+		exit 0
+	fi
 
+	mkdir ${appName}
+	mkdir -p ${appName}/src
+	mkdir -p ${appName}/script
+	mkdir -p ${appName}/tars
+	mkdir -p ${appName}/src/service
+	mkdir -p ${appName}/src/model
+	mkdir -p ${appName}/src/traits
+	mkdir -p ${appName}/src/middleware
+	mkdir -p ${appName}/src/common
+	mkdir -p ${appName}/src/libs
 
-mkdir $tars_type
-mkdir -p $tars_type"/src"
-mkdir -p $tars_type"/script"
-mkdir -p $tars_type"/tars"
-mkdir -p $tars_type"/src/service"
-mkdir -p $tars_type"/src/model"
-mkdir -p $tars_type"/src/traits"
-mkdir -p $tars_type"/src/middleware"
-
-cp impl.tars ./${tars_type}/tars/${appName}Service.tars
-
-proto_php_name="tars.proto.php"
-with_servant=true
-namespace="Server"
-
-if [ "$tars_type" == "client" ];then
-	with_servant="false"
-	proto_php_name="tarsClient.proto.php"
-	namespace=${appName}"ClientServer"
-	
-	client_proto_php_path=$tars_type"/tars/tars.proto.php"
-	touch $client_proto_php_path
-cat>$client_proto_php_path<<EOF
-<?php
-return array(
-    'appName' => '${appName}',
-    'serverName' => 'Client',//发布服务器时需要注意使用此名称
-    'objName' => 'Obj',
-);
-
-EOF
-
-fi
-
-proto_php_path=$tars_type"/tars/"$proto_php_name
-touch $proto_php_path
+	# 客户端tars文件不是必须，如果需要调用某个服务使用script中脚本生成即可
+	cp impl.tars ./${appName}/tars/${appName}Service.tars
+	with_servant=true
+	namespace=${serverName}
+	proto_php_name="tars.proto.php"
+	proto_php_path=${appName}"/tars/"$proto_php_name
+	touch $proto_php_path
 cat>$proto_php_path<<EOF
 <?php
 return array(
     'appName' => '${appName}',
-    'serverName' => 'Server',//发布服务器时需要注意使用此名称
-    'objName' => 'Obj',
+    'serverName' => '${serverName}',//发布服务器时需要注意使用此名称
+    'objName' => '${objName}',
     'withServant' => ${with_servant}, //决定是服务端,还是客户端的自动生成
     'tarsFiles' => array(
         './${appName}Service.tars',
@@ -154,14 +139,13 @@ return array(
 );
 EOF
 
-composer_json=$tars_type"/src/composer.json"
+composer_json=${appName}"/src/composer.json"
 touch $composer_json
 
-if [ "$tars_type" == "client" ];then
 cat>$composer_json<<EOF
 {
-    "name" : "${appName}Service",
-    "description": "${appName}Server",
+    "name" : "${appName}",
+    "description": "${appName}",
     "require": {
         "phptars/tars-server": "~0.1",
         "phptars/tars-deploy": "~0.1",
@@ -169,6 +153,7 @@ cat>$composer_json<<EOF
         "phptars/tars-log": "~0.1",
         "ext-zip" : ">=0.0.1",
         "catfan/medoo": "^1.5",
+        "joshcam/mysqli-database-class": "^2.9"
     },
     "autoload": {
         "psr-4": {
@@ -178,67 +163,18 @@ cat>$composer_json<<EOF
     "minimum-stability": "stable",
     "scripts" : {
         "deploy" : "\\\Tars\\\deploy\\\Deploy::run"
-    },
-    "repositories": {
-        "tars": {
-            "type": "composer",
-            "url": "https://raw.githubusercontent.com/Tencent/Tars/master/php/dist/tarsphp.json"
-        }
-    }
-}
-EOF
-fi
-
-
-if [ "$tars_type" == "client" ];then
-cat>$composer_json<<EOF
-{
-    "name" : "${appName}Service",
-    "description": "${appName}Server",
-    "require": {
-        "phptars/tars-server": "~0.1",
-        "phptars/tars-deploy": "~0.1",
-        "phptars/tars2php": "~0.1",
-        "phptars/tars-log": "~0.1",
-        "ext-zip" : ">=0.0.1",
-        "catfan/medoo": "^1.5",
-        "illuminate/database": "5.6.*",
-        "illuminate/events": "5.6.*",
-        "illuminate/support": "5.6.*",
-        "joshcam/mysqli-database-class": "dev-master",
-        "elasticsearch/elasticsearch": "~1.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "${namespace}\\\" : "./"
-        }
-    },
-    "minimum-stability": "stable",
-    "scripts" : {
-        "deploy" : "\\\Tars\\\deploy\\\Deploy::run"
-    },
-    "repositories": {
-        "tars": {
-            "type": "composer",
-            "url": "https://raw.githubusercontent.com/Tencent/Tars/master/php/dist/tarsphp.json"
-        }
     }
 }
 EOF
 
-fi
-
-cd ${tars_type}/src/
-composer install
-cd ../../
-
-index_php=$tars_type"/src/index.php"
+index_php=${appName}"/src/index.php"
 touch $index_php
 
 cat>$index_php<<EOF
 <?php
 require_once __DIR__.'/vendor/autoload.php';
 use \Tars\cmd\Command;
+use ${namespace}\libs\Loader;
 
 //php tarsCmd.php  conf restart
 \$config_path = \$argv[1];
@@ -247,14 +183,18 @@ use \Tars\cmd\Command;
 \$config_path = substr(\$config_path, $pos + 9);
 
 \$cmd = strtolower(\$argv[2]);
+//初始化数据库
+if(\$cmd=='start'){
+    Loader::getLoader();
+}
 
 \$class = new Command(\$cmd, \$config_path);
 \$class->run();
 EOF
 
-mkdir ${tars_type}/src/servant
+mkdir ${appName}/src/servant
 
-tars2php_sh=$tars_type"/script/tars2php.sh"
+tars2php_sh=${appName}"/script/tars2php.sh"
 touch $tars2php_sh
 
 cat>$tars2php_sh<<EOF
@@ -263,16 +203,17 @@ cd ../tars/
 php ../src/vendor/phptars/tars2php/src/tars2php.php ./${proto_php_name}
 EOF
 chmod u+x ${tars2php_sh}
-cd ${tars_type}/tars/
 
+cd ${appName}/src/
+composer install
+
+cd ../tars/
 php ../src/vendor/phptars/tars2php/src/tars2php.php ./${proto_php_name}
 
-cd ../../
-
-cd ${tars_type}"/src/servant/"${appName}"/Server/Obj"
+cd ../src/servant/${appName}/${serverName}/${objName}
 base_implace_class_file_name=`ls *php`
 if [ ! -n "$base_implace_class_file_name" ];then
-	echo "[ ERROR ] : impl文件错误，未生成接口文件，请删除${tars_type}重试！"
+	echo "[ ERROR ] : impl文件错误，未生成接口文件，请删除${appName}重试！"
 	exit 0
 fi
 
@@ -280,23 +221,20 @@ base_implace_class_file_name=`echo $base_implace_class_file_name | sed 's/.php//
 
 implace_class_file_name=`echo $base_implace_class_file_name | sed 's/$/Impl/g'`
 
-cd ../../../../../..
+cd ../../../../..
 
-services_php=${tars_type}"/src/services.php"
+services_php="src/services.php"
 touch $services_php
 
-# server
-if [ "$tars_type" == "server" ];then
-
-mkdir -p ${tars_type}"/src/impl"
-implace_class_file_path=${tars_type}"/src/impl/${implace_class_file_name}.php"
+mkdir -p src/impl
+implace_class_file_path="src/impl/${implace_class_file_name}.php"
 touch $implace_class_file_path
 
 cat>$implace_class_file_path<<EOF
 <?php
 namespace ${namespace}\Impl;
 
-use ${namespace}\servant\\${appName}\Server\Obj\\${base_implace_class_file_name};
+use ${namespace}\servant\\${appName}\\${serverName}\\${objName}\\${base_implace_class_file_name};
 
 class ${implace_class_file_name} implements ${base_implace_class_file_name}
 {
@@ -312,24 +250,242 @@ EOF
 cat>$services_php<<EOF
 <?php
 return array(
-	'home-api'=> '\\${namespace}\servant\\${appName}\Server\Obj\\${base_implace_class_file_name}',
+	'home-api'=> '\\${namespace}\servant\\${appName}\\${serverName}\\${objName}\\${base_implace_class_file_name}',
 	'home-class'=> '\\${namespace}\impl\\${implace_class_file_name}', 
+	'namespaceName'  => '${namespace}\\\'
 );
 
 EOF
 
+
+
+
+mkdir /src/conf
+ENVConf_php="/src/conf/ENVConf.php"
+touch $ENVConf_php
+
+cat>$ENVConf_php<<EOF
+<?php
+
+namespace ${namespace}\conf;
+
+class ENVConf
+{
+    public static \$locator = 'tars.tarsregistry.QueryObj@tcp -h ${local_ip} -p 17890';
+
+    public static \$socketMode = 3;
+
+    public static function getTarsConf()
+    {
+        \$table = \$_SERVER->table;
+        \$result = \$table->get('tars:php:tarsConf');
+        \$tarsConf = unserialize(\$result['tarsConfig']);
+
+        return \$tarsConf;
+    }
+}
+EOF
+
+echo "SUCCESS"
+echo "请在impl下写入代码逻辑"
+echo "src下执行 composer run-script deploy 打包"
+
 fi
 
-# client
-if [ "$tars_type" == "client" ];then
 
-mkdir -p ${tars_type}"/src/component"
-component_controller_path=${tars_type}"/src/component/Controller.php"
-touch $component_controller_path
 
-mkdir -p ${tars_type}"/src/controller"
-index_controller_path=${tars_type}"/src/controller/"${class_name}"Controller.php"
-touch $index_controller_path
+
+
+
+
+#--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+# 客户端配置
+if [ "$do_type" == "install_client" ];then
+
+	# AppName
+	function checkAppName() {
+		local AppName=$1
+		if [ ! -n "$AppName" ];then
+			echo 'AppName错误！'
+	        	return 1
+		fi
+	}
+	while true; do
+	    read -p "请输入AppName: " AppName
+	    checkAppName $AppName
+	    [ $? -eq 0 ] && break
+	done
+
+	# ServerName
+	function checkServerName() {
+		local ServerName=$1
+		if [ ! -n "$ServerName" ];then
+			echo 'ServerName错误！'
+	        	return 1
+		fi
+	}
+	while true; do
+	    read -p "请输入ServerName: " ServerName
+	    checkServerName $ServerName
+	    [ $? -eq 0 ] && break
+	done
+
+	# ObjName
+	function checkObjName() {
+		local ObjName=$1
+		if [ ! -n "$ObjName" ];then
+			echo 'ObjName错误！'
+	        	return 1
+		fi
+	}
+	while true; do
+	    read -p "请输入ObjName: " ObjName
+	    checkObjName $ObjName
+	    [ $? -eq 0 ] && break
+	done
+
+	# appName 首字母转大写
+	appName=`echo "$AppName" | awk '{for (i=1;i<=NF;i++)printf toupper(substr($i,0,1))substr($i,2,length($i))" ";printf "\n"}' `
+	appName=`echo "$appName" | sed 's/ //g'`
+	# ServerName 首字母转大写
+	serverName=`echo "$ServerName" | awk '{for (i=1;i<=NF;i++)printf toupper(substr($i,0,1))substr($i,2,length($i))" ";printf "\n"}' `
+	serverName=`echo "$serverName" | sed 's/ //g'`
+	# ObjName 首字母转大写
+	objName=`echo "$ObjName" | awk '{for (i=1;i<=NF;i++)printf toupper(substr($i,0,1))substr($i,2,length($i))" ";printf "\n"}' `
+	objName=`echo "$objName" | sed 's/ //g'`
+
+	mkdir ${appName}
+	mkdir -p ${appName}/src
+	mkdir -p ${appName}/script
+	mkdir -p ${appName}/tars
+	mkdir -p ${appName}/src/service
+	mkdir -p ${appName}/src/model
+	mkdir -p ${appName}/src/traits
+	mkdir -p ${appName}/src/middleware
+	mkdir -p ${appName}/src/controller
+	mkdir -p ${appName}/src/common
+	mkdir -p ${appName}/src/libs
+
+	namespace=${serverName}
+	client_proto_php_path=${appName}"/tars/tars.proto.php"
+	touch $client_proto_php_path
+cat>$client_proto_php_path<<EOF
+<?php
+return array(
+    'appName' => '${appName}',
+    'serverName' => '${serverName}',//发布服务器时需要注意使用此名称
+    'objName' => '${objName}',
+);
+
+EOF
+
+composer_json=${appName}"/src/composer.json"
+touch $composer_json
+
+cat>$composer_json<<EOF
+{
+    "name" : "${appName}",
+    "description": "${appName}",
+    "require": {
+        "phptars/tars-server": "~0.1",
+        "phptars/tars-deploy": "~0.1",
+        "phptars/tars2php": "~0.1",
+        "phptars/tars-log": "~0.1",
+        "ext-zip" : ">=0.0.1",
+        "catfan/medoo": "^1.5",
+        "joshcam/mysqli-database-class": "^2.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "${namespace}\\\" : "./"
+        }
+    },
+    "minimum-stability": "stable",
+    "scripts" : {
+        "deploy" : "\\\Tars\\\deploy\\\Deploy::run"
+    }
+}
+EOF
+
+index_php=${appName}"/src/index.php"
+touch $index_php
+
+cat>$index_php<<EOF
+<?php
+require_once __DIR__.'/vendor/autoload.php';
+use \Tars\cmd\Command;
+use ${namespace}\libs\Loader;
+
+//php tarsCmd.php  conf restart
+\$config_path = \$argv[1];
+\$pos = strpos(\$config_path, '--config=');
+
+\$config_path = substr(\$config_path, $pos + 9);
+
+\$cmd = strtolower(\$argv[2]);
+//初始化数据库
+if(\$cmd=='start'){
+    Loader::getLoader();
+}
+
+\$class = new Command(\$cmd, \$config_path);
+\$class->run();
+EOF
+
+mkdir ${appName}/src/servant
+
+cd ${appName}/src/
+composer install
+
+cd ../
+tars2php_sh="script/tars2php.sh"
+touch $tars2php_sh
+cat>$tars2php_sh<<EOF
+#!/bin/bash
+set -e
+function checkServantName() {
+    local ServantName=\$1
+    if [ ! -n "\$ServantName" ];then
+        echo 'ServantName错误！'
+        return 1
+    fi
+    if [ ! -d "../tars/\${ServantName}" ];then
+        echo "\${ServantName}文件夹不存在！"
+        exit 0
+    fi
+    if [ ! -f "../tars/\${ServantName}/\${ServantName}.tars" ];then
+        echo "tars/\${ServantName}/\${ServantName}.tars文件不存在！"
+        exit 0
+    fi
+    if [ ! -f "../tars/\${ServantName}/tars.proto.php" ];then
+        echo "tars/\${ServantName}/tars.proto.php文件不存在！"
+        exit 0
+    fi
+}
+while true; do
+    read -p "请输入tars中服务文件夹名称[文件夹名称须与.tars文件名称相同,文件下须有tars.proto.php文件，注意.tars中配置]: " ServantName
+    checkServantName \$ServantName
+    [ \$? -eq 0 ] && break
+done
+cd ../tars/
+php ../src/vendor/phptars/tars2php/src/tars2php.php ./\${ServantName}/tars.proto.php
+EOF
+chmod u+x ${tars2php_sh}
+#cd tars/
+#php ../src/vendor/phptars/tars2php/src/tars2php.php ./${proto_php_name}
+
+
+
+services_php="src/services.php"
+touch $services_php
 
 cat>$services_php<<EOF
 <?php
@@ -337,6 +493,10 @@ return array(
 	'namespaceName' => '${namespace}\\\'
 );
 EOF
+
+mkdir -p src/component
+component_controller_path="src/component/Controller.php"
+touch $component_controller_path
 
 cat>$component_controller_path<<EOF
 <?php
@@ -392,6 +552,9 @@ class Controller
 
 EOF
 
+index_controller_path="src/controller/${appName}Controller.php"
+touch $index_controller_path
+
 cat>$index_controller_path<<EOF
 <?php
 
@@ -401,39 +564,36 @@ use Tars\core\Request;
 use Tars\core\Response;
 use ${namespace}\component\Controller;
 use ${namespace}\conf\ENVConf;
-use ${namespace}\servant\\${appName}\Server\Obj\\${base_implace_class_file_name};
 use Tars\client\CommunicatorConfig;
 
-class ${class_name}Controller extends Controller
+class ${appName}Controller extends Controller
 {
-    public \$servant;
+    //public \$servant;
     public function __construct(Request \$request, Response \$response)
     {
         parent::__construct(\$request, \$response);
-        \$config = new CommunicatorConfig();
-        \$config->setLocator(ENVConf::\$locator);
-        \$config->setModuleName('${appName}.${namespace}');
-        \$config->setSocketMode(3);
-        \$this->servant = new ${base_implace_class_file_name}(\$config);
+        //\$config = new CommunicatorConfig();
+        //\$config->setLocator(ENVConf::\$locator);
+        //\$config->setModuleName('${appName}.${namespace}');
+        //\$config->setSocketMode(3);
+        //\$this->servant = new ${base_implace_class_file_name}(\$config);
     }
 
     /*
     curl "192.168.91.53:20002/Index/hello?a=b" -i
     public function actionFunctionName()
     {
-        \$result=\$this->servant->functionName('param');
-        \$this->sendRaw('result:' . \$result);
+        //\$result=\$this->servant->functionName('param');
+        //\$this->sendRaw('result:' . \$result);
     }
     */
 }
 
 EOF
 
-fi
 
-
-mkdir ${tars_type}"/src/conf"
-ENVConf_php=${tars_type}"/src/conf/ENVConf.php"
+mkdir src/conf
+ENVConf_php="src/conf/ENVConf.php"
 touch $ENVConf_php
 
 cat>$ENVConf_php<<EOF
@@ -458,14 +618,8 @@ class ENVConf
 }
 EOF
 
-
-if [ "$tars_type" == "client" ];then
 echo "SUCCESS"
 echo "请在controller下写入代码逻辑"
 echo "src下执行 composer run-script deploy 打包"
-fi
-if [ "$tars_type" == "server" ];then
-echo "SUCCESS"
-echo "请在impl下写入代码逻辑"
-echo "src下执行 composer run-script deploy 打包"
+
 fi
