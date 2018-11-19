@@ -483,7 +483,7 @@ class NameQueueTimer {
 
 
 
-修改：src/vendor/phptars/tars-server/src/core/Server.php
+修改：src/vendor/phptars/tars-server/src/core/Server.php 【问题已解决】
 
 ````
 83行 添加	}
@@ -641,4 +641,12 @@ sed -i "s/registry.tars.com/${YouIp}/g" `grep registry.tars.com -rl ./*`
 
 
 
+#### 开发
 
+* 寻址
+
+  ````
+  $wrapper = new \Tars\registry\QueryFWrapper("tars.tarsregistry.QueryObj@tcp -h 192.168.163.128 -p 17890", 1, 60000);
+  $result = $wrapper->findObjectById("Article.Server.Obj");
+  var_dump($result);
+  ````
