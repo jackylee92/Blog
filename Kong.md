@@ -84,7 +84,7 @@ kong start
 
 ## kong Dashboard
 
-### Install
+### Install 
 
 安装
 

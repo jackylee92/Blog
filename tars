@@ -17,7 +17,7 @@ function check_ip() {
     fi
 }
 while true; do
-    read -p "请输入Tars服务器IP: " local_ip
+    read -p "请输入Tars主控IP: " local_ip
     check_ip $local_ip
     [ $? -eq 0 ] && break
 done
@@ -112,19 +112,21 @@ if [ "$do_type" == "install_server" ];then
 	mkdir -p ${appName}/tars
 	mkdir -p ${appName}/src/service
 	mkdir -p ${appName}/src/model
-	mkdir -p ${appName}/src/traits
 	mkdir -p ${appName}/src/middleware
-	mkdir -p ${appName}/src/common
 	mkdir -p ${appName}/src/libs
+	mkdir -p ${appName}/src/servant
+	mkdir -p ${appName}/src/conf
 
 	# 客户端tars文件不是必须，如果需要调用某个服务使用script中脚本生成即可
 	cp impl.tars ./${appName}/tars/${appName}Service.tars
 	with_servant=true
 	namespace=${serverName}
 	proto_php_name="tars.proto.php"
-	proto_php_path=${appName}"/tars/"$proto_php_name
-	touch $proto_php_path
-cat>$proto_php_path<<EOF
+	proto_php_path=${appName}"/tars/"${proto_php_name}
+
+# tars.proto.php文件
+touch ${proto_php_path}
+cat>${proto_php_path}<<EOF
 <?php
 return array(
     'appName' => '${appName}',
@@ -139,6 +141,7 @@ return array(
 );
 EOF
 
+# composer.json文件
 composer_json=${appName}"/src/composer.json"
 touch $composer_json
 
@@ -167,6 +170,7 @@ cat>$composer_json<<EOF
 }
 EOF
 
+# index.php文件
 index_php=${appName}"/src/index.php"
 touch $index_php
 
@@ -175,44 +179,41 @@ cat>$index_php<<EOF
 require_once __DIR__.'/vendor/autoload.php';
 use \Tars\cmd\Command;
 use ${namespace}\libs\Loader;
-
 //php tarsCmd.php  conf restart
 \$config_path = \$argv[1];
 \$pos = strpos(\$config_path, '--config=');
-
 \$config_path = substr(\$config_path, $pos + 9);
-
 \$cmd = strtolower(\$argv[2]);
 //初始化数据库
 if(\$cmd=='start'){
     Loader::getLoader();
 }
-
 \$class = new Command(\$cmd, \$config_path);
 \$class->run();
 EOF
 
-mkdir ${appName}/src/servant
-
+# tars2php.sh文件
 tars2php_sh=${appName}"/script/tars2php.sh"
-touch $tars2php_sh
+touch ${tars2php_sh}
 
-cat>$tars2php_sh<<EOF
+cat>${tars2php_sh}<<EOF
 #!/bin/bash
 cd ../tars/
 php ../src/vendor/phptars/tars2php/src/tars2php.php ./${proto_php_name}
 EOF
 chmod u+x ${tars2php_sh}
 
+#coomposer
 cd ${appName}/src/
 composer install
 
 cd ../tars/
 php ../src/vendor/phptars/tars2php/src/tars2php.php ./${proto_php_name}
 
+# 接口文件产生
 cd ../src/servant/${appName}/${serverName}/${objName}
 base_implace_class_file_name=`ls *php`
-if [ ! -n "$base_implace_class_file_name" ];then
+if [ ! -n "${base_implace_class_file_name}" ];then
 	echo "[ ERROR ] : impl文件错误，未生成接口文件，请删除${appName}重试！"
 	exit 0
 fi
@@ -223,9 +224,6 @@ implace_class_file_name=`echo $base_implace_class_file_name | sed 's/$/Impl/g'`
 
 cd ../../../../..
 
-services_php="src/services.php"
-touch $services_php
-
 mkdir -p src/impl
 implace_class_file_path="src/impl/${implace_class_file_name}.php"
 touch $implace_class_file_path
@@ -233,9 +231,7 @@ touch $implace_class_file_path
 cat>$implace_class_file_path<<EOF
 <?php
 namespace ${namespace}\Impl;
-
 use ${namespace}\servant\\${appName}\\${serverName}\\${objName}\\${base_implace_class_file_name};
-
 class ${implace_class_file_name} implements ${base_implace_class_file_name}
 {
     public function functionName($param)
@@ -244,8 +240,10 @@ class ${implace_class_file_name} implements ${base_implace_class_file_name}
     }
 }
 ?>
-
 EOF
+
+services_php="src/services.php"
+touch $services_php
 
 cat>$services_php<<EOF
 <?php
@@ -254,33 +252,25 @@ return array(
 	'home-class'=> '\\${namespace}\impl\\${implace_class_file_name}', 
 	'namespaceName'  => '${namespace}\\\'
 );
-
 EOF
 
 
 
+ENVConf_php="src/conf/ENVConf.php"
+touch ${ENVConf_php}
 
-mkdir /src/conf
-ENVConf_php="/src/conf/ENVConf.php"
-touch $ENVConf_php
-
-cat>$ENVConf_php<<EOF
+cat>${ENVConf_php}<<EOF
 <?php
-
 namespace ${namespace}\conf;
-
 class ENVConf
 {
     public static \$locator = 'tars.tarsregistry.QueryObj@tcp -h ${local_ip} -p 17890';
-
     public static \$socketMode = 3;
-
     public static function getTarsConf()
     {
         \$table = \$_SERVER->table;
         \$result = \$table->get('tars:php:tarsConf');
         \$tarsConf = unserialize(\$result['tarsConfig']);
-
         return \$tarsConf;
     }
 }
@@ -368,11 +358,11 @@ if [ "$do_type" == "install_client" ];then
 	mkdir -p ${appName}/tars
 	mkdir -p ${appName}/src/service
 	mkdir -p ${appName}/src/model
-	mkdir -p ${appName}/src/traits
 	mkdir -p ${appName}/src/middleware
 	mkdir -p ${appName}/src/controller
 	mkdir -p ${appName}/src/common
 	mkdir -p ${appName}/src/libs
+	mkdir -p ${appName}/src/conf
 
 	namespace=${serverName}
 	client_proto_php_path=${appName}"/tars/tars.proto.php"
@@ -384,7 +374,6 @@ return array(
     'serverName' => '${serverName}',//发布服务器时需要注意使用此名称
     'objName' => '${objName}',
 );
-
 EOF
 
 composer_json=${appName}"/src/composer.json"
@@ -423,19 +412,15 @@ cat>$index_php<<EOF
 require_once __DIR__.'/vendor/autoload.php';
 use \Tars\cmd\Command;
 use ${namespace}\libs\Loader;
-
 //php tarsCmd.php  conf restart
 \$config_path = \$argv[1];
 \$pos = strpos(\$config_path, '--config=');
-
 \$config_path = substr(\$config_path, $pos + 9);
-
 \$cmd = strtolower(\$argv[2]);
 //初始化数据库
-if(\$cmd=='start'){
-    Loader::getLoader();
-}
-
+//if(\$cmd=='start'){
+//   Loader::getLoader();
+//}
 \$class = new Command(\$cmd, \$config_path);
 \$class->run();
 EOF
@@ -501,55 +486,44 @@ touch $component_controller_path
 cat>$component_controller_path<<EOF
 <?php
 namespace ${namespace}\component;
-
 use Tars\core\Request;
 use Tars\core\Response;
-
 class Controller
 {
     protected \$request;
     protected \$response;
-
     public function __construct(Request \$request, Response \$response)
     {
         // 验证cookie、get参数、post参数、文件上传
-
         \$this->request = \$request;
         \$this->response = \$response;
     }
-
     public function getResponse()
     {
         return \$this->response;
     }
-
     public function getRequest()
     {
         return \$this->request;
     }
-
     public function cookie(\$key, \$value = '', \$expire = 0, \$path = '/', \$domain = '', \$secure = false, \$httponly = false)
     {
         \$this->response->cookie(\$key, \$value, \$expire, \$path, \$domain, \$secure, \$httponly);
     }
-
     // 给客户端发送数据
     public function sendRaw(\$result)
     {
         \$this->response->send(\$result);
     }
-
     public function header(\$key, \$value)
     {
         \$this->response->header(\$key, \$value);
     }
-
     public function status(\$http_status_code)
     {
         \$this->response->status(\$http_status_code);
     }
 }
-
 EOF
 
 index_controller_path="src/controller/${appName}Controller.php"
@@ -557,15 +531,12 @@ touch $index_controller_path
 
 cat>$index_controller_path<<EOF
 <?php
-
 namespace ${namespace}\controller;
-
 use Tars\core\Request;
 use Tars\core\Response;
 use ${namespace}\component\Controller;
 use ${namespace}\conf\ENVConf;
 use Tars\client\CommunicatorConfig;
-
 class ${appName}Controller extends Controller
 {
     //public \$servant;
@@ -578,7 +549,6 @@ class ${appName}Controller extends Controller
         //\$config->setSocketMode(3);
         //\$this->servant = new ${base_implace_class_file_name}(\$config);
     }
-
     /*
     curl "192.168.91.53:20002/Index/hello?a=b" -i
     public function actionFunctionName()
@@ -588,31 +558,23 @@ class ${appName}Controller extends Controller
     }
     */
 }
-
 EOF
 
-
-mkdir src/conf
 ENVConf_php="src/conf/ENVConf.php"
 touch $ENVConf_php
 
 cat>$ENVConf_php<<EOF
 <?php
-
 namespace ${namespace}\conf;
-
 class ENVConf
 {
     public static \$locator = 'tars.tarsregistry.QueryObj@tcp -h ${local_ip} -p 17890';
-
     public static \$socketMode = 3;
-
     public static function getTarsConf()
     {
         \$table = \$_SERVER->table;
         \$result = \$table->get('tars:php:tarsConf');
         \$tarsConf = unserialize(\$result['tarsConfig']);
-
         return \$tarsConf;
     }
 }

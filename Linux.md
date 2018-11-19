@@ -111,8 +111,47 @@
 
 ## 开机启动设置
 
+### 方法一：
+
 ````
 [root@localhost ~]# systemctl enable docker
 Created symlink from /etc/systemd/system/multi-user.target.wants/docker.service to /usr/lib/systemd/system/docker.service.
 ````
 
+### 方法二：
+
+* 编写脚本 vim  /etc/init.d/mount.sh
+
+  ````
+  #!/bin/sh
+  /usr/bin/vmhgfs-fuse .host:/ /mnt/win -o subtype=vmhgfs-fuse,allow_other
+  ````
+
+* 修改脚本权限 chmod u+x  /etc/init.d/mount.sh
+
+* 将服务添加到启动项中 vim /etc/rc.d/rc.local
+
+  ````
+  #!/bin/bash
+  # THIS FILE IS ADDED FOR COMPATIBILITY PURPOSES
+  #
+  # It is highly advisable to create own systemd services or udev rules
+  # to run scripts during boot instead of using this file.
+  #
+  # In contrast to previous versions due to parallel execution during boot
+  # this script will NOT be run after all other services.
+  #
+  # Please note that you must run 'chmod +x /etc/rc.d/rc.local' to ensure
+  # that this script will be executed during boot.
+  
+  touch /var/lock/subsys/local
+  
+  # 添加在脚本路径
+  /etc/rc.d/init.d/mount.sh
+  ````
+
+* 确保 /etc/rc.d/rc.local 权限是可执行，如果不是 执行
+
+  ````
+  chmod u+x /etc/rc.d/rc.local
+  ````
