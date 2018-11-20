@@ -25,20 +25,20 @@ done
 # do_type
 function check_do_type() {
 	local do_type=$1
-	if [ "$do_type" != "install_client" ] && [ "$do_type" != "install_server" ] && [ "$do_type" != "update_client" ] && [ "$do_type" != "update_server" ];then
-		echo '动作不在给定范围内(install_client/install_server/update_client/update_server)！'
+	if [ "$do_type" != "create_client" ] && [ "$do_type" != "create_server" ] && [ "$do_type" != "update_client" ] && [ "$do_type" != "update_server" ];then
+		echo '动作不在给定范围内(create_client/create_server/update_client/update_server)！'
         	return 1
 	fi
 }
 while true; do
-    read -p "请输入动作(install_client/install_server/update_client/update_server): " do_type
+    read -p "请输入动作(create_client/create_server/update_client/update_server): " do_type
     check_do_type $do_type
     [ $? -eq 0 ] && break
 done
 
 
 # 服务端配置
-if [ "$do_type" == "install_server" ];then
+if [ "$do_type" == "create_server" ];then
 
 	# AppName
 	function checkAppName() {
@@ -106,23 +106,25 @@ if [ "$do_type" == "install_server" ];then
 		exit 0
 	fi
 
-	mkdir ${appName}
-	mkdir -p ${appName}/src
-	mkdir -p ${appName}/script
-	mkdir -p ${appName}/tars
-	mkdir -p ${appName}/src/service
-	mkdir -p ${appName}/src/model
-	mkdir -p ${appName}/src/middleware
-	mkdir -p ${appName}/src/libs
-	mkdir -p ${appName}/src/servant
-	mkdir -p ${appName}/src/conf
+	projectDir="${appName}${serverName}${objName}"
+	mkdir ${projectDir}
+	cd ${projectDir}
+	mkdir -p script
+	mkdir -p tars
+	mkdir -p src
+	mkdir -p src/service
+	mkdir -p src/model
+	mkdir -p src/common
+	mkdir -p src/libs
+	mkdir -p src/servant
+	mkdir -p src/conf
 
 	# 客户端tars文件不是必须，如果需要调用某个服务使用script中脚本生成即可
-	cp impl.tars ./${appName}/tars/${appName}Service.tars
+	cp ../impl.tars tars/${appName}Service.tars
 	with_servant=true
 	namespace=${serverName}
 	proto_php_name="tars.proto.php"
-	proto_php_path=${appName}"/tars/"${proto_php_name}
+	proto_php_path="tars/"${proto_php_name}
 
 # tars.proto.php文件
 touch ${proto_php_path}
@@ -142,7 +144,7 @@ return array(
 EOF
 
 # composer.json文件
-composer_json=${appName}"/src/composer.json"
+composer_json="src/composer.json"
 touch $composer_json
 
 cat>$composer_json<<EOF
@@ -171,7 +173,7 @@ cat>$composer_json<<EOF
 EOF
 
 # index.php文件
-index_php=${appName}"/src/index.php"
+index_php="src/index.php"
 touch $index_php
 
 cat>$index_php<<EOF
@@ -193,7 +195,7 @@ if(\$cmd=='start'){
 EOF
 
 # tars2php.sh文件
-tars2php_sh=${appName}"/script/tars2php.sh"
+tars2php_sh="script/tars2php.sh"
 touch ${tars2php_sh}
 
 cat>${tars2php_sh}<<EOF
@@ -203,8 +205,25 @@ php ../src/vendor/phptars/tars2php/src/tars2php.php ./${proto_php_name}
 EOF
 chmod u+x ${tars2php_sh}
 
+common_php_path="src/common/Common.php"
+touch ${common_php_path}
+cat>${common_php_path}<<EOF
+<?php
+namespace ${namespace}\service;
+/**
+ * 通用类
+ */
+class Common
+{
+    public static function logInfo(\$content)
+    {
+        echo "\\r\\n".'LOG ['.date('Y-m-d H:i:s').'] : '.$content."\\r\\n";
+    }
+}
+EOF
+
 #coomposer
-cd ${appName}/src/
+cd src/
 composer install
 
 cd ../tars/
@@ -298,7 +317,7 @@ fi
 
 
 # 客户端配置
-if [ "$do_type" == "install_client" ];then
+if [ "$do_type" == "create_client" ];then
 
 	# AppName
 	function checkAppName() {
@@ -352,20 +371,22 @@ if [ "$do_type" == "install_client" ];then
 	objName=`echo "$ObjName" | awk '{for (i=1;i<=NF;i++)printf toupper(substr($i,0,1))substr($i,2,length($i))" ";printf "\n"}' `
 	objName=`echo "$objName" | sed 's/ //g'`
 
-	mkdir ${appName}
-	mkdir -p ${appName}/src
-	mkdir -p ${appName}/script
-	mkdir -p ${appName}/tars
-	mkdir -p ${appName}/src/service
-	mkdir -p ${appName}/src/model
-	mkdir -p ${appName}/src/middleware
-	mkdir -p ${appName}/src/controller
-	mkdir -p ${appName}/src/common
-	mkdir -p ${appName}/src/libs
-	mkdir -p ${appName}/src/conf
+	projectDir="${appName}${serverName}${objName}"
+	mkdir ${projectDir}
+	cd ${projectDir}
+	mkdir -p script
+	mkdir -p tars
+	mkdir -p src
+	mkdir -p src/service
+	mkdir -p src/model
+	mkdir -p src/timer
+	mkdir -p src/controller
+	mkdir -p src/common
+	mkdir -p src/libs
+	mkdir -p src/conf
 
 	namespace=${serverName}
-	client_proto_php_path=${appName}"/tars/tars.proto.php"
+	client_proto_php_path="tars/tars.proto.php"
 	touch $client_proto_php_path
 cat>$client_proto_php_path<<EOF
 <?php
@@ -376,7 +397,7 @@ return array(
 );
 EOF
 
-composer_json=${appName}"/src/composer.json"
+composer_json="src/composer.json"
 touch $composer_json
 
 cat>$composer_json<<EOF
@@ -404,7 +425,7 @@ cat>$composer_json<<EOF
 }
 EOF
 
-index_php=${appName}"/src/index.php"
+index_php="src/index.php"
 touch $index_php
 
 cat>$index_php<<EOF
@@ -425,9 +446,47 @@ use ${namespace}\libs\Loader;
 \$class->run();
 EOF
 
-mkdir ${appName}/src/servant
 
-cd ${appName}/src/
+timer_php_path="src/timer/ActionTimer.php"
+touch ${timer_php_path}
+cat>${timer_php_path}<<EOF
+<?php
+namespace ${namespace}\timer;
+
+class ActionTimer
+{
+    public \$interval;
+    public function __construct()
+    {
+        \$this->interval = 3000; //单位为毫秒
+    }
+    public function execute() {
+        echo date('Y-m-d H:i:s')."\\r\\n";
+    }
+}
+EOF
+
+
+common_php_path="src/common/Common.php"
+touch ${common_php_path}
+cat>${common_php_path}<<EOF
+<?php
+namespace ${namespace}\service;
+/**
+ * 通用类
+ */
+class Common
+{
+    public static function logInfo(\$content)
+    {
+        echo "\\r\\n".'LOG ['.date('Y-m-d H:i:s').'] : '.$content."\\r\\n";
+    }
+}
+EOF
+
+mkdir src/servant
+
+cd src/
 composer install
 
 cd ../
