@@ -36,7 +36,7 @@ __以下为多次安装后总结简单具体步骤__
 
 ## 安装服务器环境  
 ###  install (提前安装好需要的扩展)  
-    yum install -y gcc gcc-c++ bison flex glibc-devel ncurses-devel perl perl-Module-Install.noarch git zlib-devel ncurses-devel curl-devel autoconf zlib-devel
+    yum install -y gcc gcc-c++ bison flex glibc-devel ncurses-devel perl perl-Module-Install.noarch git zlib-devel ncurses-devel curl-devel autoconf zlib-devel sysstat
 ###  关闭selinux防火墙  (非必须)
     setenforce 0    
 ### 准备软件包：  
