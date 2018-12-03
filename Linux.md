@@ -62,6 +62,13 @@
   find . -type f -exec cp /dev/null {} \;
   ````
 
+* 查看当前目录下所有文件夹大小
+
+  ````
+  du -h -x --max-depth=1
+  ````
+
+
 
 ## 快捷键：
 
