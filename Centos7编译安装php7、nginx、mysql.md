@@ -226,6 +226,57 @@ wget http://pecl.php.net/get/mongodb-1.5.1.tgz
 wget https://github.com/phpredis/phpredis/archive/develop.zip -O redis.zip
 ````
 
+## 安装php oracle扩展 
+
+### 安装InstantClient
+
+> instantclient是oracle的连接数据库的简单客户端，从[ 这里](http://www.oracle.com/technetwork/topics/linuxx86-64soft-092277.html) 选择需要的版本下载，只需Basic和Devel两个rpm包。
+
+````
+wget http://download.oracle.com/otn/linux/instantclient/11204/oracle-instantclient11.2-devel-11.2.0.4.0-1.x86_64.rpm
+wget https://www.oracle.com/technetwork/topics/linuxx86-64soft-092277.html
+rpm -ivh oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm
+rpm -ivh oracle-instantclient11.2-devel-11.2.0.4.0-1.x86_64.rpm
+````
+
+> \#64位系统需要创建32位的软链接，这里可能是一个遗留bug，不然后面编译会出问题
+>
+> ln -s /usr/include/oracle/11.2/client64 /usr/include/oracle/11.2/client
+>
+> ln -s /usr/lib/oracle/11.2/client64 /usr/lib/oracle/11.2/client
+
+接下来还要让系统能够找到oracle客户端的库文件，修改LD_LIBRARY_PATH
+
+在/etc/profile.d/下面新建oracle.sh文件
+
+vi /etc/profile.d/oracle.sh
+
+````
+export ORACLE_HOME=/usr/lib/oracle/11.2/client64
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib
+````
+
+执行source /etc/profile.d/oracle.sh使环境变量生效。
+
+### 安装PHP oci8扩展
+
+````
+# 下载解压
+wget http://pecl.php.net/get/oci8-2.1.0.tgz
+tar -zxvf oci8-2.1.0.tgz
+cd oci8-2.1.0
+# 编译安装
+phpize
+./configure --with-oci8=shared,instantclient,/usr/lib/oracle/11.2/client64/lib --with-php-config=/usr/local/php/bin/php-config
+make && make install
+# 编译成功会生成文件
+ll /usr/local/php/lib/php/extensions/no-debug-non-zts-20170718/
+# 添加扩展到php.ini中
+vim /usr/local/php/etc/php.ini
+# 查看
+php -m | grep oci8
+````
+
 
 
 ## Nginx

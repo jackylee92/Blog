@@ -46,7 +46,23 @@ killall supervisor
 ````
 supervisord -c /etc/supervisord.conf
 ````
+* 重启supervisor中某一个服务
+
+````
+# 进入supervisor客户端
+> supervisortl
+# 更新配置
+> update
+# 重启服务
+> restart 服务名
+# 查看服务log
+> tail -f 服务名
+````
+
+
+
 <delete>
+
 * 一个监控执行多条命令
 
 ````
