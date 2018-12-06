@@ -217,7 +217,7 @@ class Common
 {
     public static function logInfo(\$content)
     {
-        echo "\\r\\n".'LOG ['.date('Y-m-d H:i:s').'] : '.$content."\\r\\n";
+        echo "\\r\\n".'LOG ['.date('Y-m-d H:i:s').'] : '.\$content."\\r\\n";
     }
 }
 EOF
