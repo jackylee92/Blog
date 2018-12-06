@@ -344,3 +344,41 @@ o 打开文件
 - zj -- 跳到下一个折叠处；
 - zk -- 跳到上一个折叠处；
 - zi -- enable/disable fold;
+
+
+
+## 云VIM (docker_vim)
+
+### 安装docker
+
+````
+yum install docker -y
+````
+
+### 下载docker_vim (目前最新版本。比较大，优化空间很大)
+
+````
+sudo docker pull registry.cn-hangzhou.aliyuncs.com/lijundong/docker_vim:v2.7
+````
+
+### 设置快速启动
+
+````
+vim /usr/local/bin/op
+·····内容如下·····
+#!/bin/bash
+set -e
+work_pace=`readlink -f $1`
+if [ ! -d "${work_pace}" ];then
+    echo "请指定需要打开的项目目录！"
+    exit 0
+fi
+echo "正在打开目录:"${work_pace}
+docker run -it -w /home -v ${work_pace}:/home registry.cn-hangzhou.aliyuncs.com/lijundong/docker_vim:v2.7 sh -c /bin/op
+chmod u+x /usr/local/bin/op
+````
+
+### 使用
+
+进入项目跟目录 执行 ``op .`` 即可打开 
+
