@@ -223,3 +223,9 @@ __个人理解__
 依赖注入
 
 > 定义Container 类，该类中有一个static \$binds;静态数组变量，该变量key为类名，value为方法体(方法体一般为返回这个key的类的实例)；一个static function bind(\$abstract,\$concrete) 方法，将类和方法注入到Container的$binds中，一个static function make(\$abstract)方法，该方法主要是创建实例调用\$binds中\$abstract的方法体，创建实例；然后可以使用该实例调用实例的类的方法；
+
+
+
+### 函数
+
+* iterator_to_array — 将迭代器中的元素拷贝到数组

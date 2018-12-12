@@ -650,3 +650,47 @@ sed -i "s/registry.tars.com/${YouIp}/g" `grep registry.tars.com -rl ./*`
   $result = $wrapper->findObjectById("Article.Server.Obj");
   var_dump($result);
   ````
+
+### doTars实现方案
+
+* 建立自己的github仓库
+
+* 建立自己的packlist仓库
+
+* 仓库中composer.json
+
+  ````
+  {
+      "name" : "doTars",
+      "description": "goTars",
+      "require": {
+      	"ljd/dotars-init": "v1",
+          "phptars/tars-server": "~0.1",
+          "phptars/tars-deploy": "~0.1",
+          "phptars/tars2php": "~0.1",
+          "phptars/tars-log": "~0.1",
+          "ext-zip" : ">=0.0.1",
+          ...
+          ...
+      },
+      "autoload": {
+          "psr-4": {
+              "doTars\\" : "./"
+          }
+      },
+      "minimum-stability": "stable",
+      "scripts" : {
+          "deploy" : "\\Tars\\deploy\\Deploy::run"，
+          "post-install-cmd": "dotars\\DotarsInit::dotarsInit"
+      },
+      "repositories": {
+          "packagist": {
+              "type": "composer",
+              "url": "https://packagist.laravel-china.org/"
+          }
+      }
+  }
+  
+  ````
+
+* 创建一个doTars-init包，该包有一个DotarsInit类，该类主要是在composer create-project 后以交互的形式获取ServerName AppName ObjName 主控IP(支持数组多主控)完成框架搭建，并填入相应的目录中这些参数
