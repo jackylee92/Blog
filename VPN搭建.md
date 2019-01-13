@@ -16,18 +16,22 @@ pip install shadowsocks
 vi /etc/shadowsocks.json
 {
     "server":"0.0.0.0",
-    "server_port":8388,
     "local_address": "127.0.0.1",
     "local_port":1080,
-    "password":"密码",
+    "port_password" : {
+        "444" : "password"
+    }
+    "password":"jacky@0230",
+    "server_port":444,
     "timeout":300,
     "method":"aes-256-cfb",
     "fast_open": false
 }
+
 ````
 * 重启shadowsocks
 ````
-server -c /etc/shadowsocks.json -d start
+ssserver -c /etc/shadowsocks.json -d start
 ````
 
 * 下载ShadowsocksX app

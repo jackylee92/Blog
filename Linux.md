@@ -66,6 +66,7 @@
 
   ````
   du -h -x --max-depth=1
+  du -sh * | sort -n
   ````
 
 
