@@ -66,6 +66,8 @@
 
   ````
   du -h -x --max-depth=1
+  du -sh * | sort -n
+  df -i //查看磁盘空间详情
   ````
 
 * grep 文件内容上下文
