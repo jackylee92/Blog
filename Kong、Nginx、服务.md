@@ -85,7 +85,7 @@ upstream www.aaa.com{
 
 或是通过Kong Dashboard
 
-kong1.png url
+![image-20180905213623425](https://github.com/jackylee92/Blog/blob/master/Images/kong1.png?raw=true)
 
 #### 添加一个upstream
 
@@ -120,7 +120,7 @@ kong1.png url
 
 或是通过Kong Dashboard
 
-kong2.png url
+![image-20180905213623425](https://github.com/jackylee92/Blog/blob/master/Images/kong2.png?raw=true)
 
 #### 添加Route
 
@@ -128,7 +128,7 @@ kong2.png url
 
 添加入口在每一个Service上
 
-kong3.png url
+![image-20180905213623425](https://github.com/jackylee92/Blog/blob/master/Images/kong3.png?raw=true)
 
 
 
@@ -136,7 +136,7 @@ kong3.png url
 
 添加JWT插件，注意添加时选择了Routes，JWT只对该Route生效
 
-kong3.png url
+![image-20180905213623425](https://github.com/jackylee92/Blog/blob/master/Images/kong4.png?raw=true)
 
 这个时候访问该Route是会拦截，要求验证；
 
@@ -183,11 +183,11 @@ kong3.png url
 
    通过https://jwt.io 可以协助生成token测试；
 
-   kong3.png url
+ ![image-20180905213623425](https://github.com/jackylee92/Blog/blob/master/Images/kong5.jpg?raw=true)
 
 * 携带token请求通过
 
-  kong6.png url
+  ![image-20180905213623425](https://github.com/jackylee92/Blog/blob/master/Images/kong6.jpg?raw=true)
 
 
 
