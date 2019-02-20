@@ -12,7 +12,7 @@
 * kongIP：1.1.1.1
 * 服务地址：2.2.2.2:2222/user/login 
 
-##Nginx
+## Nginx
 
 >  NGINX只是一个转发，只需要配置upstream转发到kong即可
 
