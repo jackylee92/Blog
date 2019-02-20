@@ -295,3 +295,4 @@ rpm -ivh epel-release-7-11.noarch.rpm
 yum install nginx -y
 ````
 
+如果网站放在home中 home一下的目录权限应设置为755 文件的权限为664
