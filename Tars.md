@@ -318,6 +318,83 @@ npm run prd
 mkdir -p /data/log/tars
 ```
 
+#### 用户登录
+
+导入数据库
+
+db_tars_web.sql  、db_user_system.sql 注意库名
+
+vim loginConf.js 修改以下
+
+````
+enableLogin: true,
+
+loginUrl: 'http://外网IP:3001/login.html',
+
+cookieDomain: '外网IP',
+
+/**
+ * 通过ticket获取用户信息的方法
+ * @param {Object} ctx
+ * @param {String} ticket
+ */
+function getUidByTicket(ctx, ticket) {
+    // TODO 以下是示例代码，仅供参考
+    return new Promise((resolve, reject)=>{
+        request.get('http://外网IP:3001/api/getUidByTicket?ticket='+ticket).then(uidInfo=>{
+            uidInfo = JSON.parse(uidInfo);
+            resolve(uidInfo.data.uid);
+        }).catch(err=>{
+            reject(err);
+        });
+    })
+}
+
+/**
+ * 校验ticket与uid是否相同的方法
+ * @param {Object} ctx
+ * @param {String} uid
+ * @param {String} ticket
+ */
+function validate(ctx, uid, ticket) {
+    //TODO 以下是示例代码，仅供参考
+    return new Promise((resolve, reject)=>{
+        request.get('http://外网IP:3001/api/validate?ticket='+ticket+'&uid='+uid).then(data=>{
+            data = JSON.parse(data);
+            resolve(data.data.result);
+        }).catch(err=>{
+            reject(err);
+        });
+    })
+}
+````
+
+vim webConf.js  修改其中数据库配置
+
+__修改启动登录服务__
+
+``cd demo/config``
+
+vim webConf.js 修改其中数据库配置
+
+启动报错
+
+错误日志：vim /root/.pm2/logs/tars-user-system-error.log
+
+````
+{ Error: Cannot find module 'memory-cache'
+````
+
+解决方案：npm install memory-cache
+
+````
+{ Error: Cannot find module 'sha1'
+````
+
+解决方案：npm install sha1
+
+然后重启 Web服务
+
 ### 启动总结  
 
 __命令：__    
