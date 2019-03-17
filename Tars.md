@@ -80,6 +80,7 @@ __以下为多次安装后总结简单具体步骤__
 `./bootstrap`  
 `make`  
 `make install`  
+
 ### 安装resion（新版本已经不使用）
 `tar -zxvf resin-pro-4.0.56.tar.gz`  
 `cp -rf resin-pro-4.0.56 /usr/local/resin`  
@@ -136,7 +137,7 @@ __以下为多次安装后总结简单具体步骤__
     PATH=$PATH:/usr/local/mysql/bin
     export PATH  
 
-` source /etc/profile `.   
+` source /etc/profile `
 
 添加mysql库路径.   
 
@@ -171,9 +172,10 @@ __以下为多次安装后总结简单具体步骤__
 
 ### 安装maven
 `yum install maven`  
-`cd /opt/Tars/cpp/thirdparty`  
+<del> `cd /opt/Tars/cpp/thirdparty`  
 `chmod u+x thirdparty.sh`  
-`./thirdparty.sh`  
+`./thirdparty.sh`   </del>
+
 ### java语言框架开发环境安装
 `cd /opt/Tars/java`    
 `mvn clean install`  
@@ -263,7 +265,7 @@ __以下为多次安装后总结简单具体步骤__
 ``cp ./target/tars.war /usr/local/resin/webapps/ ``  
 ``mkdir -p /data/log/tars ``  
 
-### 配置resin（新版本已经不使用）
+### <del>配置resin（新版本已经不使用）</del>
 
 > 修改Resin安装目录下的conf/resin.xml配置文件 将默认的配置
 
@@ -771,3 +773,34 @@ sed -i "s/registry.tars.com/${YouIp}/g" `grep registry.tars.com -rl ./*`
   ````
 
 * 创建一个doTars-init包，该包有一个DotarsInit类，该类主要是在composer create-project 后以交互的形式获取ServerName AppName ObjName 主控IP(支持数组多主控)完成框架搭建，并填入相应的目录中这些参数
+
+
+
+## 扩容
+
+非tars基础环境搭建完成
+
+c++ 开发环境安装
+
+框架基础服务打包
+只需要Framework
+修改Framework中对应的主控IP和数据库配置
+
+````
+cd /usr/local/app/tars
+sed -i "s/192.168.2.131/${your_machine_ip}/g" `grep 192.168.2.131 -rl ./*`
+sed -i "s/db.tars.com/${your_machine_ip}/g" `grep db.tars.com -rl ./*`
+sed -i "s/registry.tars.com/${your_machine_ip}/g" `grep registry.tars.com -rl ./*`
+sed -i "s/web.tars.com/${your_machine_ip}/g" `grep web.tars.com -rl ./*`
+````
+
+启动
+
+````
+chmod u+x tars_install.sh
+./tars_install.sh
+````
+
+安装php相关服务，注意php配置相关需要和主控相同
+
+Tars. Web 平台运维管理中扩容即可

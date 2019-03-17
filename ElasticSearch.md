@@ -988,6 +988,17 @@ GET /megacorp/employee/_search
 
 ### ERROR
 
-*  No handler for type [string] declared on field [first_name]"}
+* No handler for type [string] declared on field [first_name]"}
+
   * 表示elasticsearch6.0里面不支持string类型，只有text、keyword类型
+
+*  Result window is too large, from + size must be less than or equal to: [10000] 
+
+   * ES提示我结果窗口太大了，目前最大值为10000，而我却要求给我10000000。并且在后面也提到了要求我修改`index.max_result_window`参数来增大结果窗口大小。
+
+   ````
+   curl -XPUT http://127.0.0.1:9200/indexName/_settings -d '{ "index" : { "max_result_window" : 100000000}}'
+   ````
+
+   
 
