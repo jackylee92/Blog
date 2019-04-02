@@ -711,6 +711,26 @@ __keyword__: keyword不会进行分词
     $data[(string)$field] = ['order' => (string)$sortType];
     ````
 
+* bulk批量操作 _bulk
+
+     ````
+    {"index":{"_index":"zhouls","_type":"emp","_id":"10"}}
+    { "name":"jack", "age" :18}
+    {"index":{"_index":"zhouls","_type":"emp","_id":"11"}}
+    { "name":"jack", "age" :18}
+    {"index":{"_index":"zhouls","_type":"emp","_id":"12"}}
+    {"name":"tom", "age":27}
+    {"update":{"_index":"zhouls","_type":"emp", "_id":"2"}}
+    {"doc":{"age" :22}}
+    {"delete":{"_index":"zhouls","_type":"emp","_id":"1"}}
+     ````
+
+    > 除删除外每条操作前面必须跟{"index":{"_index":"索引名","_type":"类型","_id":"x"}}
+    >
+    > 每一段json不能换行，第二段之间不能有空行 每行换行'\n'
+    >
+    > 前6行为添加 三条数据，7-8为更新，9为删除
+
 
 
 ## 字段类型(elasticsearch6.0)

@@ -1,1 +1,1 @@
-# 什么是64位和32位
+# 为什么larval比thinkphp好
