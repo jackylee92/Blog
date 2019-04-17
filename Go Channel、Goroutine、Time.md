@@ -100,7 +100,7 @@ a, ok := <-ch
 
 __Range__
 
-> 循环处理channel，直到改channel关闭，退出循环
+> 循环处理channel，直到该channel关闭，退出循环
 
 ````
 func MakeSend(ch chan int, count int){
