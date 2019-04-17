@@ -126,7 +126,7 @@ func main(){
 
 __Select__
 
-> select中会有多个case，每个case key为一个ch，当执行到select时没判断每个case的channel是否处于阻塞状态，如果是则随机选择一个执行case中的逻辑，如果都没阻塞，并且有一个default，则执行default内容，如果没有case，default可执行，则会处理阻塞状态，直到某一个case阻塞；
+> select中会有多个case，每个case key为一个ch，当执行到select时判断每个case的channel是否处于阻塞状态，如果是则随机选择一个执行case中的逻辑，如果都没阻塞，并且有一个default，则执行default内容，如果没有case，default可执行，则会处理阻塞状态，直到某一个case阻塞；
 >
 > 一半select会与for配合使用，一直循环监听某几个channel是否有数据传递过来；
 >
