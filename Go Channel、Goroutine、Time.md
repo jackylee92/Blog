@@ -120,6 +120,8 @@ func main(){
   ch := make(chan int)  //创建一个传递int类型的channel
   go MakeSend(ch,10)	//执行send 循环10次向ch中传递数据，执行完后关闭ch
   go MakeRecever(ch) // 执行Recever 循环的接受每次send传递的数据，当channel关闭时，此循环退出
+  
+  //此处注意mian方法执行完后，程序就会结束，所有channel都会释放，goroutine也会释放；
 }
 
 ````
