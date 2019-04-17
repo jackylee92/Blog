@@ -72,7 +72,7 @@ a := <-chan int //只可以用来接受int类型的数据的channel
 
 __发送__
 
-> 向一个close的channel中发送数据回到run-time panic
+> 向一个close的channel中发送数据会报run-time panic
 
 ````
 ch <- 1 //向channel类型的ch传递int类型1数据
