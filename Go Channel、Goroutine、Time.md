@@ -2,7 +2,7 @@
 
 ## CSP
 
-> CSP用户描述两个对立的并发实体通过共享的通信管道(channel)进行通行的并发模型；
+> CSP用与描述两个对立的并发实体通过共享的通信管道(channel)进行通行的并发模型；
 >
 > CSP中channel是第一类对象，它不关注发送消息的实体，而关注与发送消息时使用的管道(channel)
 
@@ -30,13 +30,15 @@
 
 > 不同goroutine之间通讯的管道
 >
-> send：并发执行的实体(goroutine)，此处为管道一端发送数据；
+> 下位设计到几个名词：
 >
-> receive：也是一个执行的实体(goroutine)，可以是main，也可以是groutine，此处用于管道另一端接受数据；
+> ​	send：并发执行的实体(goroutine)，此处为管道一端发送数据；
 >
-> Channel：上述管道Channel；
+> ​	receive：也是一个执行的实体(goroutine)，可以是main，也可以是groutine，此处用于管道另一端接受数据；
 >
-> Buffer：receive写入管道时，Channl中Buffer，如果没有则阻塞；
+> ​	Channel：上述管道Channel；
+>
+> ​	Buffer：receive写入管道时，Channl中Buffer，如果没有则阻塞；
 
 ### 创建
 
