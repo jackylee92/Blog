@@ -94,7 +94,7 @@ __注意⚠️__
 
 ## WaitGroup
 
-> 计数器，注意：向goroutine中传递wg是，需要使用指针传递，否则该goroutine中Done对该goroutine外的wg没有影响，会造成该goroutine外的wg死锁；
+> 计数器，注意：向goroutine中传递wg时，需要使用指针传递，否则该goroutine中Done对该goroutine外的wg没有影响，会造成该goroutine外的wg死锁；
 
 ``var wg  sync.WaitGroup`` ：创建一个计数器。
 
