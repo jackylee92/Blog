@@ -11,9 +11,9 @@ yum -y remove docker docker-common container-selinux
 * 配置新的静项源地址
 
 ````
-yum-config-manager \
-    --add-repo \
-    https://docs.docker.com/v1.13/engine/installation/linux/repo_files/centos/docker.repo
+yum install -y yum-utils device-mapper-persistent-data lvm2
+
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 ````
 
 * 更新静项源
@@ -26,6 +26,8 @@ yum makecache fast
 
 ````
 yum -y install docker-engine
+或
+yum install docker-ce
 ````
 
 * 或者查看其他版本并安装

@@ -42,7 +42,7 @@ __以下为多次安装后总结简单具体步骤__
 ### 准备软件包：  
 1. jdk-8u171-linux-x64.tar.gz 
 
-2. resin-pro-4.0.56.tar.gz
+2. <del>resin-pro-4.0.56.tar.gz</del>
 
 3. cmake-3.6.2.tar.gz
 
@@ -84,6 +84,7 @@ __以下为多次安装后总结简单具体步骤__
 ### 安装resion（新版本已经不使用）
 `tar -zxvf resin-pro-4.0.56.tar.gz`  
 `cp -rf resin-pro-4.0.56 /usr/local/resin`  
+
 ### 安装mysql  
 `tar -zxvf mysql-5.6.25.tar.gz`  
 ` cd mysql-5.6.25`  
@@ -176,11 +177,11 @@ __以下为多次安装后总结简单具体步骤__
 `chmod u+x thirdparty.sh`  
 `./thirdparty.sh`   </del>
 
-### java语言框架开发环境安装
-`cd /opt/Tars/java`    
+### <del>java语言框架开发环境安装</del>
+<del>`cd /opt/Tars/java`    
 `mvn clean install`  
 `mvn clean install -f core/client.pom.xml`  
-`mvn clean install -f core/server.pom.xml`  
+`mvn clean install -f core/server.pom.xml`  </del>
 
 > [ERROR] Unknown lifecycle phase "mvn". You must specify a valid lifecycle phase or a goal in the format <plugin-prefix>:<goal> or <plugin-group-id>:<plugin-artifact-id>[:<plugin-version>]:<goal>. Available lifecycle phases are: validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy, pre-clean, clean, post-clean, pre-site, site, post-site, site-deploy. -> [Help 1]
 >
@@ -257,13 +258,13 @@ __以下为多次安装后总结简单具体步骤__
 ``./tars_install.sh ``  
 ``tarspatch/util/init.sh ``  
 ``ps -ef | grep rsync 查看进程是否启动 ``  
-``cd /opt/Tars/web ``  
+<del>``cd /opt/Tars/web ``  
 ``sed -i "s/tars2015/${mysql的tars密码}/g" `grep tars2015 -rl ./*` ``  
 ``sed -i "s/registry1.tars.com/${your machine ip}/g" `grep registry1.tars.com -rl ./*` ./src/main/resources/tars.conf\` ``  
 ``sed -i "s/registry2.tars.com/${your machine ip}/g" `grep registry2.tars.com -rl ./*` ./src/main/resources/tars.conf\` ``  
 ``mvn clean package ``  
 ``cp ./target/tars.war /usr/local/resin/webapps/ ``  
-``mkdir -p /data/log/tars ``  
+``mkdir -p /data/log/tars ``  </del>
 
 ### <del>配置resin（新版本已经不使用）</del>
 
@@ -289,6 +290,14 @@ __以下为多次安装后总结简单具体步骤__
 ## web管理系统开发环境安装
 
 以linux环境为例：
+
+替换web中：
+
+``sed -i "s/192.168.2.131/${your machine ip}/g" `grep 192.168.2.131 -rl ./*` ``  
+``sed -i "s/db.tars.com/${your machine ip}/g" `grep db.tars.com -rl ./*` ``  
+``sed -i "s/registry.tars.com/${your machine ip}/g" `grep registry.tars.com -rl ./*` ``  
+``sed -i "s/web.tars.com/${your machine ip}/g" `grep web.tars.com -rl ./*` ``  
+``sed -i "s/tars2015/{$tars_password}/g" `grep tars2015 -rl ./*` ``
 
 以官网提供的nvm脚本安装
 

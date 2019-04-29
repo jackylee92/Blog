@@ -111,7 +111,7 @@ pg_database = kong              # The database name to connect to.
 pg_ssl = off                    # Toggles client-server TLS connections                                  # between Kong and PostgreSQL.
 
 pg_ssl_verify = off             # Toggles server certificate  设置kong和postgres的连接方式
-verification if
+admin_listen = 内网IP:8001, 内网IP:8444 ssl
 ````
 
 导入kong数据

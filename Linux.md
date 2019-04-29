@@ -30,7 +30,7 @@
 
 * buff/cache:磁盘缓存的大小;
 
-* lsof -i tcp:端口:查看端口占用情况；
+* lsof -i tcp:端口:查看端口占用情况； yum install lsof -y
 
 * netstat -ntlp:列出所有端口 yum install net-tools
 

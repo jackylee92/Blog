@@ -67,6 +67,14 @@ __Background、TODO__
 
 ``Background``：主要用于main函数、初始化以及测试代码中，作为Context这个树结构的最顶层的Context，也就是根Context。
 
+````
+type emptyCtx int	//emptyCtx是int的别名类型
+````
+
+````
+background = new(emptyCtx)
+````
+
 ``TODO``：创建一个空 context。也只能用于高等级或当您不确定使用什么 context，或函数以后会更新以便接收一个 context 。这意味您（或维护者）计划将来要添加 context 到函数，它与 background 完全相同。不同的是，静态分析工具可以使用它来验证 context 是否正确传递，这是一个重要的细节，因为静态分析工具可以帮助在早期发现潜在的错误，并且可以连接到 CI/CD 管道。【不是很懂】
 
 __struct Content__
