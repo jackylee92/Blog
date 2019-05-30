@@ -296,3 +296,10 @@ yum install nginx -y
 ````
 
 如果网站放在home中 home一下的目录权限应设置为755 文件的权限为664
+
+安装gitlab， kill -9 nginx主进程号  nginx无法关闭，
+
+原因 
+
+gitlab-ctl 守护进程会启动的 nginx.
+要使用gitlab-ctl stop nginx

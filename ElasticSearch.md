@@ -57,7 +57,7 @@
   curl http://localhost:9200
   ````
 
-* ERROR
+### ERROR
 
   * [1]: max file descriptors [4096] for elasticsearch process is too low, increase to at least [65536].      
 
@@ -76,6 +76,53 @@
     ````
      vm.max_map_count=655360
     ````
+    
+* elasticsearch 启动时需要非root用户
+      报错：(Permission denied) java.io.FileNotFoundException: /srv/elasticsearch/logs/test-es-cluster.log (Permission denied) 
+      需要给/srv/elasticsearch 目录es用户权限 chown elastic:elastic -R /src/elasticsearch
+  
+* All shards failed for phase: [query]
+
+##  认证插件 x-pack安装
+
+* 使用es用户进入elastic search/bin 执行``elastixcsearch-plugin install x-pack``
+
+  > elasticsearch plugin  Connection refused (Connection refused) 可能是下载插件连接错误，需要代理
+
+* 直接下载``https://www.elastic.co/guide/en/x-pack/current/index.html``
+
+*  将对应版本的x-pack.zip放入elasticsearch 所在的服务器上
+
+* ``elasticsearch-plugin install file:///opt/x-pack.zip`` 注意路径前面加file:// 然后安装提示完成安装
+
+* ``bin/x-pack/setup-passwords auto`` 生成默认密码
+
+* 或``bin/x-pack/setup-passwords interactive`` 生成指定密码 如下
+
+  > 三个内置用户名 和秘密
+
+  ````
+  [elastic@test-tars-elasticsearch-91-59-pbs-sh x-pack]$ ./setup-passwords interactive
+  Initiating the setup of passwords for reserved users elastic,kibana,logstash_system.
+  You will be prompted to enter passwords as the process progresses.
+  Please confirm that you would like to continue [y/N]y
+  
+  
+  Enter password for [elastic]:
+  Reenter password for [elastic]:
+  Enter password for [kibana]:
+  Reenter password for [kibana]:
+  Enter password for [logstash_system]:
+  Reenter password for [logstash_system]:
+  Changed password for user [kibana]
+  Changed password for user [logstash_system]
+  Changed password for user [elastic]
+  [elastic@test-tars-elasticsearch-91-59-pbs-sh x-pack]$
+  ````
+
+  
+
+
 
 ## Elasticsearch-head
 
@@ -723,7 +770,7 @@ __keyword__: keyword不会进行分词
     {"update":{"_index":"zhouls","_type":"emp", "_id":"2"}}
     {"doc":{"age" :22}}
     {"delete":{"_index":"zhouls","_type":"emp","_id":"1"}}
-     ````
+    ````
 
     > 除删除外每条操作前面必须跟{"index":{"_index":"索引名","_type":"类型","_id":"x"}}
     >
@@ -1006,7 +1053,7 @@ GET /megacorp/employee/_search
 
   `` "elasticsearch/elasticsearch": "~6.0" ``
 
-### ERROR
+## ERROR
 
 * No handler for type [string] declared on field [first_name]"}
 
@@ -1020,5 +1067,46 @@ GET /megacorp/employee/_search
    curl -XPUT http://127.0.0.1:9200/indexName/_settings -d '{ "index" : { "max_result_window" : 100000000}}'
    ````
 
-   
+* FORBIDDEN/12/index read-only / allow delete (api)];
 
+   > 磁盘满了后 es会将数据设置只读锁起来
+   >
+   > 解决方案：
+   >
+   > ​	1 解锁，删除一部分数据，将服务器中磁盘空间清理
+   >
+   > ​	2 加磁盘
+
+````
+//设置所有非只读模式
+PUT _settings
+{
+  "index": {
+    "blocks": {
+      "read_only_allow_delete": "false"
+    }
+  }
+}
+//获取索引信息
+GET queue/_settings?pretty
+
+//设置指定索引为非只读模式
+PUT queue/_settings
+{
+  "index.blocks.read_only_allow_delete": false
+}
+// 清空指定索引
+POST queue/list/_delete_by_query?conflicts=proceed
+{
+  "query" : {
+    "match_all" :{}
+  }
+}
+
+//查询es中磁盘使用情况
+GET _cat/allocation?v
+````
+
+* **missing authentication token for REST request**
+
+  > 没有权限
