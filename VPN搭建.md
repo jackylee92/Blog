@@ -20,7 +20,7 @@ vi /etc/shadowsocks.json
     "local_port":1080,
     "port_password" : {
         "444" : "password"
-    }
+    },
     //"password":"*******",
     //"server_port":444,
     "timeout":300,

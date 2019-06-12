@@ -154,7 +154,7 @@ grep -A 5 foo file  显示foo及后5行
 ### 方法一：
 
 ````
-[root@localhost ~]# systemctl enable docker
+ [root@localhost ~]# systemctl enable docker
 Created symlink from /etc/systemd/system/multi-user.target.wants/docker.service to /usr/lib/systemd/system/docker.service.
 ````
 
@@ -195,3 +195,12 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/docker.service 
   ````
   chmod u+x /etc/rc.d/rc.local
   ````
+  
+## 时间错误
+
+  ````
+  yum install -y ntpdate
+  ntpdate us.pool.ntp.org
+  ````
+
+  

@@ -342,6 +342,20 @@ __keyword__: keyword不会进行分词
      	"ignore_above":"xxx"      //定义字段中字符的最大值，字段的长度高于指定值时，分析器会将其忽略
      	}
      ````
+   
+* 添加字段
+
+     ````
+     {
+        "properties": {
+            "zy_renwu_pingjia": {
+                "type": "string",
+                "index": "not_analyzed"
+            }
+        }
+     }
+     ````
+
 
 
 
