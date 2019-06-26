@@ -222,8 +222,6 @@ go func() {
 }()
 ````
 
-
-
 __Close__
 
 > 关闭channel
@@ -231,6 +229,8 @@ __Close__
 ````
 close(ch)
 ````
+
+__Cron(定时任务)__
 
 
 

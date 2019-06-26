@@ -1124,3 +1124,157 @@ GET _cat/allocation?v
 * **missing authentication token for REST request**
 
   > 没有权限
+
+
+
+
+
+* Whitespace 空格分词 实测可用
+* search_analyzer 对请求的数据分词方式 analyzer 对es中数据分词
+* 自定义分词需要先向es中设置分词方式 例如逗号分词,再和普通设置分词方式相同设置分词方式为设置的名字，一下案例中分词名为都douhao
+
+````
+curl -XPOST 'http://172.18.0.4:9200/demo/?pretty' -d '
+{
+　　"settings":
+　　{
+　　　　"analysis":
+　　　　　　{
+　　　　　　　　"analyzer":
+　　　　　　　　　　{
+　　　　　　　　　　　　"douhao":
+　　　　　　　　　　　　　　{
+　　　　　　　　　　　　　　　　"type":"pattern",
+　　　　　　　　　　　　　　　　"pattern":","
+　　　　　　　　　　　　　　}
+　　　　　　　　　　}
+　　　　　　}
+　　}
+}'
+````
+
+* 分词只对text类型数据有效，keyword为整个值为一个词，其实就相当于没有分词
+
+* 复杂类型中array 表示一个属性的值为一个数组，如下，__数组中的数据类型必须相同__
+
+````
+"a" : ["1","2","3"]
+````
+
+* Elastic search 6以前负责类型会有 ``object``如下1，elastic search6以后没有``object`` 默认类型嵌套处理如下2
+
+````
+{
+  "gb": {
+    "tweet": 
+      "properties": {
+        "tweet":            { "type": "string" },
+        "user": {
+          "type":             "object",
+          "properties": {
+            "id":           { "type": "string" },
+            "gender":       { "type": "string" },
+            "age":          { "type": "long"   },
+            "name":   { 
+              "type":         "object",
+              "properties": {
+                "full":     { "type": "string" },
+                "first":    { "type": "string" },
+                "last":     { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+````
+
+````
+{
+  "test": {
+    "mappings": {
+      "test": {
+        "properties": {
+          "tweet": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "user": {
+            "properties": {
+              "age": {
+                "type": "long"
+              },
+              "gender": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "id": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "name": {
+                "properties": {
+                  "first": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "full": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "last": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+````
+
+* **嵌套对象** nested  与``object`最大的区别是 nested会将嵌套中的每条数据当成一个整体，``object``会将嵌套数据中相同属性数据索引在一起，这样搜索就产生混乱 举例如下
+
+  一条数据有一个嵌套字段 其中包含两条数据 ``[{ "name" : "a", "age":2},{"name":"b","age","2"}]``
+
+  搜索条件是 name = a, age = 2
+
+  如果是object类型就会搜出来 它会这样索引 name:["a","b"], age:["1","2"] 这样 a在name中匹配上，2在age中匹配上，所以就能搜到，
+
+  nested 则不会，它会将``{ "name" : "a", "age":2}``, ``{"name":"b","age","2"}]``分别独立
