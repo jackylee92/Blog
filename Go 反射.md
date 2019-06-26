@@ -23,3 +23,7 @@
   * Value.FieldByName("name") 获取value这个值的name属性值
   * value.Kind() 返回值的系统类型 struct、string、int等
   * oValue().Method(n) 返回值的第N个方法的值(此处方法的值是指令)，放回的值(指令)通过.Call([]reflect.Value(param1, param2))调用，[]relent.Value(param1, param2) 转为反射类型的切片
+
+## 系统类型
+
+![系统类型](https://github.com/jackylee92/Blog/blob/master/Images/goSystemType.jpg?raw=true)
