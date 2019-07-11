@@ -1,21 +1,6 @@
-# Go Error
+# Go Map
 
-## 安装扩展时报错
-
-* go get github.com/PuerkitoBio/goquery 报错：	unrecognized import path "golang.org/x/net/html"
-
-> 无法获取到，被墙了
-
-````
-可以从github上拿到然后copy进去
-git clone https://github.com/golang/net
-也可手动下载后解压
-在gopath目录的src文件夹内建立如下目录 golang.org/x/net，将上面下载的net里面的文件放到该net目录中即可！
-````
-
-
-
-* Map
+## Map 初始化问题
 
 > assignment to entry in nil map
 
@@ -35,7 +20,7 @@ m := make(map[string]string)
 m["result"] = "result"
 ````
 
-* golang中的map并不是并发安全的
+## golang中的map并不是并发安全的
 
 > 在开多个goruntine向map中写，在goroutine过多时会产生错误,也就是map并发写入出错.
 
@@ -70,8 +55,3 @@ func (m *M) Get(key string) string {
 }
 ````
 
-* Json.Marshal转换结构体为json失败
-
-> 原因：结构体中的属性为小心开头，为私有属性，json包无法获取到属性，
->
-> 如果想用只能转为大写开头

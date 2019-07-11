@@ -53,6 +53,8 @@ __使用__
 每一个docker只可以运行一个指定的程序
 
 > docker run --name -it centos /bin/bash 表示启动/bin/bash这个命令
+>
+> docker run -it centos //使用镜像centos以交互模式启动一个容器。
 
 * 查看镜像
 
