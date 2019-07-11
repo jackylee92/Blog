@@ -10,11 +10,11 @@
 
 ## 文档：
 
-[动态更新索引](!https://www.elastic.co/guide/cn/elasticsearch/guide/current/dynamic-indices.html#img-index-segments) ：没看懂，主要正对索引数据内存优化讲解
+动态更新索引 : https://www.elastic.co/guide/cn/elasticsearch/guide/current/dynamic-indices.html#img-index-segments 没看懂，主要正对索引数据内存优化讲解
 
-[近实时搜索](!https://www.elastic.co/guide/cn/elasticsearch/guide/current/near-real-time.html)：没看懂，主要正对索引数据内存优化讲解
+近实时搜索 : https://www.elastic.co/guide/cn/elasticsearch/guide/current/near-real-time.html 没看懂，主要正对索引数据内存优化讲解
 
-[查询中缓存使用](!https://www.elastic.co/guide/cn/elasticsearch/guide/current/filter-caching.html)：
+查询中缓存使用 : !https://www.elastic.co/guide/cn/elasticsearch/guide/current/filter-caching.html
 
 ## 安装
 
@@ -1343,7 +1343,7 @@ POST myIndex/_analyze
       }
   }
   ````
-__负责类型嵌套__
+__复杂类型嵌套__
 
 ````
 {
