@@ -577,19 +577,19 @@ __不存在返回错误__
 
 ### 查询数据
 
-1. 概念
+#### 概念
 
 __结构化查询(query DSL)：__ 会计算每个文档与查询语句的相关性，会给出一个相关性评分 `_score`，并且 按照相关性对匹配到的文档进行排序。 这种评分方式非常适用于一个没有完全配置结果的全文本搜索。查询语句会询问每个文档的字段值与特定值的匹配程度如何？
 
 __结构化过滤(Filter DSL):__ 在结构化过滤中，我们得到的结果 *总是* 非是即否，要么存于集合之中，要么存在集合之外。结构化过滤不关心文件的相关度或评分；它简单的对文档包括或排除处理。执行速度非常快，不会计算相关度（直接跳过了整个评分阶段）而且很容易被缓存。一条过滤语句会询问每个文档的字段值是否包含着特定值
 
-2. 简单查询
+#### 简单查询
 
-   __GET__:``httｐ://ip:端口号/索引(index)/类型名(type)/文档id（直接get请求即可查询）``
+__GET__:``httｐ://ip:端口号/索引(index)/类型名(type)/文档id（直接get请求即可查询）``
 
-3. 条件查询
+#### 条件查询
 
-   __POST__:``http://ip:端口号/索引(index)/_search【关键词】(指定查询)``
+__POST__:``http://ip:端口号/索引(index)/_search【关键词】(指定查询)``
 
 ````json
 {
@@ -612,7 +612,7 @@ __结构化过滤(Filter DSL):__ 在结构化过滤中，我们得到的结果 *
 }
 ````
 
-__查询语法:__
+#### 查询语法:
 
 * query
 
@@ -1143,7 +1143,7 @@ GET /docs_2014_*/_search
  }
 ````
 
-__验证查询的合法性__
+#### 验证查询的合法性
 
 ````json
 GET station/_validate/query?explain
@@ -1185,7 +1185,7 @@ GET station/_validate/query?explain
 }
 ````
 
-__高亮我们的搜索__
+#### 高亮我们的搜索
 
 ````
 {
@@ -1202,7 +1202,7 @@ __高亮我们的搜索__
 }
 ````
 
-__多索引关联查询__
+#### 多索引关联查询
 
 > 一下查询意思为：从info索引中取出id为1的数据的user_id，做为user索引中等于user_id的条件条件，取出如何条件数据的user_id、status
 >
@@ -1230,7 +1230,7 @@ POST user/_search
 }
 ````
 
-__通过ids查询__
+#### 通过ids查询
 
 ````json
 POST myIndex/_search
@@ -1243,7 +1243,7 @@ POST myIndex/_search
 }
 ````
 
-__检测分词__
+#### 检测分词
 
 > 一下会根据myIndex中fieldName的分词规则来分text的内容
 
@@ -1282,7 +1282,7 @@ POST myIndex/_analyze
 
 >在查询过程中，除了判断文档是否满足查询条件外，es还会计算一个_score来标示匹配的程度，旨在判断目标文档和查询条件匹配的 有多好;
 
- post:``http://ip:端口号/索引(index)/_search【关键词】(指定查询)``
+ __post:__ ``http://ip:端口号/索引(index)/_search【关键词】(指定查询)``
 
   ````
   {
@@ -1343,7 +1343,7 @@ POST myIndex/_analyze
       }
   }
   ````
-__复杂类型嵌套__
+#### 复杂类型嵌套
 
 ````
 {
@@ -1381,8 +1381,16 @@ __复杂类型嵌套__
 }}}
 ````
 
-__范围搜索__
+#### 范围搜索
 
+>  distance:arc/plane/sloppy_arc
+>
+>  ​	arc:最慢但最精确的是 `arc` 计算方式，这种方式把世界当作球体来处理。不过这种方式的精度有限，因为这个世界并不是完全的球体
+>
+>  ​	plane:计算方式把地球当成是平坦的，这种方式快一些但是精度略逊。在赤道附近的位置精度最好，而靠近两极则变差
+>
+>  ​	sloppy_arc:如此命名，是因为它使用了 Lucene 的 SloppyMath 类。这是一种用精度换取速度的计算方式， 它使用 Haversine formula 来计算距离。它比 arc 计算方式快 4 到 5 倍，并且距离精度达 99.9%。这也是默认的计算方式。
+>
 >  geo_distance:查找距离某个中心点距离在一定范围内的位置
 >
 >  500km以内
@@ -1481,25 +1489,159 @@ __范围搜索__
 }
 ````
 
-#### 排序条件（TODO）
+#### 复杂结构排序
 
+> 以下排序规则：以复杂类型products中pro_status为-1的数据中最低一条的price_base降序；
 
+````
+{
+  "size": 300,
+  "_source": [
+    "products.price_base",
+    "products.pro_status"
+  ],
+  "sort": [
+    {
+      "products.price_base": {
+        "order": "desc",
+        "mode": "min",
+        "nested": {
+          "path": "products",
+          "filter": {
+            "term": {
+              "products.pro_status": -1
+            }
+          }
+        }
+      }
+    }
+  ]
+}
+````
 
+#### 排序条件
 
+> 排序条件只能针对于以复杂类型数据排序，确定以复杂类型中的某一个子数据排序
+>
+> nested中只可以使用过滤``filter``，不过可以在``filter``中嵌套``bool``；``bool``是一个过滤集合，可以对复杂类型进行多个条件过滤；
 
+````json
+{
+  "size": 300,
+  "_source": [
+    "products.price_base",
+    "products.pro_status"
+    , "products.sku"
+  ],
+  "sort": [
+    {
+      "products.price_base": {
+        "order": "desc",
+        "mode": "max",
+        "nested": {
+          "path": "products",
+          "filter": {
+            "bool": {
+              "must": [
+                {
+                  "term": {
+                    "products.pro_status": 1
+                  }
+                },
+                {
+                  "match": {
+                    "products.sku" : "D120G06"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  ]
+}
+````
 
+### Geohashes
+
+https://www.elastic.co/guide/cn/elasticsearch/guide/current/geohashes.html
+
+> 是一种将经纬度坐标（ `lat/lon` ）编码成字符串的方式。 这么做的初衷只是为了让地理位置在 url 上呈现的形式更加友好，但现在 geohashes 已经变成一种在数据库中有效索引地理坐标点和地理形状的方式。把整个世界分为 32 个单元的格子 —— 4 行 8 列 —— 每一个格子都用一个字母或者数字标识。
+>
+> 比如 `g` 这个单元覆盖了半个格林兰，冰岛的全部和大不列颠的大部分。每一个单元还可以进一步被分解成新的 32 个单元，这些单元又可以继续被分解成 32 个更小的单元，不断重复下去。 `gc` 这个单元覆盖了爱尔兰和英格兰， `gcp` 覆盖了伦敦的大部分和部分南英格兰， `gcpuuz94k` 是白金汉宫的入口，精确到约 5 米。
+>
+> 换句话说， geohash 的长度越长，它的精度就越高。如果两个 geohashes 有一个共同的前缀— `gcpuuz`—就表示他们挨得很近。共同的前缀越长，距离就越近。
+
+1. 概念
+2. 创建可Geohashes映射
+> 以下设置， geohash 前缀中 1 到 7 的部分将被索引，所能提供的精度大约在 150 米
+>
+> geohash_prefix:true 使用指定精度来索引 geohash 的前缀
+>
+> geohash_precision:"1km"	代表的 geohash 的长度，也可以是一个距离。 1km 的精度对应的 geohash 的长度是 7
+
+````
+PUT /attractions
+{
+  "mappings": {
+    "restaurant": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "location": {
+          "type":               "geo_point",
+          "geohash_prefix":     true, 
+          "geohash_precision":  "1km" 
+        }
+      }
+    }
+  }
+}
+````
+
+3. geohashes_cell
+
+> 查询做的事情非常简单： 把经纬度坐标位置根据指定精度转换成一个 geohash ，然后查找所有包含这个 geohash 的位置——这是非常高效的查询。
+>
+> `precision` 字段设置的精度不能高于映射时 `geohash_precision` 字段指定的值。
+>
+> 此查询将 `lat/lon` 坐标点转换成对应长度的 geohash —— 本例中为 `dr5rsk`—然后查找所有包含这个短语的位置。
+>
+> geohash 实际上仅是个矩形，而指定的点可能位于这个矩形中的任何位置。有可能这个点刚好落在了 geohash 单元的边缘附近，但过滤器会排除那些落在相邻单元的餐馆。
+
+````json
+{
+  "query": {
+    "constant_score": {
+      "filter": {
+        "geohash_cell": {
+          "location": {
+            "lat":  40.718,
+            "lon": -73.983
+          },
+          "precision": "2km" 
+        }
+      }
+    }
+  }
+}
+````
 
 ### 聚合查询
 
-1. 概念
+#### 概念
 
 > 聚合查询就是用桶和指标不同的组合签到出来的结果
+>
+> 聚合是基于倒排索引创建的，倒排索引是 后置分析（ *post-analysis* ）的。
 
 __桶(Buckts):__ 对特定条件的文档的集合
 
 __指标(Metrics):__ 对桶内文旦进行统计计算
 
-2. 语法
+#### 语法
 
 * terms
 
@@ -1747,7 +1889,7 @@ __指标(Metrics):__ 对桶内文旦进行统计计算
 
 > 说明：`date_histogram` （和 `histogram` 一样）默认只会返回文档数目非零的 buckets。
 >
-> min_doc_count 参数返回最小doc数的buckets
+> min_doc_count 参数返回最小doc数的buckets，设置为0 表示为空的buckets也返回
 >
 > extended_bounds: { min : "", "max": ""} 返回的结果返回，将不存在查询范围的buckets插入到返回结果中
 
@@ -1803,13 +1945,13 @@ __指标(Metrics):__ 对桶内文旦进行统计计算
 }
 ````
 
-__聚合和过滤__
+#### 聚合和过滤
 
 > 聚合范围限定还有一个自然的扩展就是过滤。因为聚合是在查询结果范围内操作的，任何可以适用于查询的过滤器也可以应用在聚合上。
 
 * 过滤桶
 
-> 说明：当文档满足过滤桶的条件时，我们将其加入到桶内。
+> 说明：当文档满足过滤桶的条件时，我们将其加入到桶内。先将满足filter过滤的文档放在一个桶中，再基于这个桶执行avg
 
 ````json
 {
@@ -1840,19 +1982,260 @@ __聚合和过滤__
 }
 ````
 
+* post_filter
 
+> 说明：对搜索结果聚合后再进行过滤
+>
+> 例如一下：查询所有status为3的文档，在对这些文档进行order_type统计，统计后再对status为3的文档进行oss_id=101的过滤。
 
+````
+{
+  "size": 0,
+  "query": {
+    "match": {
+      "status": {
+        "query": "3"
+      }
+    }
+  },
+  "post_filter": {
+    "term": {
+      "oss_id": "101"
+    }
+  }, 
+  "aggs": {
+    "all_order_type": {
+      "terms": {
+        "field": "order_type",
+        "size": 10
+      }
+    }
+  }
+}
+````
 
+结果：
 
-脚本、Order、min_doc_count过滤，extended_bounds
+> 可以看出status=3的所有文档的每个order_type中的文档数量，和status=3 and oss_id=101的文档数量total是199，上面我设置size=0不展示文档信息，可调整size获取status=3 and oss_id=101的文档详细信息
 
+````
+{
+  "took": 8,
+  "timed_out": false,
+  "_shards": {
+    "total": 5,
+    "successful": 5,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": 199,
+    "max_score": 0,
+    "hits": []
+  },
+  "aggregations": {
+    "all_order_type": {
+      "doc_count_error_upper_bound": 0,
+      "sum_other_doc_count": 0,
+      "buckets": [
+        {
+          "key": 11,
+          "doc_count": 51421
+        },
+        {
+          "key": 21,
+          "doc_count": 956
+        },
+        {
+          "key": 12,
+          "doc_count": 753
+        },
+        {
+          "key": 19,
+          "doc_count": 173
+        },
+        {
+          "key": 31,
+          "doc_count": 32
+        }
+      ]
+    }
+  }
+}
+````
 
+#### 内置桶排序
 
+> 说明：默认的，桶会根据 `doc_count` 降序排列，可设置order调整排序，如下
+>
+> _count:以文档doc_count排序
+>
+> _term:按词项的字符串值的字母顺序排序。只在 `terms` 内使用
+>
+> _key:按每个桶的键值数值排序（理论上与 `_term` 类似）。 只在 `histogram` 和 `date_histogram` 内使用
 
+````
+{
+    "size" : 0,
+    "aggs" : {
+        "colors" : {
+            "terms" : {
+              "field" : "color",
+              "order": {
+                "_count" : "asc" 
+              }
+            }
+        }
+    }
+}
+````
 
+根据度量计算结果(平均值、总和等)，如下
 
+> 先根据颜色分桶，在统计每个桶中price的平均值，然后根据每个桶平均值排序每个桶
 
+````
+{
+    "size" : 0,
+    "aggs" : {
+        "colors" : {
+            "terms" : {
+              "field" : "color",
+              "order": {
+                "avg_price" : "asc" 
+              }
+            },
+            "aggs": {
+                "avg_price": {
+                    "avg": {"field": "price"} 
+                }
+            }
+        }
+    }
+}
+````
 
+* extend_stats (TODO)
+* cardinality
+
+> 说明：去重 等价于sql: SELECT COUNT(DISTINCT color) FROM cars；
+>
+> 参数：
+>
+> field:字段名
+>
+> precision_threshold:这个阈值定义了在何种基数水平下我们希望得到一个近乎精确的结果。https://www.elastic.co/guide/cn/elasticsearch/guide/current/cardinality.html 不是很懂
+>
+> 如下，统计order_type共多少
+
+````
+{
+  "size": 0,
+  "aggs": {
+    "status_count": {
+      "cardinality": {
+        "field": "order_type"
+      }
+    }
+  }
+}
+````
+
+结果：order_type共5个
+
+````
+{
+  "took": 29,
+  "timed_out": false,
+  "_shards": {
+    "total": 5,
+    "successful": 5,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": 199,
+    "max_score": 0,
+    "hits": []
+  },
+  "aggregations": {
+    "status_count": {
+      "value": 5
+    }
+  }
+}
+````
+
+配合terms使用如下
+
+> 统计个状态订单有几种类型
+
+````
+{
+  "size": 0, 
+  "aggs": {
+    "status_group": {
+      "terms": {
+        "field": "status"
+      },
+      "aggs": {
+        "order_type": {
+          "cardinality": {
+            "field": "order_type"
+          }
+        }
+      }
+    }
+  }
+}
+````
+
+结果：去除部分不重要的信息
+
+````
+{
+    "aggregations": {
+        "status_group": {
+            "doc_count_error_upper_bound": 0,
+            "sum_other_doc_count": 0,
+            "buckets": [
+                {
+                    "key": 3,
+                    "doc_count": 53335,
+                    "order_type": {
+                        "value": 5
+                    }
+                },
+                {
+                    "key": 0,
+                    "doc_count": 1755,
+                    "order_type": {
+                        "value": 4
+                    }
+                }
+            ]
+        }
+    }
+}
+````
+
+* percentiles
+
+> 说明：某以具体百分比下观察到的数值。
+>
+> https://www.elastic.co/guide/cn/elasticsearch/guide/current/percentiles.html
+
+* fielddata
+
+> 设想我们正在运行一个网站允许用户收听他们喜欢的歌曲。 为了让他们可以更容易的管理自己的音乐库，用户可以为歌曲设置任何他们喜欢的标签，这样我们就会有很多歌曲被附上 `rock（摇滚）` 、 `hiphop（嘻哈）` 和 `electronica（电音）` ，但也会有些歌曲被附上 `my_16th_birthday_favorite_anthem` 这样的标签。
+>
+> 现在设想我们想要为用户展示每首歌曲最受欢迎的三个标签，很有可能 `rock` 这样的标签会排在三个中的最前面，而 `my_16th_birthday_favorite_anthem` 则不太可能得到评级。 尽管如此，为了计算最受欢迎的标签，我们必须强制将这些一次性使用的项加载到内存中。
+>
+> https://www.elastic.co/guide/cn/elasticsearch/guide/current/_fielddata_filtering.html
+
+* 地理位置聚合
+
+> https://www.elastic.co/guide/cn/elasticsearch/guide/current/geo-aggs.html
 
 __POST__:``http://ip:端口号/索引(index)/_search【关键词】(指定查询) ``
 
@@ -1904,8 +2287,6 @@ __POST__:``_buld``
 {"doc":{"age" :22}}
 {"delete":{"_index":"zhouls","_type":"emp","_id":"1"}}
 ````
-
-
 
 ## 字段类型
 
@@ -2272,3 +2653,5 @@ curl -XPOST 'http://172.18.0.4:9200/demo/?pretty' -d '
   如果是object类型就会搜出来 它会这样索引 name:["a","b"], age:["1","2"] 这样 a在name中匹配上，2在age中匹配上，所以就能搜到，
 
   nested 则不会，它会将``{ "name" : "a", "age":2}``, ``{"name":"b","age","2"}]``分别独立
+  
+  
