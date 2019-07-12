@@ -184,7 +184,7 @@ $ yum install -y nodejs nodejs-npm
 git clone git://github.com/mobz/elasticsearch-head.git
 cd elasticsearch-head
 npm install
-#速度较慢，就是用国内镜像 npm install -g cnpm --registry=https://registry.npm.taobao.org
+//速度较慢，就是用国内镜像 npm install -g cnpm --registry=https://registry.npm.taobao.org
 grunt server
 ````
 
