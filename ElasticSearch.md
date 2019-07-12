@@ -487,9 +487,9 @@ __成功返回：__
 
 ### Script查询(TODO)
 
+> https://www.elastic.co/guide/cn/elasticsearch/guide/current/script-score.html
+
 补充script相关知识
-
-
 
 
 
