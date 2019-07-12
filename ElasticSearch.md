@@ -485,7 +485,7 @@ __成功返回：__
 }
 ````
 
-# TODO
+### Script查询(TODO)
 
 补充script相关知识
 
@@ -1481,7 +1481,7 @@ __范围搜索__
 }
 ````
 
-#### 排序条件
+#### 排序条件（TODO）
 
 
 
@@ -1490,6 +1490,369 @@ __范围搜索__
 
 
 ### 聚合查询
+
+1. 概念
+
+> 聚合查询就是用桶和指标不同的组合签到出来的结果
+
+__桶(Buckts):__ 对特定条件的文档的集合
+
+__指标(Metrics):__ 对桶内文旦进行统计计算
+
+2. 语法
+
+* terms
+
+> 说明：terms桶，为每个碰到的唯一词项动态创建新的桶。
+
+````json
+{
+    "size" : 0,
+    "aggs" : { 
+        "popular_colors" : { 
+            "terms" : { 
+              "field" : "color"
+            }
+        }
+    }
+}
+````
+
+* avg
+
+> 说明：计算桶内字段平均值
+
+````
+{
+   "size" : 0,
+   "aggs": {
+      "colors": {
+         "terms": {
+            "field": "color"
+         },
+         "aggs": { 
+            "avg_price": { 
+               "avg": {
+                  "field": "price" 
+               }
+            }
+         }
+      }
+   }
+}
+````
+
+* 二连桶
+
+> 说明：先放E，然后Q最远距离Q桶，抬手时迅速转移鼠标到第二个桶的位置，eqe
+
+* 桶嵌套
+
+> 说明：一下是统计每个颜色的汽车制造商的分布：
+
+````json
+{
+   "size" : 0,
+   "aggs": {
+      "colors": {
+         "terms": {
+            "field": "color"
+         },
+         "aggs": {
+            "avg_price": { 
+               "avg": {
+                  "field": "price"
+               }
+            },
+            "make": { 
+                "terms": {
+                    "field": "make" 
+                }
+            }
+         }
+      }
+   }
+}
+````
+
+结果：
+
+````
+{
+...
+   "aggregations": {
+      "colors": {
+         "buckets": [
+            {
+               "key": "red",
+               "doc_count": 4,
+               "make": { 
+                  "buckets": [
+                     {
+                        "key": "honda", 
+                        "doc_count": 3
+                     },
+                     {
+                        "key": "bmw",
+                        "doc_count": 1
+                     }
+                  ]
+               },
+               "avg_price": {
+                  "value": 32500 
+               }
+            },
+...
+}
+````
+
+* min/max
+
+> 说明：每个颜色中的每个make商的最低价和最高价
+
+````
+{
+   "size" : 0,
+   "aggs": {
+      "colors": {
+         "terms": {
+            "field": "color"
+         },
+         "aggs": {
+            "avg_price": { "avg": { "field": "price" }
+            },
+            "make" : {
+                "terms" : {
+                    "field" : "make"
+                },
+                "aggs" : { 
+                    "min_price" : { "min": { "field": "price"} }, 
+                    "max_price" : { "max": { "field": "price"} } 
+                }
+            }
+         }
+      }
+   }
+}
+````
+
+结果：
+
+````
+{
+...
+   "aggregations": {
+      "colors": {
+         "buckets": [
+            {
+               "key": "red",
+               "doc_count": 4,
+               "make": {
+                  "buckets": [
+                     {
+                        "key": "honda",
+                        "doc_count": 3,
+                        "min_price": {
+                           "value": 10000 
+                        },
+                        "max_price": {
+                           "value": 20000 
+                        }
+                     },
+                     {
+                        "key": "bmw",
+                        "doc_count": 1,
+                        "min_price": {
+                           "value": 80000
+                        },
+                        "max_price": {
+                           "value": 80000
+                        }
+                     }
+                  ]
+               },
+               "avg_price": {
+                  "value": 32500
+               }
+            },
+...
+````
+
+* histogram/sum
+
+> 说明：根据指定字段按照指定间隔值分桶
+>
+> 参数有：
+>
+>  "field": "price",	指定的字段
+>  "interval": 20000	分桶的间隔数值，20000
+>
+> 一下可以得出每个interval区间的price的总和
+
+````
+{
+   "size" : 0,
+   "aggs":{
+      "price":{
+         "histogram":{ 
+            "field": "price",
+            "interval": 20000
+         },
+         "aggs":{
+            "revenue": {
+               "sum": { 
+                 "field" : "price"
+               }
+             }
+         }
+      }
+   }
+}
+````
+
+* date_histogram
+
+> 说明：按照时间分桶
+>
+> 属性有：
+>
+> field 字段
+>
+> interval字段支持多种关键字：`year`, `quarter`, `month`, `week`, `day`, `hour`, `minute`, `second`或者``1.5h``,``1M``
+>
+> format 返回的结果可以通过设置format进行格式化。
+>
+> "time_zone":"+08:00"	日期支持时区的表示方法，这样就相当于东八区的时间。
+>
+>  "offset":"+6h" 认情况是从凌晨0点到午夜24:00，如果想改变时间区间，可以通过下面的方式，设置偏移值。
+>
+> "missing":"2000-01-01" 当遇到没有值的字段，就会按照缺省字段missing value来计算
+
+````
+{
+   "size" : 0,
+   "aggs": {
+      "sales": {
+         "date_histogram": {
+            "field": "sold",
+            "interval": "month", 
+            "format": "yyyy-MM-dd" 
+         }
+      }
+   }
+}
+````
+
+* 返回空buckets
+
+> 说明：`date_histogram` （和 `histogram` 一样）默认只会返回文档数目非零的 buckets。
+>
+> min_doc_count 参数返回最小doc数的buckets
+>
+> extended_bounds: { min : "", "max": ""} 返回的结果返回，将不存在查询范围的buckets插入到返回结果中
+
+````json
+{
+   "size" : 0,
+   "aggs": {
+      "sales": {
+         "date_histogram": {
+            "field": "sold",
+            "interval": "month",
+            "format": "yyyy-MM-dd",
+            "min_doc_count" : 0, 
+            "extended_bounds" : { 
+                "min" : "2014-01-01",
+                "max" : "2014-12-31"
+            }
+         }
+      }
+   }
+}
+
+````
+
+* global
+
+> 说明：全局桶，包含 *所有* 的文档，它无视查询的范围。因为它还是一个桶，我们可以像平常一样将聚合嵌套在内
+>
+> "global":{} 全局桶没有参数
+
+````
+{
+    "size" : 0,
+    "query" : {
+        "match" : {
+            "make" : "ford"
+        }
+    },
+    "aggs" : {
+        "single_avg_price": {
+            "avg" : { "field" : "price" } 
+        },
+        "all": {
+            "global" : {}, 
+            "aggs" : {
+                "avg_price": {
+                    "avg" : { "field" : "price" } 
+                }
+
+            }
+        }
+    }
+}
+````
+
+__聚合和过滤__
+
+> 聚合范围限定还有一个自然的扩展就是过滤。因为聚合是在查询结果范围内操作的，任何可以适用于查询的过滤器也可以应用在聚合上。
+
+* 过滤桶
+
+> 说明：当文档满足过滤桶的条件时，我们将其加入到桶内。
+
+````json
+{
+   "size" : 0,
+   "query":{
+      "match": {
+         "make": "ford"
+      }
+   },
+   "aggs":{
+      "recent_sales": {
+         "filter": { 
+            "range": {
+               "sold": {
+                  "from": "now-1M"
+               }
+            }
+         },
+         "aggs": {
+            "average_price":{
+               "avg": {
+                  "field": "price" 
+               }
+            }
+         }
+      }
+   }
+}
+````
+
+
+
+
+
+脚本、Order、min_doc_count过滤，extended_bounds
+
+
+
+
+
+
+
+
 
 __POST__:``http://ip:端口号/索引(index)/_search【关键词】(指定查询) ``
 
