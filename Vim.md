@@ -1,6 +1,11 @@
 # Vim
 ---
+## 安装
+
+
+
 ## 个人配置
+
 ````
 " set the runtime path to include Vundle and initialize
 set rtp+=/Applications/MacVim.app/Contents/Resources/vim/bundle/vundle/ "我这是macvim 我试了我这边写绝对路径就没有问题；这个就是runtimepath 的缩写
@@ -327,6 +332,12 @@ o 打开文件
 
 ## 云VIM (docker_vim)
 
+> 当我通过dockerFile构建了完整的镜像后，发现共有1.2G，
+>
+> 在该镜像中 系统5M+vim30M+YMC250M+其他插件150M+系统依赖的一些程序100M+golang30M+支持go的包500M+零碎东西 = 1.2G
+>
+> 太大所以放弃了
+
 ### 安装docker
 
 ````
@@ -359,4 +370,42 @@ chmod u+x /usr/local/bin/op
 ### 使用
 
 进入项目跟目录 执行 ``op .`` 即可打开 
+
+### DockerFile
+
+```
+FROM docker.io/golang:alpine
+MAINTAINER Rethink 
+RUN apk update && apk upgrade && apk add --no-cache bash && /bin/bash
+ADD molokai.vim /tmp
+ADD vimrc /tmp
+ADD install.sh /root
+RUN chmod u+x /root/install.sh
+RUN /root/install.sh
+```
+
+### Install.sh
+
+```
+#!/bin/bash
+apk add --no-cache build-base ctags git libx11-dev libxpm-dev libxt-dev make ncurses-dev python python-dev cmake musl-dev
+go version
+go get -u golang.org/x/tools/cmd/goimports
+go get -u github.com/zmb3/gogetdoc
+rm -rf /var/cache/apk/*
+git clone https://github.com/vim/vim
+cd vim/
+./configure --disable-gui --disable-netbeans --enable-multibyte --enable-pythoninterp --prefix /usr --with-features=big --with-python-config-dir=/usr/lib/python2.7/config
+make && make install
+mkdir -p /usr/share/vim/vim81/bundle/vundle
+git clone https://github.com/gmarik/vundle.git /usr/share/vim/vim81/bundle/vundle/
+cp /tmp/molokai.vim /usr/share/vim/vim81/colors/molokai.vim
+cp /tmp/vimrc /usr/share/vim/vimrc
+vim -c PluginInstall -c q -c q
+~/.vim/bundle/YouCompleteMe/install.py
+rm -rf /vim
+rm -rf /root/.vim/bundle/YouCompleteMe/doc
+```
+
+
 

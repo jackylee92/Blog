@@ -67,9 +67,10 @@
 * 查看当前目录下所有文件夹大小
 
   ````
-  du -h -x --max-depth=1
-  du -sh * | sort -n
+  du -sh * | sort -n 从小到大
   df -i //查看磁盘空间详情
+  du -sh * | sort -nr 从大到小
+  du -sh .[!.]* * | sort -nr 带隐藏文件的排序
   ````
 
 * grep 文件内容上下文

@@ -21,14 +21,18 @@ vi /etc/shadowsocks.json
     "port_password" : {
         "444" : "password"
     },
-    //"password":"*******",
-    //"server_port":444,
     "timeout":300,
     "method":"aes-256-cfb",
     "fast_open": false
 }
 
 ````
+* 关闭防火墙
+````
+systemctl stop iptables
+systemctl stop firewalld
+````
+
 * 重启shadowsocks
 ````
 ssserver -c /etc/shadowsocks.json -d start

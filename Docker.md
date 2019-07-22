@@ -50,6 +50,8 @@ docker run hello-world
 
 __使用__
 
+https://www.runoob.com/docker/docker-ps-command.html
+
 每一个docker只可以运行一个指定的程序
 
 > docker run --name -it centos /bin/bash 表示启动/bin/bash这个命令
@@ -74,7 +76,7 @@ docker rmi 镜像名称
 docker ps
 ````
 
-* 查看命令记录
+* 查看所有的容器，包括未运行的
 
 ````
 docker ps -a
@@ -113,3 +115,10 @@ docker cp index.html 1231231://use/share/nginx/html/
 # docker stop 镜像源运行的id
 docker stop 1231231
 ````
+
+* 通过DockerFiel生成镜像
+
+````
+docker build -t docker_name:v1.0.0 .
+````
+

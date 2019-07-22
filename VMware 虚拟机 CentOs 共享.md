@@ -9,39 +9,47 @@
 
 * 创建cdrom文件夹
 
-  ````
-   mkdir /mnt/cdrom
-  ````
+````
+mkdir /mnt/cdrom
+````
 
 * 挂载
 
-  ````
-  mount /dev/cdrom /mnt/cdrom
-  cp /mnt/cdrom/VMwareTools-10.1.15-6627299.tar.gz /opt/
-  cd /opt/
-  tar -zxvf VMwareTools-10.1.15-6627299.tar.gz
-  cd vmware-tools-upgrader-64
-  ./vmware-install.pl
-  回车....
-  回车...
-  回车..
-  回车.
-  ...
-  ..
-  .
-  mount -t vmhgfs .host:/  /mnt/hgfs
-  ERROR:cannot mount filesystem: No such device
-  yum install open-vm-tools-devel -y
-  有的源的名字并不一定为open-vm-tools-devel(centos) ，而是open-vm-dkms(unbuntu)
-  执行：/usr/bin/vmhgfs-fuse .host:/ /mnt/win -o subtype=vmhgfs-fuse,allow_other
-  cd /mnt/hgfs
-  ````
+````
+mount /dev/cdrom /mnt/cdrom
+cp /mnt/cdrom/VMwareTools-10.1.15-6627299.tar.gz /opt/
+cd /opt/
+tar -zxvf VMwareTools-10.1.15-6627299.tar.gz
+cd vmware-tools-upgrader-64
+./vmware-install.pl
+回车....
+回车...
+回车..
+回车.
+...
+..
+.
+mount -t vmhgfs .host:/  /mnt/hgfs
+ERROR:cannot mount filesystem: No such device
+yum install open-vm-tools-devel -y
+有的源的名字并不一定为open-vm-tools-devel(centos) ，而是open-vm-dkms(unbuntu)
+执行：/usr/bin/vmhgfs-fuse .host:/ /mnt/win -o subtype=vmhgfs-fuse,allow_other
+cd /mnt/hgfs
+````
 
 * 软链
 
-  ````
-  ln -s /home/cloud-user/win ./
-  ````
+````
+ln -s /home/cloud-user/win ./
+````
+
+* 查看挂载点
+
+````
+df -h
+````
+
+
 
 ## 静态IP
 
@@ -106,3 +114,18 @@ DNS1=119.29.29.29
 
 * 重启网络 systemctl restart network
 * ping www.baidu.com
+
+
+
+
+
+## Parallels Centos共享文件夹
+
+* CD/DVD 选择 pro-tools-lin.iso
+* 重启虚拟机，安装Parallels Tools -> 确定 -> 无论如何
+* 建立文件夹 ``mkdir -p /media/cdrom``
+*  挂载``mount /dev/cdrom /media/cdrom/`` 提示 ``mount: /dev/sr0 写保护，将以只读方式挂载``
+* ``/media/cdrom/install``
+* 如果安装失败 提示error 查看日志 ``tail -f /var/log/parallels-tools-install.log``
+* 安装成功后在``/media/psf``中可看见共享的目录，共享目录在设置中须先设置好
+* 建立软链 ``ln -s /media/cdrom/Home /mac``

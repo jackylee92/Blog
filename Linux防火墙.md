@@ -18,7 +18,7 @@ firewall-cmd –zone=public –remove-port=80/tcp –permanent
 firewall-cmd –zone=public –queay-port=80/tcp
 ````
 
-##iptables
+## iptables
 
 > 下面是iptables命令,实用80%
 
