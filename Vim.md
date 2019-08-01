@@ -2,6 +2,53 @@
 ---
 ## 安装
 
+* 下载最新VIM
+
+````
+git clone https://github.com/vim/vim
+````
+
+* 安装python
+
+````
+wget https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tgz
+./configure //或者稳定版 ./configure --enable-optimizations
+make
+make install
+yum install python-devel
+````
+
+* 编译安装
+
+> 注意python的config目录 通过``whereis python`` 去每个目录下找下
+
+````
+./configure --with-features=huge --enable-pythoninterp --with-python-config-dir=/usr/lib64/python2.7/config/ --enable-python3interp --with-python3-config-dir=/usr/local/lib/python3.7/config-3.7m-x86_64-linux-gnu/ --enable-luainterp --enable-multibyte --enable-fontset
+
+./configure --with-features=huge --enable-pythoninterp --with-python-config-dir=/usr/lib64/python2.7/config/ --enable-luainterp --enable-multibyte --enable-fontset --prefix=/usr/local/vim
+
+
+make 
+make install
+````
+
+* configure
+
+````
+ ./configure  
+–with-features=huge：支持最大特性
+–enable-rubyinterp：打开对ruby编写的插件的支持
+–enable-pythoninterp：打开对python编写的插件的支持
+–enable-python3interp：打开对python3编写的插件的支持
+–enable-luainterp：打开对lua编写的插件的支持
+–enable-perlinterp：打开对perl编写的插件的支持
+–enable-multibyte：打开多字节支持，可以在Vim中输入中文
+–enable-cscope：打开对cscope的支持
+–with-python-config-dir=/usr/lib64/python2.7/config 指定python 路径
+–with-python3-config-dir=/usr/local/python3/lib/python3.6/config-3.6m-x86_64-linux-gnu/ 指定python3路径
+–prefix=/usr/local/vim：指定将要安装到的路径(自行创建)
+````
+
 
 
 ## 个人配置
@@ -112,6 +159,188 @@ let g:syntastic_enable_highlighting=1
 ~                                                                                                                                                                                                                                                                                         
 
 ````
+
+> 20190726
+
+````
+if v:progname =~? "evim"
+  finish
+endif
+
+source $VIMRUNTIME/defaults.vim
+
+if has("vms")
+  set nobackup          " do not keep a backup file, use versions instead
+else
+  set backup            " keep a backup file (restore to previous version)
+  if has('persistent_undo')
+    set undofile        " keep an undo file (undo changes after closing)
+  endif
+endif
+
+if &t_Co > 2 || has("gui_running")
+  set hlsearch
+endif
+
+if has("autocmd")
+
+  augroup vimrcEx
+  au!
+
+  autocmd FileType text setlocal textwidth=78
+
+  augroup END
+
+else
+
+  set autoindent                " always set autoindenting on
+
+endif " has("autocmd")
+
+if has('syntax') && has('eval')
+  packadd! matchit
+endif
+
+
+set rtp+=/usr/local/vim/share/vim/vim81/bundle/vundle
+call vundle#begin()
+
+Plugin 'gmarik/Vundle.vim'
+Plugin 'fatih/vim-go'   " go相关插件
+Plugin 'scrooloose/nerdtree'    " 目录插件
+Plugin 'Valloric/YouCompleteMe' " 代码提示插件
+Plugin 'msanders/snipmate.vim'  " 自动完成 补全代码块
+Plugin 'SirVer/ultisnips'   " 自动完成 补全代码块 配合snipmate使用
+Plugin 'Lokaltog/vim-powerline' " 颜色
+"Plugin 'scrooloose/nerdcommenter' "注释插件
+"Plugin 'kien/ctrlp.vim' " 搜索工具
+Plugin 'junegunn/fzf' " 搜索工具 适用vim8
+
+"Plugin 'taglist.vim' "使用majutsushi/tagbar代替
+"
+Plugin 'klen/python-mode'   " python 插件
+Plugin 'scrooloose/syntastic'   " 语法检查插件
+Plugin 'skywind3000/asyncrun.vim' " 异步执行shell AsyncRun
+
+call vundle#end()
+
+filetype plugin indent on
+
+colorscheme molokai
+set cursorline
+set autoindent
+set number
+set syntax=on
+set iskeyword+=_,$,@,%,#,-
+set guifont=Source_Code_Pro:h12 "
+set ignorecase
+set enc=utf-8
+set fencs=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936
+set smartindent
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set softtabstop=4
+set shortmess=atI
+set ruler
+set laststatus=2
+set t_Co=256
+" :copen 15 " shell命令结果窗口
+" :!ctags -R
+
+let Tlist_Process_File_Always=1 "
+let Tlist_Inc_Winwidth=0
+let Tlist_Show_One_File = 1
+let Tlist_Exit_OnlyWindow = 1
+let Tlist_Use_Right_Window =1
+let Tlist_File_Fold_Auto_Close=1
+
+let g:syntastic_enable_signs = 1
+let g:syntastic_error_symbol='✗'
+let g:syntastic_warning_symbol='►'
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_loc_list_height = 5
+let g:syntastic_check_on_open = 1
+let g:syntastic_auto_jump = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_enable_highlighting=1
+let g:ycm_autoclose_preview_window_after_insertion = 1 " 代码详细提示窗口 自动关闭
+autocmd VimEnter * NERDTree " 目录自动打开
+" 设置在下面几种格式的文件上屏蔽ycm
+let g:ycm_filetype_blacklist = {
+      \ 'tagbar' : 1,
+      \ 'qf' : 1,
+      \ 'notes' : 1,
+      \ 'markdown' : 1,
+      \ 'unite' : 1,
+      \ 'text' : 1,
+      \ 'vimwiki' : 1,
+      \ 'pandoc' : 1,
+      \ 'infolog' : 1,
+      \ 'mail' : 1
+      \}
+
+" go
+let g:tagbar_type_go = {
+	\ 'ctagstype' : 'go',
+	\ 'kinds'     : [
+		\ 'p:package',
+		\ 'i:imports:1',
+		\ 'c:constants',
+		\ 'v:variables',
+		\ 't:types',
+		\ 'n:interfaces',
+		\ 'w:fields',
+		\ 'e:embedded',
+		\ 'm:methods',
+		\ 'r:constructor',
+		\ 'f:functions'
+	\ ],
+	\ 'sro' : '.',
+	\ 'kind2scope' : {
+		\ 't' : 'ctype',
+		\ 'n' : 'ntype'
+	\ },
+	\ 'scope2kind' : {
+		\ 'ctype' : 't',
+		\ 'ntype' : 'n'
+	\ },
+	\ 'ctagsbin'  : 'gotags',
+	\ 'ctagsargs' : '-sort -silent'
+\ }
+let g:tagbar_width = 30 "设置tagbar的宽度为30列，默认40
+let g:tagbar_autofocus = 1 "这是tagbar一打开，光标即在tagbar页面内，默认在vim打开的文件内
+let g:tagbar_sort = 0 "设置标签不排序，默认排序
+let g:tagbar_ctags_bin = 'ctags' "tagbar依赖ctags插件
+
+"快捷键自定义
+"目录
+nnoremap <F1> :NERDTreeToggle<cr>
+"函数列表
+"noremap <F2> :TlistToggle<CR>
+nnoremap <F2> :TagbarToggle<CR>
+"文件搜索
+nnoremap <f3> :FZF<CR>
+"文件搜索 buffer中搜
+"nnoremap <f4> :Buffers<CR>
+"shell命令结果窗口
+nnoremap <f4> :copen 15<CR>
+" :copen 15 " shell命令结果窗口
+
+"生成方法跳转tags
+noremap <F10> :!ctags -R<CR>
+
+"自动完成 无效 直接修改 /root/.vim/bundle/snipmate.vim/after/plugin/snipMate.vim
+"imap <F5> <Plug>snipMateNextOrTrigger
+"smap <F5> <Plug>snipMateNextOrTrigger
+"
+" go的代码提示
+" imap <F6> <C-x><C-o>
+./install.py --gocode-completer
+````
+
+
 
 ## nerdtree
 

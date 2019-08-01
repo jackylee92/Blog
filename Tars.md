@@ -502,7 +502,11 @@ _注:_
 
 > 部署申请中服务类型为对应的语言
 
+PHP 打包：
 
+```
+composer run-script deploy
+```
 
 ## 开机启动
 
