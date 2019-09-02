@@ -476,3 +476,42 @@ Default: `none`
 | `healthchecks.passive.unhealthy.timeouts`*可选*      | 被动检查.                                                    |
 | `healthchecks.passive.unhealthy.http_failures`*可选* | 被动检查.                                                    |
 
+## 转换规则
+
+将RoutePath 部分替换成对应ServicePath + 多出url路径
+
+* RoutePath全部匹配
+
+  > 解释：请求URL（/Part1/Contrall/Action）匹配上，替换成对应的Service设置的Path（/Controller/Action），最终：Upstream/Controller/Action
+
+  Request:	www.api.com/part1/Controller/Action	
+
+  Route:		www.api.com/part1/Controller/Action
+
+  Service: 	/Controller/Action
+
+  最终:		Upstream/Controller/Action
+
+* RoutePath部分匹配
+
+  > 解释：请求URL（/Part1）匹配上，替换成对应的service设置的Path（/）加上剩余路径部分（Controller/Action），最终：upstream/Controller/Action
+
+  Request:	www.api.com/part1/Controller/Action	
+
+  Route:		www.api.com/part1
+
+  Service:	  /
+
+  最终：		Upstream/Controller/Action
+
+* RoutePath部分匹配
+
+  >解释：请求URL（Part1/Controller）匹配上，替换成对应的service设置的path（/Controller）加上剩余部分（Action），最终Upstream/Controller/Action
+
+  Request:	www.api.com/part1/Controller/Action
+
+  Route:		www.api.com/part1/Controller
+
+  Service:	/Controller
+
+  最终:		Upstream/Controller/Action	
