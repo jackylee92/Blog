@@ -145,7 +145,8 @@ bin/kafka-topics.sh --zookeeper 192.168.91.59:2181 --list
 __启动消费者窗口查看maxwell数据__
 
 ````
-bin/kafka-console-consumer.sh --zookeeper 192.168.91.59:2181 --topic maxwell --from-beginning
+bin/kafka-console-consumer.sh --zookeeper 192.168.91.59:2181 --topic maxwell --from-beginning //已废弃
+bin/kafka-console-consumer.sh --bootstrap-server 172.31.255.225:2181--topic test --from-beginning
 ````
 
 ### logstatsh
