@@ -62,55 +62,6 @@ bin/logstash -e 'input { stdin { } } output { stdout {} }'	=>测试
 Pipelines running	=>代表成功
 ````
 
-> logstash 在conf.d的配置文件中对每条json解析
-
->  日志:var/log/logstash/gc.log
-
-__启动__
-
-````
-/usr/..../logstash/bin/logstash -f /usr/..../config/conf.d/file_more_choose.conf
-````
-
-__配置 conf.d/xxx.conf__
-
-````
-input {
-	kafka {
-		bootstrap_servers=> "localhost:9092"
-		group_id => "logstash"
-		topics=> ["maxwell"]
-		codec => json {charset => ["UTF-8"]}
-		consumer_threads => 5
-		decorate_events => true
-	}
-}
-filter {
-	json {
-		source => "message"
-	}
-	mutate {
-		add_field=> {"status" => "0"}
-	}
-}
-output {
-	if [database] in "osp" and [table] in "station" {	//当in的参数只有一条不使用[]，多条才使用[]
-		elasticsearch {
-			hosts => ["192.168.91.59:9200"]
-			index => "queue"
-			document_type => "list"
-			workers => 1
-			template_overwrite => true
-		}
-	}else {
-		stdout{
-			codec => json
-		}
-	}
-}
-````
-
-
 
 ### maxwell
 
@@ -157,6 +108,8 @@ Installing logstash-input-jdbc
 Installation successful
 ````
 
+## 启动
+
 ### Kafka
 
 __启动zookeeper port:2181__
@@ -194,6 +147,57 @@ __启动消费者窗口查看maxwell数据__
 ````
 bin/kafka-console-consumer.sh --zookeeper 192.168.91.59:2181 --topic maxwell --from-beginning
 ````
+
+### logstatsh
+
+> logstash 在conf.d的配置文件中对每条json解析
+
+>  日志:var/log/logstash/gc.log
+
+__配置 conf.d/xxx.conf__
+
+````
+input {
+	kafka {
+		bootstrap_servers=> "localhost:9092"
+		group_id => "logstash"
+		topics=> ["maxwell"]
+		codec => json {charset => ["UTF-8"]}
+		consumer_threads => 5
+		decorate_events => true
+	}
+}
+filter {
+	json {
+		source => "message"
+	}
+	mutate {
+		add_field=> {"status" => "0"}
+	}
+}
+output {
+	if [database] in "osp" and [table] in "station" {	//当in的参数只有一条不使用[]，多条才使用[]
+		elasticsearch {
+			hosts => ["192.168.91.59:9200"]
+			index => "queue"
+			document_type => "list"
+			workers => 1
+			template_overwrite => true
+		}
+	}else {
+		stdout{
+			codec => json
+		}
+	}
+}
+````
+
+__启动logstash__
+
+````
+/usr/..../logstash/bin/logstash -f /usr/..../config/conf.d/file_more_choose.conf
+````
+
 
 ### maxwell
 
@@ -248,4 +252,8 @@ __Maxwell监听binlog获取到的 json__
 }
 ````
 
-​	
+
+
+
+
+
