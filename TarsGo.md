@@ -136,6 +136,90 @@ __go需要1.9以上版本__
 
 ### 服务端：
 
+1. 使用tars2go生成tars服务代码
+
+   ````
+   $GOPATH/bin/tars2go -outdir=../vendor/tars ./global.tars
+   ````
+
+   > 生成的代码在指定的路径中，http服务和tcp服务生成代码文件相同，所以如果所有的服务使用的tars文件相同，则只需要生成一份即可;
+   >
+   > 本人在项目中使用到的tars文件如下，所有项目使用同一套；
+   >
+   > http端调用任何服务都可以使用此服务生成的tars代码，通过制定服务名称来判断调用的服务
+   >
+   > tcp端依赖的tars文件代码也是同一套，需要在main函数中使用服务端特有的写法和makefile文件中的配置对应的tars平台的配置为服务端配置，即可制定该服务为tcp服务，提供方法有Get、Put
+
+   global.tars
+
+   ````
+   module Server
+   {
+       interface Server
+       {
+           int Get(string param, out string data);
+   
+           int Put(string param, out string data);
+       };
+   };
+   ````
+
+   Main.go
+
+   ````
+   package main
+   
+   import (
+   	"github.com/TarsCloud/TarsGo/tars"
+   	"tars/Server" //tars2go生成的服务代码
+   )
+   type Imp struct { // 定义一个要实现Get/Put方法的的接结构体
+   }
+   
+   // 实现Get方法，注意参数需要和tars文件中对应
+   func (imp *Imp) Get(Param string, Data *string) (int32, error) {
+   	data := "测试GetGet [" + Param + "]"
+   	Data = &data
+   	return 100, nil
+   }
+   
+   // 实现Put方法，注意参数需要和tars文件中对应
+   func (imp *Imp) Put(Param string, Data *string) (int32, error) {
+   	data := "测试PutPut [" + Param + "]"
+   	Data = &data
+   	return 101, nil
+   }
+   
+   // mian函数写法 注意Imp、Server.Server、tarsObj需要和tars平台的配置中相同
+   func main() { 
+   	imp := new(Imp)                                        //New Imp
+   	app := new(Server.Server)                              //New init the A Tars
+   	cfg := tars.GetServerConfig()                          //Get Config File Object
+   	app.AddServant(imp, cfg.App+"."+cfg.Server+".tarsObj") //Register Servant
+   	tars.Run()
+   }
+   
+   ````
+
+   
+
+2. 建立mkefile文件，这个文件很重要，打包必须！其中配有服务名相关
+
+   ````
+   APP       := pkg
+   TARGET    := serverName
+   MFLAGS    :=
+   DFLAGS    :=
+   CONFIG    :=
+   STRIP_FLAG:= N
+   J2GO_FLAG:= 
+   
+   libpath=${subst :, ,$(GOPATH)}
+   $(foreach path,$(libpath),$(eval -include $(path)/src/github.com/TarsCloud/TarsGo/tars/makefile.tars))
+   ````
+
+   
+
 ## ERROR
 
 * ``make tar``打包失败
