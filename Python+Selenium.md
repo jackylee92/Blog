@@ -86,6 +86,8 @@ yum install python-setuptools && easy_install pip
 
 ````
 pip install selenium
+// 多个python使用，在当前python版本下/site-packages路径下安装了selenium，这样就可以成功导入selenium了
+python -m pip install -U selenium
 ````
 
 
@@ -145,3 +147,18 @@ chrome_opt.add_argument('-user-agent=""') #设置请求头的User-Agent
 diccookie=driver.get_cookies()
 ````
 
+
+
+
+
+问题：
+
+Mac 
+
+1. Idea python配置难搞
+2. 需要装mysql相关程序
+
+Linux
+
+1. 编辑器没有
+2. 没有chrome
