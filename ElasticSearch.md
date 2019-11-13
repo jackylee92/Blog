@@ -2292,6 +2292,36 @@ __POST__:``http://ip:端口号/索引(index)/_search【关键词】(指定查询
 >
 > 前6行为添加 三条数据，7-8为更新，9为删除
 
+````
+{ action: { metadata }}\n
+{ request body        }\n
+{ action: { metadata }}\n
+{ request body        }\n
+...
+````
+
+`action/metadata` 行指定 *哪一个文档* 做 *什么操作* 。
+
+`action` 必须是以下选项之一:
+
+- **`create`**
+
+  如果文档不存在，那么就创建它。详情请见 [创建新文档](https://www.elastic.co/guide/cn/elasticsearch/guide/current/create-doc.html)。
+
+- **`index`**
+
+  创建一个新文档或者替换一个现有的文档。详情请见 [索引文档](https://www.elastic.co/guide/cn/elasticsearch/guide/current/index-doc.html) 和 [更新整个文档](https://www.elastic.co/guide/cn/elasticsearch/guide/current/update-doc.html)。
+
+- **`update`**
+
+  部分更新一个文档。详情请见 [文档的部分更新](https://www.elastic.co/guide/cn/elasticsearch/guide/current/partial-updates.html)。
+
+- **`delete`**
+
+  删除一个文档。详情请见 [删除文档](https://www.elastic.co/guide/cn/elasticsearch/guide/current/delete-doc.html)。
+
+__使用index比较方便可以创建新文档或者更新现有文档__
+
 __POST__:``_buld``
 ````
 {"index":{"_index":"zhouls","_type":"emp","_id":"10"}}

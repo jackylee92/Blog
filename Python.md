@@ -9,6 +9,9 @@ a = (
 	'1111' +
 	'2222'
 )
-```` 
+````
 
 * ,后面需要一个空格
+
+  mac中扩展目录：/anaconda3/lib/python3.7/site-packages/
+
