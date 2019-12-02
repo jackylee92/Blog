@@ -202,6 +202,8 @@ __以下为多次安装后总结简单具体步骤__
 `chmod u+x build.sh`     
 > 编译时默认使用的mysql开发库路径：include的路径为/usr/local/mysql/include，lib的路径为/usr/local/mysql/lib/，若mysql开发库的安装路径不在默认路径，则需要修改build目录下CMakeLists.txt文件中的mysql相关的路径，再编译  
 
+``./build.sh prepare``
+
 `./build.sh all`  
 `cd /usr/local`  
 `mkdir tars`  
