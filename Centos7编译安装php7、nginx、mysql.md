@@ -57,7 +57,7 @@ cp sapi/fpm/php-fpm /usr/local/bin
 ````
 vi /usr/local/php/php.ini
 ````
-<del>打开php配置文件找到cgi.fix_pathinfo配置项，这一项默认被注释并且值为1，根据官方文档的说明，这里为了当文件不存在时，阻止Nginx将请求发送到后端的PHP-FPM模块，从而避免恶意脚本注入的攻击，所以此项应该去掉注释并设置为0
+<delete>打开php配置文件找到cgi.fix_pathinfo配置项，这一项默认被注释并且值为1，根据官方文档的说明，这里为了当文件不存在时，阻止Nginx将请求发送到后端的PHP-FPM模块，从而避免恶意脚本注入的攻击，所以此项应该去掉注释并设置为0
 
 修改php-fpm
 然后网上一些教程说让修改php-fpm.conf添加以上创建的用户和组，
@@ -65,7 +65,7 @@ vim /usr/local/php/etc
 默认情况下etc/php-fpm.d/下有一个名为www.conf.defalut的配置用户的文件，执行下面命令复制一个新文件并且打开：
 cp www.conf.default www.conf
 vi www.conf 
-默认user和group的设置为nobody，将其改为合适的。</del>
+默认user和group的设置为nobody，将其改为合适的。</delete>
 
 
 

@@ -232,5 +232,25 @@ close(ch)
 
 __Cron(定时任务)__
 
+````
+import (
+	"github.com/robfig/cron"
+	"log"
+)
+func main(){
+	i := 0
+	c := cron.New()
+	spec := "*/5 * * * * *" // 没5秒执行
+	c.AddFunc(spec, func() {
+		i++
+		log.Println("定时任务生效输出：", i)
+	})
+	c.Start()
+	select {} //阻塞
+}
+````
+
+
+
 
 
