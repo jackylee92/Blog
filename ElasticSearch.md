@@ -624,7 +624,7 @@ __POST__:``http://ip:端口号/索引(index)/_search【关键词】(指定查询
 
 * match_all 
 
-> 说明：查询所有
+> 说明：查询所有，就是查询所有的写法
 
 ````
 {
@@ -2334,6 +2334,149 @@ __POST__:``_buld``
 {"doc":{"age" :22}}
 {"delete":{"_index":"zhouls","_type":"emp","_id":"1"}}
 ````
+
+### Should不生效（minimum_should_match）
+
+> 当should和must混合使用时，发现should没有生效；
+>
+> 如果一个query语句的bool下面，除了should语句，还包含了filter或者must语句，那么should context下的查询语句可以一个都不满足，只是_score=0，需要使用minimum_should_match（最小匹配度）
+>
+> 需要查询的数据要求是：数据中a=1并且（b=2或者c=3）；正常会写出以下查询，但是这种情况should未生效
+
+````
+POST data/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "term": {
+            "a": {
+              "value": "1"
+            }
+          }
+        }
+      ],
+      "should": [
+        {
+          "term": {
+            "b": {
+              "value": "2"
+            }
+          }
+        },
+        {
+          "term": {
+            "c": {
+              "value": "3"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+````
+
+> 这中查询换种理解方式就是((a=1 && b=2)||(a=1 && c=3)
+>
+> 查询写法如下
+
+````
+POST data/_search
+{
+  "query": {
+    "bool": {
+      "should": [
+        {
+          "bool": {
+            "must": [
+              {
+                "term": {
+                  "a": {
+                    "value": "1"
+                  }
+                }
+              },
+              {
+                "term": {
+                  "b": {
+                    "value": "2"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "bool": {
+            "must": [
+              {
+                "term": {
+                  "a": {
+                    "value": "1"
+                  }
+                }
+              },
+              {
+                "term": {
+                  "c": {
+                    "value": "3"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
+````
+
+> 或者 使用 minimum_should_match 就是最小匹配度，必须跟在should后面，
+>
+> 查询如下
+
+````
+POST data/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "term": {
+            "a": {
+              "value": "1"
+            }
+          }
+        }
+      ],
+      "should": [
+        {
+          "term": {
+            "b": {
+              "value": "2"
+            }
+          }
+        },
+        {
+          "term": {
+            "c": {
+              "value": "3"
+            }
+          }
+        }
+      ],
+      "minimum_should_match":1
+    }
+  }
+}
+````
+
+
+
+
 
 ## 字段类型
 

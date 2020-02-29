@@ -18,7 +18,7 @@ tar -zxvf postgresql-9.6.3.tar.gz
 cd postgresql-9.6.3
 ./configure --prefix=/usr/local/postgresql --without-readline
 make && make install
-useadd postgres
+useradd postgres
 cd /usr/local/postgresql
 mkdir data
 mkdir logs
