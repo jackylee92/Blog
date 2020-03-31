@@ -41,9 +41,9 @@ for _,item := range list {
 ````
 for _,item := range list {
  tmp := item
- go func(tmp) {
+ go func(timA string) {
   log.Println(tmpA)
- }(timA string)
+ }(tmp)
 }
 ````
 
