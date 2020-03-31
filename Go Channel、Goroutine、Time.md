@@ -24,6 +24,31 @@
 
 > 并发执行的最小活动单元，当go程序执行时，一个执行main function的goroutine就会被创建(main goroutine)
 
+for循环中使用goroutine需要注意
+
+> 错误使用：go协程中使用的item的地址，在上面list循环中item的值是一只变化的。所以go协程中的item值并不是一一对应的
+
+````
+for _,item := range list {
+ go func(){
+   log.Println(item)
+ }()
+}
+````
+
+> 正确用法：通过参数形式传递进去
+
+````
+for _,item := range list {
+ tmp := item
+ go func(tmp) {
+  log.Println(tmpA)
+ }(timA string)
+}
+````
+
+
+
 
 
 ## Channel
