@@ -92,6 +92,20 @@ ALTER USER kong WITH password 'kong';
 /q
 ````
 
+导出数据：
+
+`````
+pg_dump -U kong kong -f kong.sql
+`````
+
+导入数据：
+
+````
+psql -d kong -U kong -f kong.sql
+````
+
+
+
 ## 配置
 
 kong 连接 postgresql

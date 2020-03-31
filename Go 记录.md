@@ -152,6 +152,42 @@ funcName("nihao","hello","hi")
 func funcName(name string, param ...interface{})
 ```
 
+## 一个包中可以多个init
+
+下面写法是能编译通过的，按照文件再按照函数位置顺序执行init
+
+````
+import (
+	"log"
+)
+func main(){
+}
+
+func init(){
+	log.Println("1")
+}
+
+func init(){
+	log.Println("2")
+}
+
+func init(){
+	log.Println("3")
+}
+````
+
+> 输出：
+>
+> 2020/02/29 12:57:43 1
+> 2020/02/29 12:57:43 2
+> 2020/02/29 12:57:43 3
+
+## 类型转换与类型断言
+
+https://www.cnblogs.com/zrtqsk/p/4157350.html
+
+
+
 ##  int、int64区别
 
 > int在32位机器上就是int32，在64位机器上就是int64，不知道有没有记错。超过了int的上限就用int64，不然会溢出
