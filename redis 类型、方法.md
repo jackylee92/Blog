@@ -183,13 +183,9 @@ hgetall myhash
 
 　　　　lpush：向头部添加元素；成功返回添加后的数量；可以同事添加多个元素
 
- 
-
 ```
 lpush mylist value    //向mylist头部添加 value
 ```
-
- 
 
 　　　　lpop：从头部弹出一个元素；成功返回第一个元素；失败返回nil
 
