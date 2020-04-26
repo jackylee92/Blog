@@ -74,7 +74,7 @@ hello world
 >解决方案：
 >
 >	mkdir -p /usr/share/logstash/config/
->
+>	
 >	ln -s /etc/logstash/* /use/share/logstash/config
 
 
