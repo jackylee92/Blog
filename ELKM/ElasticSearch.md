@@ -318,7 +318,8 @@ __PUT__:``http://ip:端口/索引(index)``
               "properties【关键词】属性定义集合": {
                   "属性名1": {
                       "type【关键词】类型值": "",
-                      "analyzer【关键词】（分词设置）": ""
+                      "analyzer【关键词】（分词设置）": "",
+                      "ignore_malformed【异常数值可以同步忽略索引】": true
                   },
                   "属性名2": {
                       "type【关键词】类型值": ""
@@ -344,7 +345,8 @@ __PUT__:``http://ip:端口/索引(index)``
         "analyzer": "xxx//text特有属性 定义用于索引和搜索的分析器名称,默认为全局定义的分析器名称。可以开箱即用的分析器:standard,simple,whitespace,stop,keyword,pattern,language,snowball",
         "index_analyzer": "xxx //text特有属性 定义用于建立索引的分析器名称",
         "search_analyzer": "xxx //text特有属性 定义用于搜索时分析该字段的分析器名称",
-        "ignore_above": "xxx //text特有属性 定义字段中字符的最大值，字段的长度高于指定值时，分析器会将其忽略"
+        "ignore_above": "xxx //text特有属性 定义字段中字符的最大值，字段的长度高于指定值时，分析器会将其忽略",
+      	"ignore_malformed": "bool类型 true/false 设置该字段添加、修改时如果值异常是忽略会无法索引，还是整个doc无法插入"
     }
 }
   ````
