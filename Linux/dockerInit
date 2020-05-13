@@ -1,0 +1,40 @@
+#!/bin/bash
+
+echo "" | sudo tee -a /etc/profile
+echo "# 启动配置" | sudo tee -a /etc/profile
+
+# 配置GOPATH指向宿主机目录
+if [ $GOPATH ];
+then
+    echo "GOPATH=$GOPATH" | sudo tee -a /etc/profile
+    echo "export PATH=\$PATH:\$GOPATH/bin"   | sudo tee -a /etc/profile
+else
+    echo "export GOPATH=root/local" | sudo tee -a /etc/profile
+fi
+
+# 打包目录
+if [ $TARSPKGPATH ];
+then
+    echo "export TARSPKGPATH=$TARSPKGPATH" | sudo tee -a /etc/profile
+else
+    echo "export TARSPKGPATH=root/local" | sudo tee -a /etc/profile
+fi
+
+# Nginx配置目录
+if [ $NGINXCONFIGPATH ];
+then
+    sudo ln -s $NGINXCONFIGPATH /etc/nginx/localConf
+else
+    sudo ln -s /etc/nginx /etc/nginx/localConf
+fi
+
+# 配置命令
+echo "alias ll='ls -la'" | sudo tee -a /etc/profile
+
+source /etc/profile
+
+# 启动ng php-fpm
+sudo nginx
+sudo php-fpm
+
+sudo /usr/sbin/sshd -D

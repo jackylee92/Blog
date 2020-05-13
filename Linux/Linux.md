@@ -81,6 +81,10 @@ grep -C 5 foo file  显示file文件中匹配foo字串那行以及上下5行
 grep -B 5 foo file  显示foo及前5行
 
 grep -A 5 foo file  显示foo及后5行
+
+grep -E "aaa.*bbb" // aaa and bbb
+
+grep -E "aaa|bbb" // aaa or bbb
 ````
 
 * Top -p 进程ID 查看某一进程内存使用情况
@@ -204,4 +208,13 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/docker.service 
   ntpdate us.pool.ntp.org
   ````
 
-  
+  ### make 出错
+
+````
+libtool: Version mismatch error.  This is libtool 2.4.6, but the
+libtool: definition of this LT_INIT comes from an older release.
+libtool: You should recreate aclocal.m4 with macros from libtool 2.4.6
+libtool: and run autoconf again.
+make: *** [Makefile:1230: ext/opcache/ZendAccelerator.lo] Error 63
+````
+

@@ -1,0 +1,5 @@
+ALTER TABLE `statement`.`osp_invoice_match_relation` 
+MODIFY COLUMN `status` tinyint(2) NOT NULL DEFAULT 0 COMMENT '匹配状态 1=正常匹配 2=记损，当记损时发票ID=0' AFTER `match_litre`,
+ADD INDEX `index_invoice_Id`(`invoice_id`) USING BTREE,
+ADD INDEX `index_osp_id`(`osp_id`) USING BTREE,
+ADD INDEX `index_goods_id`(`goods_id`) USING BTREE;
