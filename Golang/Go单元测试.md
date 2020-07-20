@@ -19,3 +19,6 @@ func TestApi(t *testing.T) {
 ````
 
 * 执行 ``go test``
+* 指定执行文件和函数 ``go test -v -run funcName fileName`` 
+
+> -v 显示详情

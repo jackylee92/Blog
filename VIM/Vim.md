@@ -450,7 +450,26 @@ vim /Applications/Visual Studio Code.app/Contents/Resources/app/extensions/php/s
 }
 ````
 
+idea
 
+设置中搜索live Template选择对应的语言 然后点击+
+
+Template text
+
+````
+/*  
+ * @Content : $CONTENTDES$
+ * @Param   : $PARAMDES$
+ * @Return  : $RETURNDES$ 
+ * @Author  : $USER$
+ * @Time    : $TIME$
+*/  
+func ($OBJ$)$FUNCNAME$($PARAM$)($RETURN$){
+     $END$
+}
+````
+
+Edit Variables 中修改顺序 和添加Time方法 ``date()``, 其中default value 应该使用双引号包起来
 
 ## PowerLine
 
