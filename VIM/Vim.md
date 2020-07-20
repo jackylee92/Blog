@@ -426,7 +426,34 @@ snippet ////
      */  
 ````
 
+vscode
+
+vim /Applications/Visual Studio Code.app/Contents/Resources/app/extensions/php/snippets/php.code-snippets
+
+````json
+{
+"prefix": "doc_f",
+		"body": [
+			"/**",
+			" * @Content : ${1:undocumented function summary}",
+			" *",
+			" * @Param   : ${2:code:0}",
+			" * @Author  : ${3:lijundong}",
+			" * @Time    : ${4:$CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE}",
+			" **/",
+			"${5:public }function ${6:FunctionName}(${7})",
+			"{",
+			"\t${0:# code...}",
+			"}"
+		],
+		"description": "Documented function"
+}
+````
+
+
+
 ## PowerLine
+
 > 先按转PowerLine,配置如下
 
 ````
