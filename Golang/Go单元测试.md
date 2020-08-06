@@ -22,3 +22,10 @@ func TestApi(t *testing.T) {
 * 指定执行文件和函数 ``go test -v -run funcName fileName`` 
 
 > -v 显示详情
+
+``go test``是有缓存的，代码和命令不变的情况下会直接返回上次一结果，避免这种情况可以加``-count=1``
+
+````
+go test -v -run funcName fileName -count=1
+````
+
