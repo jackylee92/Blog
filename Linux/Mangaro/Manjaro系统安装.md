@@ -20,8 +20,11 @@
 * 截图
 * postman
 * docker
+  * PHP
+  * Golang
+  * Nginx
+  * MySQL
 * 迅雷
 * goland
 * phpstorm
 * 音乐
-
