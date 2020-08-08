@@ -29,7 +29,7 @@ phpunit --version
 composer require --dev phpunit/phpunit ^6.2
 ````
 
-配置xml文件，简单的配置下
+配置phpunit.xml文件，简单的配置下
 
 ````xml
 <phpunit bootstrap="vendor/autoload.php">
@@ -82,7 +82,7 @@ final class IndexTest extends TestCase
 启动：
 
 ````
-phpunit test/testIndex.php
+phpunit test/testIndex.php --filter functionName
 ````
 
 ## Tars中使用

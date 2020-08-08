@@ -1,0 +1,11 @@
+docker network create -d bridge --subnet=172.25.0.0/16 --gateway=172.25.0.1 tars
+
+docker run -d -p 3306:3306 --privileged=true --net=tars -e MYSQL_ROOT_PASSWORD="root" --ip="172.25.0.2" -v /home/cloud-user/Tars/mysql:/var/lib/mysql -v /etc/localtime:/etc/localtime --name=tars-mysql mysql:5.6
+
+docker run -d --privileged=true --name=tars-framework --net=tars -e MYSQL_HOST="172.25.0.2" -e MYSQL_ROOT_PASSWORD="root" -e MYSQL_USER=root -e MYSQL_PORT=3306 -e REBUILD=false -e INET=eth0 -e SLAVE=false --ip="172.25.0.3" -v /home/cloud-user/Tars/framework:/data -v /etc/localtime:/etc/localtime -p 3000:3000 -p 3001:3001 -p 17890:17890 tarscloud/framework:v2.4.0
+
+docker run -d --privileged=true --name=tars-node-bbdy --net=tars -e INET=eth0 -e WEB_HOST="http://172.25.0.3:3000" --ip="172.25.0.4" -v /home/cloud-user/Tars/node-bbdy:/data -v /etc/localtime:/etc/localtime -p 30000-30499:30000-30499 tarscloud/tars-node:latest
+
+docker run -d --privileged=true --name=tars-node-api --net=tars -e INET=eth0 -e WEB_HOST="http://172.25.0.3:3000" --ip="172.25.0.5" -v /home/cloud-user/Tars/node-api:/data -v /etc/localtime:/etc/localtime -p 30500-30599:30500-30599 tarscloud/tars-node:latest
+
+docker run -d --privileged=true --name=tars-node-job --net=tars -e INET=eth0 -e WEB_HOST="http://172.25.0.3:3000" --ip="172.25.0.6" -v /home/cloud-user/Tars/node-job:/data -v /etc/localtime:/etc/localtime -p 30600-30799:30600-30799 tarscloud/tars-node:latest

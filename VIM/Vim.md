@@ -426,7 +426,53 @@ snippet ////
      */  
 ````
 
+vscode
+
+vim /Applications/Visual Studio Code.app/Contents/Resources/app/extensions/php/snippets/php.code-snippets
+
+````json
+{
+"prefix": "doc_f",
+		"body": [
+			"/**",
+			" * @Content : ${1:undocumented function summary}",
+			" *",
+			" * @Param   : ${2:code:0}",
+			" * @Author  : ${3:lijundong}",
+			" * @Time    : ${4:$CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE}",
+			" **/",
+			"${5:public }function ${6:FunctionName}(${7})",
+			"{",
+			"\t${0:# code...}",
+			"}"
+		],
+		"description": "Documented function"
+}
+````
+
+idea
+
+设置中搜索live Template选择对应的语言 然后点击+
+
+Template text
+
+````
+/*  
+ * @Content : $CONTENTDES$
+ * @Param   : $PARAMDES$
+ * @Return  : $RETURNDES$ 
+ * @Author  : $USER$
+ * @Time    : $TIME$
+*/  
+func ($OBJ$)$FUNCNAME$($PARAM$)($RETURN$){
+     $END$
+}
+````
+
+Edit Variables 中修改顺序 和添加Time方法 ``date()``, 其中default value 应该使用双引号包起来
+
 ## PowerLine
+
 > 先按转PowerLine,配置如下
 
 ````
