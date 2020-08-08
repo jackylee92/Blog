@@ -471,7 +471,7 @@ x             taglist窗口放大和缩小，方便查看较长的tag
 q            关闭taglist窗口
 <F1>      显示帮助
 ````
-##YouCompleteMe
+## YouCompleteMe
 
 * vim vimrc 
 

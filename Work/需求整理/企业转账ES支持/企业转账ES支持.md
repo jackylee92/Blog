@@ -60,10 +60,6 @@ es中添加四个字段
 |3| amoutCompanys      | nested(companyId、amount) | 公司金额分配       | 是       |
 |4| amountDistribution | test                      | 公司分配全部信息   | 否       |
 
-1. 
-
-
-
 ### 补充
 
 struct添加索引：
@@ -73,15 +69,9 @@ ALTER TABLE `elasticsync`.`struct`
 ADD INDEX `index_i_id`(`i_id`) USING BTREE;
 ````
 
-
-
-
-
 ## 主要函数
 
 > 涉及到的函数封装
-
-
 
 ## 注意事项
 
