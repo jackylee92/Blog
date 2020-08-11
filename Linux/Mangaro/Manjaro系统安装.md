@@ -28,19 +28,13 @@
 
 设置``Boot``中``Boot Mode``为UEFI，一般原本就是UEFI，则可以不用设置。
 
-<image bois-boot-mode-image>
-
 ![1535040986682](https://raw.githubusercontent.com/jackylee92/file/master/manjaro/bois-boot-mode-image.JPG?raw=true)
 
 关闭Secure Boot：进入Boot菜单，修改``Secure Boot``为``Disabled``，如果不可以选择，则进入``Security``菜单，选择``Set Supervisor Password``回车添加密码，可以先设置简单的，然后F10重启，在通过F2输入设置的密码进入bois然后可以设置``Boot``中``Secure Boot``了；如果方法行不通，则可以网上对应电脑查一下关闭``Secure Boot``方式。
 
-<image bois-security-set-supervisor-password-image>
-
 ![1535040986682](https://raw.githubusercontent.com/jackylee92/file/master/manjaro/bois-security-set-supervisor-password-image.JPG?raw=true)
 
 设置Boot中``Boot priority order`` 第一个启动项为USB，选中USB按F6移动位置。
-
-<image bois-boot-priority-order-usb-image>
 
 ![1535040986682](https://raw.githubusercontent.com/jackylee92/file/master/manjaro/bois-boot-priority-order-usb-image.JPG?raw=true)
 
@@ -60,37 +54,23 @@
 
 第五项 Boot: 选中按e进入修改，修改driver值由``free``改为``intel`` 紧跟着后面 nouveau.modeset值有1改为0
 
-<image install-manjaro-init-image>
-
 ![1535040986682](https://raw.githubusercontent.com/jackylee92/file/master/manjaro/install-manjaro-init-image.JPG?raw=true)
-
-<image install-manjaro-init-set-image>
 
 ![1535040986682](https://raw.githubusercontent.com/jackylee92/file/master/manjaro/install-manjaro-init-set-image.JPG?raw=true)
 
 然后按F10进入安装。
 
-<image install-manjaro-welcome-image>
-
-![1535040986682](https://raw.githubusercontent.com/jackylee92/file/master/manjaro/install-manjaro-welcome-image.JPG?raw=true)
-
 点击右下角WiFi连接网络
 
 然后点击``Launch install`` 开始安装
-
-<image install-manjaro-set1-image>
 
 ![1535040986682](https://raw.githubusercontent.com/jackylee92/file/master/manjaro/install-manjaro-set1-image.JPG?raw=true)
 
 下一步，选择位置，点击上海
 
-<image install-manjaro-set2-image>
-
 ![1535040986682](https://raw.githubusercontent.com/jackylee92/file/master/manjaro/install-manjaro-set2-image.JPG?raw=true)
 
 下一步，选择键盘，默认不需要修改
-
-<image install-manjaro-set3-image>
 
 ![1535040986682](https://raw.githubusercontent.com/jackylee92/file/master/manjaro/install-manjaro-set3-image.JPG?raw=true)
 
@@ -98,55 +78,37 @@
 
 可以选择抹除磁盘，将manjaro安装在整个系统中，会自动分区为一个300M的引导分区，一部分隐藏分区，其他全部为系统分区
 
-<image install-manjaro-se4-image>
-
 ![1535040986682](https://raw.githubusercontent.com/jackylee92/file/master/manjaro/install-manjaro-se4-image.JPG?raw=true)
 
 我选择的是手动分区
-
-<image install-manjaro-set5-image>
 
 ![1535040986682](https://raw.githubusercontent.com/jackylee92/file/master/manjaro/install-manjaro-set5-image.JPG?raw=true)
 
 选择500G固态硬盘，下面的是U盘
 
-<image install-manjaro-set6-image>
-
 ![1535040986682](https://raw.githubusercontent.com/jackylee92/file/master/manjaro/install-manjaro-set6-image.JPG?raw=true)
 
 点击“新建分区表”选择 “GUID分区表(GPT)”，将清空分区设置，准备重新开始建立分区
-
-<image install-manjaro-set7-image>
 
 ![1535040986682](https://raw.githubusercontent.com/jackylee92/file/master/manjaro/install-manjaro-set7-image.JPG?raw=true)
 
 > 建立引导分区，默认建立的是300M，我给了512M应该够了，文件系统：fat32 挂载点：/boot/efi 标记：boot
 
-<image install-manjaro-set8-image>
-
 ![1535040986682](https://raw.githubusercontent.com/jackylee92/file/master/manjaro/install-manjaro-set8-image.JPG?raw=true)
 
 > 建立opt分区，一般安装三方软件存放地，50G应该够了，文件系统：ext4 挂载点：/opt 标记：无
-
-<image install-manjaro-set9-image>
 
 ![1535040986682](https://raw.githubusercontent.com/jackylee92/file/master/manjaro/install-manjaro-set9-image.JPG?raw=true)
 
 > 建立系统分区，50G够用了，文件系统：ext4 挂载点：/ 标记：无
 
-<image install-manjaro-set10-image>
-
 ![1535040986682](https://raw.githubusercontent.com/jackylee92/file/master/manjaro/install-manjaro-set10-image.JPG?raw=true)
 
 > 建立临时存储空间，该空间在系统关机、异常时数据临时存储的地方，16G完全够用了，应该小于等于系统内存8G即可，文件系统：linuxswap 挂载点：无 标记：无
 
-<image install-manjaro-set11-image>
-
 ![1535040986682](https://raw.githubusercontent.com/jackylee92/file/master/manjaro/install-manjaro-set11-image.JPG?raw=true)
 
 > 建立用户家目录分区，该空间保存用户数据，文件系统：ext4 挂载点：/home 标记：无
-
-<image install-manjaro-set12-image>
 
 ![1535040986682](https://raw.githubusercontent.com/jackylee92/file/master/manjaro/install-manjaro-set12-image.JPG?raw=true)
 
@@ -154,25 +116,17 @@
 
 下一步，创建用户
 
-<image install-manjaro-create-user-image>
-
 ![1535040986682](https://raw.githubusercontent.com/jackylee92/file/master/manjaro/install-manjaro-create-user-image.JPG?raw=true)
 
 下一步，选择安装的程序。可以先不安装，这样系统安装的比较快
-
-<image install-manjaro-app-image>
 
 ![1535040986682](https://raw.githubusercontent.com/jackylee92/file/master/manjaro/install-manjaro-app-image.JPG?raw=true)
 
 下一步，摘要。查看安装的所有信息。
 
-<image install-manjaro-info-image>
-
 ![1535040986682](https://raw.githubusercontent.com/jackylee92/file/master/manjaro/install-manjaro-info-image.JPG?raw=true)
 
 下一步，点击安装，进入安装中页面。
-
-<image install-manjaro-start-image>
 
 ![1535040986682](https://raw.githubusercontent.com/jackylee92/file/master/manjaro/install-manjaro-start-image.JPG?raw=true)
 
@@ -182,15 +136,11 @@
 
 此时系统安装完成。
 
-<image install-manjaro-success-image>
-
 ![1535040986682](https://raw.githubusercontent.com/jackylee92/file/master/manjaro/install-manjaro-success-image.JPG?raw=true)
 
 ## 环境配置
 
 初次进入系统
-
-<image set-manjaro-welcome-image>
 
 ![1535040986682](https://raw.githubusercontent.com/jackylee92/file/master/manjaro/set-manjaro-welcome-image.JPG?raw=true)
 
@@ -296,23 +246,15 @@ curl www.google.com
 
 > 一般这样就可以科学上网了，后面针对不同的程序需要设置代理。
 
-<image set-manjaro-google-image>
-
 ![1535040986682](https://raw.githubusercontent.com/jackylee92/file/master/manjaro/set-manjaro-google-image.JPG?raw=true)
 
 firefox代理，设置如下：
-
-<image set-manjaro-firefox-image>
 
 ![1535040986682](https://raw.githubusercontent.com/jackylee92/file/master/manjaro/set-manjaro-firefox-image.JPG?raw=true)
 
 * 输入法
 
 打开“添加/删除软件”，搜索"IBus"，选中第一个，然后选在“ibus pinyin”，选择第一个或者 "sunpinyin"选择安装，然后点应用，开始下载安装。
-
-<image set-manjaro-input-image1>
-
-<image set-manjaro-input-image2>
 
 添加文件.xprofile
 
