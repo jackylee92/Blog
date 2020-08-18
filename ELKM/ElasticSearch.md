@@ -256,7 +256,7 @@ Elasticsearch -> Indices   -> Types  -> Documents -> Fields
 
 elasticsearch-head概览中方框中的123表示索引的分片 方框比较宽的表示主分片，其他的表示分片的备份，细方框的为对应数字粗方框的分片备份；
 
-![1535040986682](https://github.com/jackylee92/Blog/blob/master/Images/es1.png?raw=true)
+![1535040986682](https://github.com/jackylee92/file/blob/master/es1.png?raw=true)
 
 索引中_mappings中有字段结构表示结构索引，没有则是非结构话索引；
 
@@ -1083,7 +1083,7 @@ POST station/_search
 >
 > 		1. 获取最佳匹配语句的评分``_source``
 >   		2. 将其他匹配语句的评分结果与``tie_breaker``相乘
->   		3. 对以上评分求和，并规范化
+>     		3. 对以上评分求和，并规范化
 >
 > 有了 `tie_breaker` ，会考虑所有匹配语句，但最佳匹配语句依然占最终结果里的很大一部分。
 >
