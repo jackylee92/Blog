@@ -52,6 +52,24 @@ echo "date.timezone = PRC" >> /usr/local/php/etc/php.ini
 ln -s /usr/local/php/bin/php /usr/bin/php
 ln -s /usr/local/php/sbin/php-fpm /usr/bin/php-fpm
 
+
+# yaf
+cd /opt/yaf-3.0.8/
+phpize
+./configure --with-php-config=/usr/local/php/bin/php-config
+make && make install
+echo "extension=yaf" >> /usr/local/php/etc/php.ini
+
+#rdkafka
+cd /opt/librdkafka/
+./configure
+make && make install
+cd /opt/php-rdkafka/
+phpize
+./configure --with-php-config=/usr/local/php/bin/php-config
+make && make install
+echo "extension=rdkafka" >> /usr/local/php/etc/php.ini
+
 # swoole
 cd /opt/swoole-4.1.1/
 phpize
@@ -75,22 +93,6 @@ phpize
 make && make install
 echo "extension=blitz" >> /usr/local/php/etc/php.ini
 
-# yaf
-cd /opt/yaf-3.0.8/
-phpize
-./configure --with-php-config=/usr/local/php/bin/php-config
-make && make install
-echo "extension=yaf" >> /usr/local/php/etc/php.ini
-
-#rdkafka
-cd /opt/librdkafka/
-./configure
-make && make install
-cd /opt/php-rdkafka/
-phpize
-./configure --with-php-config=/usr/local/php/bin/php-config
-make && make install
-echo "extension=rdkafka" >> /usr/local/php/etc/php.ini
 
 # phpredis
 cd /opt/phpredis-4.3.0/
@@ -163,6 +165,8 @@ echo "POWERLINE_BASH_SELECT=1" >> /etc/profile
 echo ". /usr/local/lib/python3.6/site-packages/powerline/bindings/bash/powerline.sh" >> /etc/profile
 source /etc/profile
 
+
+
 cd /opt/
 git clone https://github.com/powerline/fonts.git --depth=1
 cd fonts
@@ -178,3 +182,4 @@ cd /opt/
 \cp -rf vimrc ~/.vim/
 chmod 777 /usr/local/bin/dockerInit
 rm -rf /opt/*
+
