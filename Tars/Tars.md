@@ -51,8 +51,8 @@ __以下为多次安装后总结简单具体步骤__
 5. swoole-4.0.1.tgz
 
 6. Tars  
-  `cd /opt`  
-  `https://github.com/TarsCloud/TarsFramework.git`  
+    `cd /opt`  
+    `https://github.com/TarsCloud/TarsFramework.git`  
 
   ``git clone https://github.com/TarsCloud/TarsWeb.git ``
 

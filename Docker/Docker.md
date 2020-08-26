@@ -122,3 +122,13 @@ docker stop 1231231
 docker build -t docker_name:v1.0.0 .
 ````
 
+### dockerFile
+
+* FROM：基础镜像
+* MAINTAINER：维护者信息
+* RUN：运行命令
+* ADD：添加文件，会自动解压
+* CPQY：拷贝文件
+* WORKDIR：当前工作目录
+* VOLUME：目录挂载
+* EXPOSE：端口
