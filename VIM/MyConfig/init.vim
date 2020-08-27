@@ -10,6 +10,8 @@
 " ===
 " === Start Basic Mappings
 " ===
+let mapleader=" "
+let g:USER="LiJunDong"
 set autoindent
 set number
 set relativenumber
@@ -47,72 +49,20 @@ else
   set signcolumn=yes
 endif
 
-" TODO 待优化 TAb
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-" 调出补全
-inoremap <silent><expr> <c-space> coc#refresh()
-
-" 高亮相同单词 无效 TODO 使用插件替换
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" 查看代码错误
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-" 代码追踪
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-" 代码格式化 TODO 无效 使用插件替换
-xmap <leader>fm  <Plug>(coc-format-selected)
-nmap <leader>fm  <Plug>(coc-format-selected)
-
-
-" 显示文档
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-
-
-" 回车选择补全后不换行
-if exists('*complete_info')
-  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-else
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-endif
-
-
 set cursorline
 set cursorcolumn
 " 设置光标所在行和列的颜色
 " highlight CursorColumn cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
 "
-"
-let mapleader=" "
+inoremap <C-k>  <Up>
+inoremap <C-j>  <Down>
+noremap <leader>rc :e ~/.config/nvim/init.vim<CR>
+noremap <leader>sc :source ~/.config/nvim/init.vim<CR>
+
+
 " 括号自动补全
 " TODO 折叠优化
 nnoremap <silent> cc  $zf%<cr>
-" inoremap <C-k>  <Up>
-" inoremap <C-j>  <Down>
-noremap <leader>rc :e ~/.config/nvim/init.vim<CR>
-noremap <leader>sc :source ~/.config/nvim/init.vim<CR>
-let g:USER = "LiJunDong"
 
 " ===
 " === End Basic Mappings
@@ -128,8 +78,9 @@ call plug#begin()
 " vim-go
 Plug 'fatih/vim-go'
 
-"  powerline
+" powerline
 Plug 'itchyny/lightline.vim'
+" Plug 'vim-airline/vim-airline'
 
 " 代码片段
 Plug 'honza/vim-snippets'
@@ -161,20 +112,18 @@ Plug 'luochen1990/rainbow'
 " ===
 " === Start Plug Setting
 " ===
-call plug#end()
 
-let g:rainbow_active = 1
+call plug#end()
 
 " 主题配色
 colorscheme gruvbox
 " 光标所在地行颜色
-highlight CursorLine   cterm=NONE ctermbg=black ctermfg=NONE guibg=NONE guifg=NONE
+" highlight CursorLine cterm=NONE ctermbg=black ctermfg=NONE guibg=NONE guifg=NONE
 
-augroup go
-  autocmd!
-  autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
-augroup END
+" 彩虹括号
+let g:rainbow_active = 1
 
+" coc-extension
 let g:coc_global_extensions = [
 	\ 'coc-actions',
 	\ 'coc-css',
@@ -191,8 +140,7 @@ let g:coc_global_extensions = [
 	\ 'coc-python',
 	\ 'coc-snippets',
 	\ 'coc-sourcekit',
-	\ 'coc-stylelint',
-	\ 'coc-syntax',
+    \ 'coc-syntax',
 	\ 'coc-tasks',
 	\ 'coc-todolist',
 	\ 'coc-translator',
@@ -203,18 +151,81 @@ let g:coc_global_extensions = [
 	\ 'coc-highlight',
 	\ 'coc-floaterm',
 	\ 'coc-yank']
+"	\ 'coc-stylelint',
+"
 
-" line
+" " 待优化 TAb选择提示项
+" inoremap <silent><expr> <TAB>
+"       \ pumvisible() ? "\<C-n>" :
+"       \ <SID>check_back_space() ? "\<TAB>" :
+"       \ coc#refresh()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" function! s:check_back_space() abort
+"   let col = col('.') - 1
+"   return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
+
+" 高亮相同单词 无效 TODO 使用插件替换
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" 调出补全
+inoremap <silent><expr> <c-space> coc#refresh()
+" 查看代码错误
+nmap <silent> <leader>[ <Plug>(coc-diagnostic-prev)
+nmap <silent> <leader>] <Plug>(coc-diagnostic-next)
+" 代码追踪
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+" 代码格式化
+xmap = <Plug>(coc-format-selected)
+nmap = <Plug>(coc-format-selected)
+" 显示文档
+nnoremap <silent> <leader>if :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+" 回车选择补全后不换行
+if exists('*complete_info')
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
+
+augroup go
+  autocmd!
+  autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
+augroup END
+
+" line TODO git状态
 let g:lightline = {
       \ 'colorscheme': 'wombat',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \             [ 'cocstatus', 'readonly', 'filename', 'gitbranch', 'modified' ] ]
       \ },
       \ 'component_function': {
-      \   'gitbranch': 'FugitiveHead'
+      \   'cocstatus': 'coc#status'
       \ },
       \ }
+
+autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
+
+" let g:lightline = {
+"       \ 'colorscheme': 'wombat',
+"       \ 'active': {
+"       \   'left': [ [ 'mode', 'paste' ],
+"       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+"       \ },
+"       \ 'component_function': {
+"       \   'gitbranch': 'FugitiveHead'
+"       \ },
+"       \ }
 
 " 注释
 " Add spaces after comment delimiters by default
@@ -234,11 +245,11 @@ let g:NERDTrimTrailingWhitespace = 1
 " Enable NERDCommenterToggle to check all selected lines is commented or not 
 let g:NERDToggleCheckAllLines = 1
 
-" map
-nnoremap <C-g> :GoDef<cr>
+" map TODO CocList使用
+" nnoremap <C-g> :GoDef<cr>
 nnoremap <leader>l :CocCommand explorer<CR>
-nnoremap <silent> <leader>s  :<C-u>CocList -I symbols<cr>
-nnoremap <silent> <leader>g :<C-u>CocList --normal gstatus<CR>
+nnoremap <leader>s  :<C-u>CocList -I symbols<cr>
+" nnoremap <silent> <leader>g :<C-u>CocList --normal<CR>
 
 " vim-go 
 let g:go_fmt_command = 'goimports'

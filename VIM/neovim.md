@@ -285,3 +285,12 @@ github.com/golangci/golangci-lint/cmd/golangci-lint
 :GoDefStack 清除你的跳转记录
 ````
 
+
+## mac iterm2安装purity主题
+copy purity.zsh-theme到~/.on-my-zsh/custom/purity.zsh-theme
+
+```shell
+npm install --global pure-prompt
+vim ~/.oh-my-zsh
+ZSH_THEME="purity"
+```

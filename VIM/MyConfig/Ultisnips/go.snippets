@@ -1,0 +1,26 @@
+snippet todo "TODO"
+// TODO <LiJunDong : `date '+%Y-%m-%d %H:%M:%S'`> --- $0
+endsnippet
+
+snippet doc_f "Function"
+/*
+ * @Content : $1
+ * @Param   : $2
+ * @Return  :
+ * @Author  : `!v g:USER`
+ * @Time    : `!v strftime('%Y-%m-%d')`
+ */
+${3}func ${4:funcName} (${5:param interface{}}) (${6:err error}) {
+    $0
+}
+endsnippet
+
+snippet doc_h "Header"
+/*
+ * @Content : $1
+ * @Param   : $2
+ * @Return  :
+ * @Author  : `!v g:USER`
+ * @Time    : `!v strftime('%Y-%m-%d')`
+ */
+endsnippet
