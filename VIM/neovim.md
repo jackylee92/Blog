@@ -271,6 +271,21 @@ golang.org/x/tools/cmd/goimports
 github.com/golangci/golangci-lint/cmd/golangci-lint
 ````
 
+````
+                                                                                             │      Ultisnips                      │   | A dead program normally does a lot less damage than |
+    2 ~ /home/parallels/.config/nvim/plugged/LeaderF/                                              │      coc-settings.json              │   | a crippled one.                                     |
+    3 ~ /home/parallels/.config/nvim/plugged/defx-icons/                                           │      init.vim                       │   *-----------------------------------------------------*
+    4 ~ /home/parallels/.config/nvim/plugged/defx.nvim/                                            │~                                     │          o
+    5 ~ /home/parallels/.config/nvim/plugged/fzf.vim/                                              │~                                     │           o   ^__^
+    6 ~ /home/parallels/.config/nvim/plugged/molokai/                                              │~                                     │            o  (oo)\_______
+    7 ~ /home/parallels/.config/nvim/plugged/ultisnips/                                            │~                                     │               (__)\       )\/\
+    8 ~ /home/parallels/.config/nvim/plugged/vim-code-dark/                                        │~                                     │                   ||----w |
+    9 ~ /home/parallels/.config/nvim/plugged/vim-devicons/                                         │~                                     │                   ||     ||
+   10 ~ /home/parallels/.config/nvim/plugged/vim-floaterm/                                         │~                                     │
+   11 ~ /home/parallels/.config/nvim/plugged/vim-fugitive/                                         │~                                     │   [e]  <empty buffer>
+   12 ~ /home/parallels/.config/nvim/plugged/vim/
+````
+
 
 
 

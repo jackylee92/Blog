@@ -103,6 +103,7 @@
 		"j": "nodeNext",
 		"O": ["expandable?", ["expanded?", "collapse", "expandRecursive"], "open"],
 		"o": ["expandable?", ["expanded?", "collapse", "expand"], "open:vsplit"],
+		"x": "collapse",
 		"I": "openInVsplit",
 		">>": "open",
 		"<<": "gotoParent",
@@ -119,7 +120,6 @@
 		"<tab>": "actionMenu",
 		"R": "refresh",
 		"?": "help"
-		//"x": "collapse",
 		//"<cr>": "open",
 		//"gh": "collapseRecursive",
 		//"<space>": "toggleSelection",
