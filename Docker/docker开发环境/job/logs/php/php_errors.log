@@ -1,2 +1,4 @@
 [14-Sep-2020 10:17:34 UTC] PHP Parse error:  syntax error, unexpected '$c' (T_VARIABLE) in /usr/share/nginx/html/phpinfo/index.php on line 3
 [14-Sep-2020 10:17:34 UTC] PHP Parse error:  syntax error, unexpected '$c' (T_VARIABLE) in /usr/share/nginx/html/phpinfo/index.php on line 3
+[14-Sep-2020 11:05:26 UTC] PHP Parse error:  syntax error, unexpected '$c' (T_VARIABLE) in /usr/share/nginx/html/phpinfo/index.php on line 3
+[14-Sep-2020 11:05:26 UTC] PHP Parse error:  syntax error, unexpected '$c' (T_VARIABLE) in /usr/share/nginx/html/phpinfo/index.php on line 3
