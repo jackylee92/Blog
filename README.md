@@ -1,6 +1,6 @@
 ## 李俊东
 
-**手机：** 157****8737	**邮箱：** 568915010@qq..com	**QQ/微信：** li568915010
+**手机：** 15755378737	**邮箱：** 568915010@qq..com	**QQ/微信：** li568915010
 
 GitHub：https://github.com/jackylee92
 
@@ -16,7 +16,7 @@ GitHub：https://github.com/jackylee92
 
 熟悉Elasticsearch安装配置使用；
 
-另外使用过：kong、elk、tars服务化;
+另外使用过：docker、kong、elk、tars服务化;
 
 带过5至6人小组；
 
@@ -67,7 +67,7 @@ GitHub：https://github.com/jackylee92
 
   * 基于ElasticSearch提供多端搜索、推荐，ES内部数据维护，数据统计；
   * 对接三方，通过银行流水实现客户资金实时到账；
-  * 客户进项发票实时核销；
+  * 基础服务维护；
 
 * **零售系统**										**2017/04 - 2019/09**							**上海找油网络科技有限公司**　　　　　　　　　　　
 
