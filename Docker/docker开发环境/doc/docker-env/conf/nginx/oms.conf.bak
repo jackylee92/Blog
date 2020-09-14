@@ -1,0 +1,29 @@
+server {
+    listen       80;
+    server_name  local.oms.com;
+    #charset koi8-r;
+    #access_log  /var/log/nginx/host.access.log  main;
+
+    location / {
+        root /usr/share/nginx/html/OMS/app;
+        index index.php;
+
+        if (!-e $request_filename) {
+            rewrite ^/(.*) /index.php?$1 last;
+        }
+        #proxy_set_header Host $host; 
+        #proxy_set_header X-Real-IP $remote_addr; 
+        #proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; 
+        #proxy_pass http://nginx-oms:80;
+    }
+
+
+    location ~ \.php$ {
+        fastcgi_pass   php:9000;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  /usr/share/nginx/html/OMS/app$fastcgi_script_name;
+        fastcgi_param  SCRIPT_NAME      $fastcgi_script_name;
+        include        fastcgi_params;
+    }
+    
+}

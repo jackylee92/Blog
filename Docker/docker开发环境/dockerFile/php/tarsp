@@ -1,21 +1,21 @@
-#!/bin/bash
+#!/bin/sh
 
 path="/local/Package/"
 if [ ! -d "${path}" ]; then
     mkdir -p "${path}"
 fi
 
-if ls *.go > /dev/null 2>&1;
-then
-    echo "正在打包Go服务"
-    nameFile='makefile'
-    app=$(awk '{print $NF}' ${nameFile} | sed -n '1p')
-    servant=$(awk '{print $NF}' ${nameFile} | sed -n '2p')
-    rm -rf *tgz
-    make && make tar
-    \cp *gz "${path}go.${app}.${servant}.tgz"
-    echo "打包完成: ${path}go.${app}.${servant}.tgz"
-fi
+# if ls *.go > /dev/null 2>&1;
+# then
+#     echo "正在打包Go服务"
+#     nameFile='makefile'
+#     app=$(awk '{print $NF}' ${nameFile} | sed -n '1p')
+#     servant=$(awk '{print $NF}' ${nameFile} | sed -n '2p')
+#     rm -rf *tgz
+#     make && make tar
+#     \cp *gz "${path}go.${app}.${servant}.tgz"
+#     echo "打包完成: ${path}go.${app}.${servant}.tgz"
+# fi
 
 if ls *.php > /dev/null 2>&1;
 then

@@ -1,7 +1,7 @@
 version: '2'
 services:
     php:
-        image: ljd/php:v1
+        image: ljd/php:v2
         container_name: php
         ports:
             - "9000:9000"
@@ -9,6 +9,7 @@ services:
             - TZ=Asia/Shanghai
         volumes:
             - ${DOCKER_CODEDIR}/PHP:/usr/share/nginx/html
+            - ${DOCKER_CODEDIR}/Package:/local/Package
             - ${DOCKER_CONFDIR}/php/phpconf:/usr/local/etc/php
             - ${DOCKER_CONFDIR}/php/fpmconf/php-fpm.conf:/usr/local/etc/php-fpm.conf
             - ${DOCKER_CONFDIR}/php/fpmconf/php-fpm.d:/usr/local/etc/php-fpm.d
@@ -25,6 +26,13 @@ services:
             - "80:80"
         links: 
             - php
+    go:
+        image: ljd/go:v1
+        container_name: go
+        volumes: 
+            - ${DOCKER_CODEDIR}/Golang:/go
+            - ${DOCKER_CODEDIR}/Package:/local/Package
+        tty: true
 networks:
     default:
         external:

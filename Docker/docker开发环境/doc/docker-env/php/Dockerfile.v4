@@ -97,4 +97,3 @@ RUN set -ex \
        && cd /tmp \
        && chmod u+x phpunit.phar \
        && mv phpunit.phar /usr/local/bin/phpunit \
-       && rm -rf /tmp/* \

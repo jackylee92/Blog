@@ -1,0 +1,68 @@
+version: '2'
+services:
+    php:
+        build: ./php
+        container_name: php
+        ports:
+            - "9000:9000"
+        environment:
+            - TZ=Asia/Shanghai
+        volumes:
+            - ${CODEDIR}:/usr/share/nginx/html
+            - ${DOCKER_NGINX_CONFDIR}/php/phpconf:/usr/local/etc/php
+            - ${DOCKER_NGINX_CONFDIR}/php/fpmconf/php-fpm.conf:/usr/local/etc/php-fpm.conf
+            - ${DOCKER_NGINX_CONFDIR}/php/fpmconf/php-fpm.d:/usr/local/etc/php-fpm.d
+            - ${LOGDIR}/oms:/data/oms
+            - ${LOGDIR}/mayioms:/data/mayioms
+            - ${SYSTEM_CONFDIR}:/etc/zhaoyou/tars 
+            - ${LOGDIR}/pkg-ospCard:/usr/local/app/tars/app_log/pkg/ospCard
+    nginx-oms:
+        build: ./nginx
+        container_name: nginx-oms
+        volumes: 
+            - ${CODEDIR}:/usr/share/nginx/html
+            - ${DOCKER_NGINX_LOGDIR}/oms:/var/log/nginx
+            - ${DOCKER_NGINX_CONFDIR}/oms/:/etc/nginx/conf.d
+            - ${SYSTEM_CONFDIR}:/etc/zhaoyou/tars 
+            - ${LOGDIR}/oms:/usr/local/app/tars/app_log
+        links: 
+            - php
+    nginx-mayioms:
+        build: ./nginx
+        container_name: nginx-mayioms
+        volumes: 
+            - ${CODEDIR}:/usr/share/nginx/html
+            - ${SYSTEM_CONFDIR}:/etc/zhaoyou/tars 
+            - ${LOGDIR}/mayioms:/usr/local/app/tars/app_log
+            - ${DOCKER_NGINX_CONFDIR}/mayioms/:/etc/nginx/conf.d
+        links: 
+            - php
+    nginx-pkg:
+        build: ./nginx
+        container_name: nginx-pkg
+        volumes: 
+            - ${CODEDIR}:/usr/share/nginx/html
+            - ${DOCKER_NGINX_LOGDIR}/pkg:/var/log/nginx
+            - ${SYSTEM_CONFDIR}:/etc/zhaoyou/tars 
+            - ${LOGDIR}/pkg:/usr/local/app/tars/app_log
+            - ${DOCKER_NGINX_CONFDIR}/pkg/:/etc/nginx/conf.d
+        links: 
+            - php
+    nginx:
+        build: ./nginx
+        container_name: nginx
+        volumes: 
+            - ${CODEDIR}:/usr/share/nginx/html
+            - ${DOCKER_NGINX_CONFDIR}/nginx:/etc/nginx/conf.d
+            - ${DOCKER_NGINX_LOGDIR}:/var/log/nginx
+        ports: 
+            - "8088:80"
+        links: 
+            - php
+            - nginx-oms
+            - nginx-mayioms
+            - nginx-pkg
+networks:
+    default:
+        external:
+            name: zy 

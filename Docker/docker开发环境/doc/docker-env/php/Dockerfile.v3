@@ -1,24 +1,21 @@
 FROM php:7.2-fpm-alpine3.9
 
-MAINTAINER jackylee92@139.com
+MAINTAINER 123115756@qq.com
 
-ADD tarsp /usr/local/bin
-ADD composer /usr/local/bin
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 RUN set -ex \
     && docker-php-source extract \
     # install autoconf
     && apk update \
-    && apk add --no-cache autoconf gcc g++ make  libmcrypt-dev  libpng-dev freetype-dev libjpeg-turbo-dev  gettext-dev  libxml2-dev librdkafka-dev \
+    && apk add --no-cache autoconf gcc g++ make  libmcrypt-dev  libpng-dev freetype-dev libjpeg-turbo-dev  gettext-dev  libxml2-dev \
     && php -v \
         && cd /tmp \
-        && curl -SL "https://github.com/swoole/swoole-src/archive/v4.3.6.zip" -o swoole.zip \  
+        && curl -SL "https://github.com/swoole/swoole-src/archive/v4.3.x.zip" -o swoole.zip \
         && curl -SL "https://github.com/phpredis/phpredis/archive/master.zip" -o redis.zip \
         && curl -SL "https://github.com/TarsPHP/tars-extension/archive/master.zip" -o tars.zip \
         && curl -SL "https://github.com/alexeyrybak/blitz/archive/php7.zip" -o blitz.zip \
         && curl -SL "https://github.com/laruence/yaf/archive/yaf-3.0.7.zip" -o yaf.zip \
         && curl -SL "https://phar.phpunit.de/phpunit-8.0.0.phar" -o phpunit.phar \
-        && curl -SL "https://github.com/arnaud-lb/php-rdkafka/archive/4.0.3.zip" -o rdkafka.zip \
         # php extension: redis
         && unzip redis.zip \
         && rm redis.zip \
@@ -34,7 +31,7 @@ RUN set -ex \
         && unzip swoole.zip \
         && rm swoole.zip \
                 && ( \
-                    cd swoole-src-4.3.6 \
+                    cd swoole-src-4.3.x \
                     && phpize \
                     && ./configure  \
                     && make && make install \
@@ -82,24 +79,8 @@ RUN set -ex \
        # php extension: mysqli
        && docker-php-ext-install bcmath sockets calendar gettext soap zip xmlrpc mysqli \
        && docker-php-ext-enable mysqli \
-       # php extension: rdkafka
-       && cd /tmp \
-       && unzip rdkafka.zip \
-       && rm rdkafka.zip \
-                && ( \
-                    cd php-rdkafka-4.0.3 \
-                    && phpize \
-                    && ./configure \
-                    && make && make install \
-                ) \
-       && pecl install rdkafka \
-       && docker-php-ext-enable rdkafka \
        && php -m \
        # php phpunit 
        && cd /tmp \
        && chmod u+x phpunit.phar \
-       && chmod u+x /usr/local/bin/tarsp \
        && mv phpunit.phar /usr/local/bin/phpunit \
-       # composer
-       && chmod u+x /usr/local/bin/composer \
-       && mkdir -p /local/Package \

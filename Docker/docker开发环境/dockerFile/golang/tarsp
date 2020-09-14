@@ -1,0 +1,31 @@
+#!/bin/sh
+
+path="/local/Package/"
+if [ ! -d "${path}" ]; then
+    mkdir -p "${path}"
+fi
+
+if ls *.go > /dev/null 2>&1;
+then
+    echo "正在打包Go服务"
+    nameFile='makefile'
+    app=$(awk '{print $NF}' ${nameFile} | sed -n '1p')
+    servant=$(awk '{print $NF}' ${nameFile} | sed -n '2p')
+    rm -rf *tgz
+    make && make tar
+    \cp *gz "${path}go.${app}.${servant}.tgz"
+    echo "打包完成: ${path}go.${app}.${servant}.tgz"
+fi
+#
+# if ls *.php > /dev/null 2>&1;
+# then
+#     echo "正在打包PHP服务"
+#     nameFile='../tars/tars.proto.php'
+#     app=$(grep -E "appName|serverName" ${nameFile} | awk -F'=>' '{print $NF}' | awk -F"'" '{print $2}' | sed -n '1p')
+#     servant=$(grep -E "appName|serverName" ${nameFile} | awk -F'=>' '{print $NF}' | awk -F"'" '{print $2}' | sed -n '2p')
+#     rm -rf *gz
+#     composer run-script deploy
+#     \cp *gz "${path}php.${app}.${servant}.tar.gz"
+#     echo "打包完成: ${path}php.${app}.${servant}.tar.gz"
+# fi
+rm -rf *gz
