@@ -333,3 +333,1981 @@
 [2020-09-14 18:52:16][SQL] --- SELECT station.oss_id, setting.set_val FROM osd.station_matching station INNER JOIN osd.station_settings_matching setting ON (station.app_id = setting.app_id AND station.dsm_code=setting.dsm_code) WHERE station.status=1 AND station.delete_flag=0 AND station.app_id=5004 AND station.oss_id=749 LIMIT 1
 
 [2020-09-14 18:52:16][LocalBaseLog] --- {"version":"1.0.0","traceId":"OMS.20200914185216186570","currentTime":"20200914185216186574","servant":"oms-noservant@local","param":{"traceId":"OMS.2020091418521673053","version":"1.0.0","method":"purchase.code","server":"api.openOsd.tarsObj","params":"{\"orderSn\":\"202009141129512636265219\",\"appId\":\"5004\"}","action":"get"},"resp":1,"ip":"172.18.0.1"}
+[2020-09-15 10:01:53][SQL] --- SELECT * FROM functions WHERE sf_module='image' AND sf_action='code' LIMIT 1
+
+[2020-09-15 10:02:03][SQL] --- SELECT u.*, s.fullname staff_name, s.mobile, s.job_number, s.job_title, s.job_email
+                FROM users u
+                  LEFT JOIN own.staff s ON u.staff_id=s.staff_id
+                WHERE u.username='zhangjingjing' LIMIT 1
+
+[2020-09-15 10:02:03][SQL] --- SELECT sf_id FROM functions WHERE sf_module='home' AND sf_action='loginpost' LIMIT 1
+
+[2020-09-15 10:02:03][SQL]user_logs --- INSERT INTO user_logs SET su_id='363',sf_id='1',ul_remark='[张晶晶] 登录OMS系统。',ul_time=NOW(),ul_ip='172.18.0.1'
+
+[2020-09-15 10:02:03][SQL] --- SELECT COUNT(*) FROM user_logs ul WHERE ul.su_id=363 LIMIT 1
+
+[2020-09-15 10:02:03][SQL] --- SELECT ul.*, u.username, f.sf_name
+                    FROM user_logs ul
+                      LEFT JOIN users u ON ul.su_id=u.user_id
+                      LEFT JOIN functions f ON ul.sf_id=f.sf_id
+                    WHERE ul.su_id=363
+                    ORDER BY ul.ul_id DESC LIMIT 0, 15
+
+[2020-09-15 10:02:03][SQL] --- SELECT u.*, s.fullname staff_name, s.mobile, s.job_number, s.job_title, s.job_email
+                FROM users u
+                  LEFT JOIN own.staff s ON u.staff_id=s.staff_id
+                WHERE u.user_id=363 LIMIT 1
+
+[2020-09-15 10:02:03][SQL] --- SELECT * FROM functions WHERE sf_menu_on=1 AND sf_status>=0 ORDER BY sf_app,sf_module_name,sf_menu_order
+
+[2020-09-15 10:05:04][SQL] --- SELECT COUNT(*) FROM user_logs ul WHERE ul.su_id=363 LIMIT 1
+
+[2020-09-15 10:05:04][SQL] --- SELECT ul.*, u.username, f.sf_name
+                    FROM user_logs ul
+                      LEFT JOIN users u ON ul.su_id=u.user_id
+                      LEFT JOIN functions f ON ul.sf_id=f.sf_id
+                    WHERE ul.su_id=363
+                    ORDER BY ul.ul_id DESC LIMIT 0, 15
+
+[2020-09-15 10:05:04][SQL] --- SELECT u.*, s.fullname staff_name, s.mobile, s.job_number, s.job_title, s.job_email
+                FROM users u
+                  LEFT JOIN own.staff s ON u.staff_id=s.staff_id
+                WHERE u.user_id=363 LIMIT 1
+
+[2020-09-15 10:05:04][SQL] --- SELECT * FROM functions WHERE sf_menu_on=1 AND sf_status>=0 ORDER BY sf_app,sf_module_name,sf_menu_order
+
+[2020-09-15 10:05:10][SQL] --- SELECT * FROM functions WHERE sf_module='order' AND sf_action='osplist' LIMIT 1
+
+[2020-09-15 10:05:10][SQL] --- SELECT *
+        FROM system.meta
+        WHERE meta_group='force:change:pwd' AND meta_key='userid:363' AND status='1' AND delete_flag='0' LIMIT 1
+
+
+2020-09-15T10:05:11+08:00 [REQ]-- /Order/OspList/out/view/
+[ReqBody] --{"out":"view"}
+[User] --{"id":"363","username":"zhangjingjing","sa":true,"staffId":"694","staffName":"张晶晶"}
+
+-------------------
+[2020-09-15 10:05:11][SQL] --- SELECT team_id from own.bd_member WHERE staff_id=694 LIMIT 1
+
+[2020-09-15 10:05:11][SQL] --- SELECT team_id from own.bd_team WHERE team_head=694 LIMIT 1
+
+
+2020-09-15T10:05:11+08:00 bdPriv[148]-- {"sa":true,"staff_id":"694","staff_tid":0}
+-------------------
+[2020-09-15 10:05:11][SQL] --- SELECT COUNT( DISTINCT o.order_id ) 
+                    FROM sales.retail o 
+                      LEFT JOIN osp.station n ON n.oss_id=o.oss_id 
+                      LEFT JOIN activity.sales_bill_order_rebate aso ON o.order_id = aso.order_id 
+                      LEFT JOIN biz.employee e ON e.employee_id=o.employee_id
+                    WHERE o.status=-100 AND o.is_serv_order in (1,3,11) AND o.delete_flag = 0  LIMIT 1
+
+[2020-09-15 10:05:11][SQL] --- SELECT rg_id rid, rg_name rname FROM common.region WHERE parent_id=1 AND status>=1 ORDER BY rg_rank DESC, rg_id
+
+[2020-09-15 10:05:18][SQL] --- SELECT * FROM functions WHERE sf_module='order' AND sf_action='osplist' LIMIT 1
+
+[2020-09-15 10:05:18][SQL] --- SELECT *
+        FROM system.meta
+        WHERE meta_group='force:change:pwd' AND meta_key='userid:363' AND status='1' AND delete_flag='0' LIMIT 1
+
+
+2020-09-15T10:05:18+08:00 [REQ]-- /order/OspList/out/view/
+[ReqBody] --{"out":"view","oc_id":"","sp_id":"","sps_id":"","spe_id":"","c_appId":"","date1":"","date2":"","spe_eMobile":"","employee_mobile":"","province":"0","city":"0","sp_cName":"","oc_cName":"","ao_code":"","sku":"100","sn":"201909090314112190806346","sps_sName":"","c_appName":"","status":"100","mode_type":"100","channelId":"","type":"100"}
+[User] --{"id":"363","username":"zhangjingjing","sa":true,"staffId":"694","staffName":"张晶晶"}
+
+-------------------
+[2020-09-15 10:05:18][SQL] --- SELECT team_id from own.bd_member WHERE staff_id=694 LIMIT 1
+
+[2020-09-15 10:05:18][SQL] --- SELECT team_id from own.bd_team WHERE team_head=694 LIMIT 1
+
+
+2020-09-15T10:05:18+08:00 bdPriv[148]-- {"sa":true,"staff_id":"694","staff_tid":0}
+-------------------
+[2020-09-15 10:05:18][SQL] --- SELECT COUNT( DISTINCT o.order_id ) 
+                    FROM sales.retail o 
+                      LEFT JOIN osp.station n ON n.oss_id=o.oss_id 
+                      LEFT JOIN activity.sales_bill_order_rebate aso ON o.order_id = aso.order_id 
+                      LEFT JOIN biz.employee e ON e.employee_id=o.employee_id
+                    WHERE o.order_sn LIKE '201909090314112190806346%' AND o.is_serv_order in (1,3,11) AND o.delete_flag = 0  LIMIT 1
+
+[2020-09-15 10:05:18][SQL] --- SELECT rg_id rid, rg_name rname FROM common.region WHERE parent_id=1 AND status>=1 ORDER BY rg_rank DESC, rg_id
+
+[2020-09-15 10:05:28][SQL] --- SELECT * FROM functions WHERE sf_module='order' AND sf_action='osplist' LIMIT 1
+
+[2020-09-15 10:05:28][SQL] --- SELECT *
+        FROM system.meta
+        WHERE meta_group='force:change:pwd' AND meta_key='userid:363' AND status='1' AND delete_flag='0' LIMIT 1
+
+
+2020-09-15T10:05:28+08:00 [REQ]-- /order/OspList/out/view/
+[ReqBody] --{"out":"view","oc_id":"0","sp_id":"0","sps_id":"0","spe_id":"","c_appId":"0","date1":"","date2":"","spe_eMobile":"","employee_mobile":"","province":"0","city":"0","sp_cName":"","oc_cName":"","ao_code":"","sku":"100","sn":"","sps_sName":"","c_appName":"","status":"100","mode_type":"100","channelId":"","type":"11"}
+[User] --{"id":"363","username":"zhangjingjing","sa":true,"staffId":"694","staffName":"张晶晶"}
+
+-------------------
+[2020-09-15 10:05:28][SQL] --- SELECT team_id from own.bd_member WHERE staff_id=694 LIMIT 1
+
+[2020-09-15 10:05:28][SQL] --- SELECT team_id from own.bd_team WHERE team_head=694 LIMIT 1
+
+
+2020-09-15T10:05:28+08:00 bdPriv[148]-- {"sa":true,"staff_id":"694","staff_tid":0}
+-------------------
+[2020-09-15 10:05:28][SQL] --- SELECT COUNT( DISTINCT o.order_id ) 
+                    FROM sales.retail o 
+                      LEFT JOIN osp.station n ON n.oss_id=o.oss_id 
+                      LEFT JOIN activity.sales_bill_order_rebate aso ON o.order_id = aso.order_id 
+                      LEFT JOIN biz.employee e ON e.employee_id=o.employee_id
+                    WHERE o.order_type=11 AND o.is_serv_order in (1,3,11) AND o.delete_flag = 0  LIMIT 1
+
+[2020-09-15 10:05:29][SQL] --- SELECT o.*, e.employee_name, e.employee_mobile, b.branch_name, c.company_name, c.company_shortname, r.rg_name city_name,
+                                p.osp_shortname, p.osp_name, n.oss_name, f.staff_name, f.staff_mobile, k.sku_name,IFNULL(t.truck_number,'-') truck_number, aso.oss_type,
+                                IFNULL(m.create_time,'') pay_time , IFNULL(bo.rebate_amount,0) used_rebate_amount
+                                
+                        FROM sales.retail o
+                          LEFT JOIN biz.employee e ON e.employee_id=o.employee_id
+                          LEFT JOIN biz.company_branch b ON b.cb_id=o.branch_id
+                          LEFT JOIN biz.company c ON c.company_id=o.company_id
+                          LEFT JOIN common.region r ON r.rg_id=o.city_id
+                          LEFT JOIN osp.company p ON p.osp_id=o.osp_id
+                          LEFT JOIN osp.station n ON n.oss_id=o.oss_id
+                          LEFT JOIN osp.station_staff f ON f.staff_id=o.staff_id
+                          LEFT JOIN common.product_sku k ON k.sku_code=o.sku_code
+                          LEFT JOIN biz.company_truck t ON o.truck_id=t.truck_id
+                          LEFT JOIN activity.sales_bill_order_rebate aso ON o.order_id = aso.order_id AND aso.delete_flag=0
+                          LEFT JOIN sales.retail_payment m ON o.order_id=m.order_id AND m.pay_status=30
+                          LEFT JOIN statement.osp_bill_order bo ON bo.order_id = o.order_id
+                          LEFT JOIN sales.retail_extension sre ON sre.order_id = o.order_id
+                          
+                       WHERE o.order_type=11 AND o.is_serv_order in (1,3,11) AND o.delete_flag = 0 
+                       GROUP BY o.order_id
+                       ORDER BY o.order_id DESC LIMIT 0, 20
+
+[2020-09-15 10:05:29][SQL] --- SELECT * FROM sales.retail_extension where order_id IN (1188261,1188260,1188257,1188256,1188254,1188253,1188252,1188251,1188250,1188249,1188244,1188243,1188242,1188241,1188240,1188239,1188237,1188236,1188235,1188234)
+
+[2020-09-15 10:05:29][SQL] --- SELECT o.*,n.con_id
+        FROM statement.osp_bill_order o
+        LEFT JOIN statement.osp_bill b ON o.bill_id=b.bill_id
+        LEFT JOIN contract.osp_station n ON o.cos_id=n.cos_id
+        WHERE o.order_id IN (1188261,1188260,1188257,1188256,1188254,1188253,1188252,1188251,1188250,1188249,1188244,1188243,1188242,1188241,1188240,1188239,1188237,1188236,1188235,1188234) AND o.delete_flag=0
+
+[2020-09-15 10:05:29][SQL] --- SELECT channel_id,channel_shortname,channel_name FROM partner.channel WHERE channel_id=7 LIMIT 1
+
+[2020-09-15 10:05:29][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:05:29][SQL] --- SELECT channel_id,channel_shortname,channel_name FROM partner.channel WHERE channel_id=1 LIMIT 1
+
+[2020-09-15 10:05:29][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=88599 LIMIT 1
+
+[2020-09-15 10:05:29][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:05:29][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:05:29][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:05:29][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:05:29][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:05:29][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:05:29][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:05:29][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:05:29][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:05:29][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:05:29][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:05:29][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:05:29][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:05:30][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:05:30][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:05:30][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:05:30][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:05:30][SQL] --- SELECT channel_id,channel_shortname,channel_name FROM partner.channel WHERE channel_id=3 LIMIT 1
+
+[2020-09-15 10:05:30][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=5569 LIMIT 1
+
+[2020-09-15 10:05:30][SQL] --- SELECT o.*,n.con_id
+        FROM statement.osp_bill_order o
+        LEFT JOIN statement.osp_bill b ON o.bill_id=b.bill_id
+        LEFT JOIN contract.osp_station n ON o.cos_id=n.cos_id
+        WHERE o.order_id IN (1188261,1188260,1188257,1188256,1188254,1188253,1188252,1188251,1188250,1188249,1188244,1188243,1188242,1188241,1188240,1188239,1188237,1188236,1188235,1188234) AND o.delete_flag=0
+
+[2020-09-15 10:05:30][SQL] --- SELECT p.*,IFNULL(s.own_name,'') own_name,bank_account
+        FROM contract.osp p
+        LEFT JOIN own.subsidiary s ON p.own_id=s.own_id
+         WHERE p.con_id IN (478,35,365) AND p.delete_flag=0
+
+[2020-09-15 10:05:30][SQL] --- SELECT rg_id rid, rg_name rname FROM common.region WHERE parent_id=1 AND status>=1 ORDER BY rg_rank DESC, rg_id
+
+[2020-09-15 10:05:34][SQL] --- SELECT * FROM functions WHERE sf_module='order' AND sf_action='salesdetails' LIMIT 1
+
+[2020-09-15 10:05:34][SQL] --- SELECT *
+        FROM system.meta
+        WHERE meta_group='force:change:pwd' AND meta_key='userid:363' AND status='1' AND delete_flag='0' LIMIT 1
+
+
+2020-09-15T10:05:34+08:00 [REQ]-- /order/SalesDetails/id/1188261/
+[ReqBody] --{"id":"1188261"}
+[User] --{"id":"363","username":"zhangjingjing","sa":true,"staffId":"694","staffName":"张晶晶"}
+
+-------------------
+[2020-09-15 10:05:34][SQL] --- SELECT o.*,re.price_settlement, e.employee_name, e.employee_mobile, b.branch_name, c.company_name, c.company_shortname, r.rg_name city_name,re.third_flag,
+                        p.osp_shortname, n.oss_name, n.opposite_station_flag, op.oss_shortname as opposite_oss_shortname, f.staff_name, f.staff_mobile, k.sku_name,p.osp_name,
+                        pc.channel_shortname
+                FROM sales.retail o
+                  LEFT JOIN biz.employee e ON e.employee_id=o.employee_id
+                  LEFT JOIN biz.company_branch b ON b.cb_id=o.branch_id
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                  LEFT JOIN common.region r ON r.rg_id=o.city_id
+                  LEFT JOIN osp.company p ON p.osp_id=o.osp_id
+                  LEFT JOIN osp.station n ON n.oss_id=o.oss_id
+                  LEFT JOIN osp.station op ON op.oss_id=n.opposite_station_id
+                  LEFT JOIN osp.station_staff f ON f.staff_id=o.staff_id
+                  LEFT JOIN common.product_sku k ON k.sku_code=o.sku_code
+                  LEFT JOIN sales.retail_extension re ON re.order_id = o.order_id
+                  LEFT JOIN partner.channel pc ON pc.channel_id = o.channel_id
+            WHERE o.order_id=1188261 LIMIT 1
+
+[2020-09-15 10:05:34][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:05:34][SQL] --- SELECT s.* FROM statement.sales_bill_order s WHERE s.order_id=1188261 AND s.delete_flag=0 LIMIT 1
+
+[2020-09-15 10:05:34][SQL] --- SELECT *
+        FROM sales.retail_payment
+         WHERE order_id=1188261 AND pay_status=30 LIMIT 1
+
+[2020-09-15 10:05:34][SQL] --- SELECT * FROM partner.channel WHERE channel_id=7 AND delete_flag=0 AND channel_id=7 LIMIT 1
+
+[2020-09-15 10:05:34][SQL] --- SELECT * FROM biz.company WHERE company_id=0 AND delete_flag=0 LIMIT 1
+
+[2020-09-15 10:05:34][SQL] --- SELECT o.*,n.con_id
+        FROM statement.osp_bill_order o
+        LEFT JOIN statement.osp_bill b ON o.bill_id=b.bill_id
+        LEFT JOIN contract.osp_station n ON o.cos_id=n.cos_id
+        WHERE o.order_id=1188261 AND o.delete_flag=0 LIMIT 1
+
+[2020-09-15 10:05:34][SQL] --- SELECT o.*,n.con_id
+        FROM statement.osp_bill_order o
+        LEFT JOIN statement.osp_bill b ON o.bill_id=b.bill_id
+        LEFT JOIN contract.osp_station n ON o.cos_id=n.cos_id
+        WHERE o.order_id=1188261 AND o.delete_flag=0 LIMIT 1
+
+[2020-09-15 10:05:34][SQL] --- SELECT p.*,IFNULL(s.own_name,'') own_name,bank_account
+        FROM contract.osp p
+        LEFT JOIN own.subsidiary s ON p.own_id=s.own_id
+         WHERE p.con_id=365 AND p.delete_flag=0 LIMIT 1
+
+[2020-09-15 10:05:34][SQL] --- SELECT s.*,t.unit
+                FROM common.product_sku s
+                LEFT JOIN common.product t ON s.pro_id=t.pro_id
+                WHERE s.sku_code IN ('D100G06') LIMIT 1
+
+[2020-09-15 10:05:34][SQL] --- SELECT oss_type FROM activity.sales_bill_order_rebate WHERE order_id = 1188261 LIMIT 1
+
+[2020-09-15 10:05:34][SQL] --- SELECT  n.*,ost.oss_name as opposite_oss_name,ost.oss_shortname as opposite_oss_shortname,ost.osp_id as opposite_osp_id, c.osp_name, c.osp_shortname, r1.rg_name province_name, r2.rg_name city_name,
+                        cc.fullname contacts_name, cc.mobile contacts_mobile, cc.email contacts_email, cc.weixin contacts_weixin,
+                        osf.fullname staff_name, osf.mobile staff_mobile, osf.job_email staff_job_email, ao.ao_code, ao.ao_balance,osff.fullname operation_staff_name,osff.mobile operation_staff_mobile, osff.job_email operation_staff_job_email,
+                        n.merge_reconciliation as st_merge_reconciliation, n.opposite_station_id as st_opposite_station_id
+                FROM osp.station n
+                LEFT JOIN osp.station ost ON ost.oss_id = n.opposite_station_id
+                  LEFT JOIN osp.company c ON c.osp_id=n.osp_id
+                  LEFT JOIN common.region r1 ON r1.rg_id=n.province_id
+                  LEFT JOIN common.region r2 ON r2.rg_id=n.city_id
+                  LEFT JOIN osp.company_contacts cc ON cc.contacts_id=n.contacts_id
+                  LEFT JOIN own.staff osf ON osf.staff_id=n.staff_id
+                  LEFT JOIN own.staff osff ON osff.staff_id=n.operation_staff_id
+                  LEFT JOIN account.oil ao ON ao.ao_id=n.ao_id
+                  WHERE n.oss_id=749 LIMIT 1
+
+[2020-09-15 10:05:34][SQL] --- SELECT * FROM osd.app_matching WHERE delete_flag=0 AND oss_source=17 LIMIT 1
+
+[2020-09-15 10:05:39][LocalBaseLog] --- {"version":"1.0.0","traceId":"OMS.20200915100539898535","currentTime":"20200915100539898561","servant":"oms-noservant@local","param":{"traceId":"OMS.20200915100534650380","version":"1.0.0","method":"purchase.code","server":"api.openOsd.tarsObj","params":"{\"orderSn\":\"202009150936507167354620\",\"appId\":\"5004\"}","action":"get"},"resp":1,"ip":"172.18.0.1"}
+[2020-09-15 10:05:39][SQL] --- SELECT station.oss_id, setting.set_val FROM osd.station_matching station INNER JOIN osd.station_settings_matching setting ON (station.app_id = setting.app_id AND station.dsm_code=setting.dsm_code) WHERE station.status=1 AND station.delete_flag=0 AND station.app_id=5004 AND station.oss_id=749 LIMIT 1
+
+[2020-09-15 10:05:40][SQL] --- SELECT COUNT(*) FROM sales.retail_maintenance sm LEFT JOIN sales.retail o ON o.order_id=sm.order_id WHERE sm.order_id=1188261 LIMIT 1
+
+[2020-09-15 10:05:42][SQL] --- SELECT * FROM functions WHERE sf_module='order' AND sf_action='thirdorderfix' LIMIT 1
+
+[2020-09-15 10:05:42][SQL] --- SELECT *
+        FROM system.meta
+        WHERE meta_group='force:change:pwd' AND meta_key='userid:363' AND status='1' AND delete_flag='0' LIMIT 1
+
+
+2020-09-15T10:05:42+08:00 [REQ]-- /order/thirdOrderFix/id/1188261/
+[ReqBody] --{"id":"1188261"}
+[User] --{"id":"363","username":"zhangjingjing","sa":true,"staffId":"694","staffName":"张晶晶"}
+
+-------------------
+[2020-09-15 10:05:42][SQL] --- SELECT o.*,re.price_settlement, e.employee_name, e.employee_mobile, b.branch_name, c.company_name, c.company_shortname, r.rg_name city_name,re.third_flag,
+                        p.osp_shortname, n.oss_name, n.opposite_station_flag, op.oss_shortname as opposite_oss_shortname, f.staff_name, f.staff_mobile, k.sku_name,p.osp_name,
+                        pc.channel_shortname
+                FROM sales.retail o
+                  LEFT JOIN biz.employee e ON e.employee_id=o.employee_id
+                  LEFT JOIN biz.company_branch b ON b.cb_id=o.branch_id
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                  LEFT JOIN common.region r ON r.rg_id=o.city_id
+                  LEFT JOIN osp.company p ON p.osp_id=o.osp_id
+                  LEFT JOIN osp.station n ON n.oss_id=o.oss_id
+                  LEFT JOIN osp.station op ON op.oss_id=n.opposite_station_id
+                  LEFT JOIN osp.station_staff f ON f.staff_id=o.staff_id
+                  LEFT JOIN common.product_sku k ON k.sku_code=o.sku_code
+                  LEFT JOIN sales.retail_extension re ON re.order_id = o.order_id
+                  LEFT JOIN partner.channel pc ON pc.channel_id = o.channel_id
+            WHERE o.order_id=1188261 LIMIT 1
+
+[2020-09-15 10:05:42][SQL] --- SELECT  n.*,ost.oss_name as opposite_oss_name,ost.oss_shortname as opposite_oss_shortname,ost.osp_id as opposite_osp_id, c.osp_name, c.osp_shortname, r1.rg_name province_name, r2.rg_name city_name,
+                        cc.fullname contacts_name, cc.mobile contacts_mobile, cc.email contacts_email, cc.weixin contacts_weixin,
+                        osf.fullname staff_name, osf.mobile staff_mobile, osf.job_email staff_job_email, ao.ao_code, ao.ao_balance,osff.fullname operation_staff_name,osff.mobile operation_staff_mobile, osff.job_email operation_staff_job_email,
+                        n.merge_reconciliation as st_merge_reconciliation, n.opposite_station_id as st_opposite_station_id
+                FROM osp.station n
+                LEFT JOIN osp.station ost ON ost.oss_id = n.opposite_station_id
+                  LEFT JOIN osp.company c ON c.osp_id=n.osp_id
+                  LEFT JOIN common.region r1 ON r1.rg_id=n.province_id
+                  LEFT JOIN common.region r2 ON r2.rg_id=n.city_id
+                  LEFT JOIN osp.company_contacts cc ON cc.contacts_id=n.contacts_id
+                  LEFT JOIN own.staff osf ON osf.staff_id=n.staff_id
+                  LEFT JOIN own.staff osff ON osff.staff_id=n.operation_staff_id
+                  LEFT JOIN account.oil ao ON ao.ao_id=n.ao_id
+                  WHERE n.oss_id=749 LIMIT 1
+
+[2020-09-15 10:05:42][SQL] --- SELECT * FROM osd.app_matching WHERE delete_flag=0 AND oss_source=17 LIMIT 1
+
+[2020-09-15 10:05:42][SQL] --- SELECT station.oss_id, setting.set_val FROM osd.station_matching station INNER JOIN osd.station_settings_matching setting ON (station.app_id = setting.app_id AND station.dsm_code=setting.dsm_code) WHERE station.status=1 AND station.delete_flag=0 AND station.app_id=5004 AND station.oss_id=749 LIMIT 1
+
+[2020-09-15 10:05:43][LocalBaseLog] --- {"version":"1.0.0","traceId":"OMS.20200915100542982924","currentTime":"20200915100542982951","servant":"oms-noservant@local","param":{"traceId":"OMS.20200915100542833810","version":"1.0.0","method":"purchase.code","server":"api.openOsd.tarsObj","params":"{\"orderSn\":\"202009150936507167354620\",\"appId\":\"5004\"}","action":"get"},"resp":1,"ip":"172.18.0.1"}
+[2020-09-15 10:54:03][SQL] --- SELECT * FROM functions WHERE sf_module='station' AND sf_action='list' LIMIT 1
+
+[2020-09-15 10:54:03][SQL] --- SELECT *
+        FROM system.meta
+        WHERE meta_group='force:change:pwd' AND meta_key='userid:363' AND status='1' AND delete_flag='0' LIMIT 1
+
+
+2020-09-15T10:54:03+08:00 [REQ]-- /Station/List/out/view/
+[ReqBody] --{"out":"view"}
+[User] --{"id":"363","username":"zhangjingjing","sa":true,"staffId":"694","staffName":"张晶晶"}
+
+-------------------
+[2020-09-15 10:54:03][SQL] --- SELECT team_id from own.bd_member WHERE staff_id=694 LIMIT 1
+
+[2020-09-15 10:54:03][SQL] --- SELECT team_id from own.bd_team WHERE team_head=694 LIMIT 1
+
+
+2020-09-15T10:54:03+08:00 bdPriv[148]-- {"sa":true,"staff_id":"694","staff_tid":0}
+-------------------
+[2020-09-15 10:54:03][SQL] --- SELECT COUNT(*) FROM osp.station n
+                LEFT JOIN own.bd_member obm ON obm.staff_id=n.staff_id
+                LEFT JOIN own.staff osf ON osf.staff_id=n.staff_id
+                LEFT JOIN osp.company c ON c.osp_id = n.osp_id
+                WHERE n.status=-100 AND n.data_status=1 LIMIT 1
+
+[2020-09-15 10:54:03][SQL] --- SELECT s.* FROM osp.station_rebate_log s WHERE s.start_time = "2020-10-01 00:00:00" AND s.status = 1
+
+[2020-09-15 10:54:03][SQL] --- SELECT s.*
+        FROM pricing.station_sku s
+        WHERE s.delete_flag=0
+
+[2020-09-15 10:54:04][SQL] --- SELECT rg_id rid, rg_name rname FROM common.region WHERE parent_id=1 AND status>=1 ORDER BY rg_rank DESC, rg_id
+
+[2020-09-15 10:54:09][SQL] --- SELECT * FROM functions WHERE sf_module='station' AND sf_action='list' LIMIT 1
+
+[2020-09-15 10:54:09][SQL] --- SELECT *
+        FROM system.meta
+        WHERE meta_group='force:change:pwd' AND meta_key='userid:363' AND status='1' AND delete_flag='0' LIMIT 1
+
+
+2020-09-15T10:54:09+08:00 [REQ]-- /station/List/out/view/
+[ReqBody] --{"out":"view","scp_id":"","bd_id":"0","do_id":"0","name":"","scp_cName":"","opposite_station_flag":"100","open_status":"100","status":"100","voice_tips":"100","title":"","bd_sName":"","rebate_type":"ALL","oss_cate":"100","data_status":"1","province":"0","city":"0","do_sName":"","external_number":"","sku_search":"100","oss_source":"16"}
+[User] --{"id":"363","username":"zhangjingjing","sa":true,"staffId":"694","staffName":"张晶晶"}
+
+-------------------
+[2020-09-15 10:54:09][SQL] --- SELECT team_id from own.bd_member WHERE staff_id=694 LIMIT 1
+
+[2020-09-15 10:54:09][SQL] --- SELECT team_id from own.bd_team WHERE team_head=694 LIMIT 1
+
+
+2020-09-15T10:54:09+08:00 bdPriv[148]-- {"sa":true,"staff_id":"694","staff_tid":0}
+-------------------
+[2020-09-15 10:54:09][SQL] --- SELECT COUNT(*) FROM osp.station n
+                LEFT JOIN own.bd_member obm ON obm.staff_id=n.staff_id
+                LEFT JOIN own.staff osf ON osf.staff_id=n.staff_id
+                LEFT JOIN osp.company c ON c.osp_id = n.osp_id
+                WHERE n.oss_source=16 AND n.data_status=1 LIMIT 1
+
+[2020-09-15 10:54:09][SQL] --- SELECT  n.*, c.osp_name, c.osp_shortname, r1.rg_name province_name, r2.rg_name city_name,
+                            cc.fullname contacts_name, cc.mobile contacts_mobile, osf.fullname staff_name, osf.mobile staff_mobile
+                    FROM osp.station n
+                    LEFT JOIN osp.company c ON c.osp_id=n.osp_id
+                    LEFT JOIN common.region r1 ON r1.rg_id=n.province_id
+                    LEFT JOIN common.region r2 ON r2.rg_id=n.city_id
+                    LEFT JOIN osp.company_contacts cc ON cc.contacts_id=n.contacts_id
+                    LEFT JOIN own.bd_member obm ON obm.staff_id=n.staff_id
+                    LEFT JOIN own.staff osf ON osf.staff_id=n.staff_id
+                    WHERE n.oss_source=16 AND n.data_status=1
+                    ORDER BY n.oss_id DESC LIMIT 0, 20
+
+[2020-09-15 10:54:09][SQL] --- SELECT s.* FROM osp.station_rebate_log s WHERE s.oss_id IN (8282,8267,8257,8118,8117,8113,8112,8111,8110,8107,8106,8013,8012,8010,8007,8006,8001,3865,1045,573) AND s.start_time = "2020-10-01 00:00:00" AND s.status = 1
+
+[2020-09-15 10:54:09][SQL] --- SELECT s.*
+        FROM pricing.station_sku s
+        WHERE s.oss_id IN (8282,8267,8257,8118,8117,8113,8112,8111,8110,8107,8106,8013,8012,8010,8007,8006,8001,3865,1045,573) AND s.delete_flag=0
+
+[2020-09-15 10:54:09][SQL] --- SELECT * FROM osd.app_matching WHERE delete_flag=0 AND oss_source IN (16)
+
+[2020-09-15 10:54:09][SQL] --- SELECT station.oss_id, setting.set_val FROM osd.station_matching station INNER JOIN osd.station_settings_matching setting ON (station.app_id = setting.app_id AND station.dsm_code=setting.dsm_code) WHERE station.status=1 AND station.delete_flag=0 AND (( station.app_id=5002 AND station.oss_id=8282) OR ( station.app_id=5002 AND station.oss_id=8267) OR ( station.app_id=5002 AND station.oss_id=8257) OR ( station.app_id=5002 AND station.oss_id=8118) OR ( station.app_id=5002 AND station.oss_id=8117) OR ( station.app_id=5002 AND station.oss_id=8113) OR ( station.app_id=5002 AND station.oss_id=8112) OR ( station.app_id=5002 AND station.oss_id=8111) OR ( station.app_id=5002 AND station.oss_id=8110) OR ( station.app_id=5002 AND station.oss_id=8107) OR ( station.app_id=5002 AND station.oss_id=8106) OR ( station.app_id=5002 AND station.oss_id=8013) OR ( station.app_id=5002 AND station.oss_id=8012) OR ( station.app_id=5002 AND station.oss_id=8010) OR ( station.app_id=5002 AND station.oss_id=8007) OR ( station.app_id=5002 AND station.oss_id=8006) OR ( station.app_id=5002 AND station.oss_id=8001) OR ( station.app_id=5002 AND station.oss_id=3865) OR ( station.app_id=5002 AND station.oss_id=1045) OR ( station.app_id=5002 AND station.oss_id=573))
+
+[2020-09-15 10:54:09][SQL] --- SELECT COUNT(*) FROM account.oil o 
+                LEFT JOIN biz.company c ON c.company_id=o.company_id
+                LEFT JOIN own.sales_member osm ON osm.staff_id=c.staff_id 
+                WHERE o.ao_type IN (50) AND o.ao_uses=51 AND o.ao_uses_id IN (8282,8267,8257,8118,8117,8113,8112,8111,8110,8107,8106,8013,8012,8010,8007,8006,8001,3865,1045,573) AND o.delete_flag=0 AND o.ao_type != 40 LIMIT 1
+
+[2020-09-15 10:54:09][SQL] --- SELECT o.*, c.company_name
+                    FROM account.oil o
+                    LEFT JOIN biz.company c ON c.company_id=o.company_id
+                    LEFT JOIN own.sales_member osm ON osm.staff_id=c.staff_id
+                    WHERE o.ao_type IN (50) AND o.ao_uses=51 AND o.ao_uses_id IN (8282,8267,8257,8118,8117,8113,8112,8111,8110,8107,8106,8013,8012,8010,8007,8006,8001,3865,1045,573) AND o.delete_flag=0 AND o.ao_type != 40
+                    ORDER BY o.ao_id DESC LIMIT 0, 20
+
+[2020-09-15 10:54:09][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:54:09][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:54:09][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:54:09][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:54:09][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:54:09][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:54:09][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:54:09][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:54:09][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:54:09][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:54:09][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:54:09][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:54:09][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:54:09][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:54:09][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:54:09][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:54:09][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:54:10][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 10:54:10][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=4673 LIMIT 1
+
+[2020-09-15 10:54:10][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=1296 LIMIT 1
+
+[2020-09-15 10:54:10][SQL] --- SELECT rg_id rid, rg_name rname FROM common.region WHERE parent_id=1 AND status>=1 ORDER BY rg_rank DESC, rg_id
+
+[2020-09-15 10:55:18][SQL] --- SELECT * FROM functions WHERE sf_module='station' AND sf_action='edit' LIMIT 1
+
+[2020-09-15 10:55:18][SQL] --- SELECT *
+        FROM system.meta
+        WHERE meta_group='force:change:pwd' AND meta_key='userid:363' AND status='1' AND delete_flag='0' LIMIT 1
+
+
+2020-09-15T10:55:18+08:00 [REQ]-- /station/Edit/id/8267/
+[ReqBody] --{"id":"8267"}
+[User] --{"id":"363","username":"zhangjingjing","sa":true,"staffId":"694","staffName":"张晶晶"}
+
+-------------------
+[2020-09-15 10:55:18][SQL] --- SELECT  n.*,ost.oss_name as opposite_oss_name,ost.oss_shortname as opposite_oss_shortname,ost.osp_id as opposite_osp_id, c.osp_name, c.osp_shortname, r1.rg_name province_name, r2.rg_name city_name,
+                        cc.fullname contacts_name, cc.mobile contacts_mobile, cc.email contacts_email, cc.weixin contacts_weixin,
+                        osf.fullname staff_name, osf.mobile staff_mobile, osf.job_email staff_job_email, ao.ao_code, ao.ao_balance,osff.fullname operation_staff_name,osff.mobile operation_staff_mobile, osff.job_email operation_staff_job_email,
+                        n.merge_reconciliation as st_merge_reconciliation, n.opposite_station_id as st_opposite_station_id
+                FROM osp.station n
+                LEFT JOIN osp.station ost ON ost.oss_id = n.opposite_station_id
+                  LEFT JOIN osp.company c ON c.osp_id=n.osp_id
+                  LEFT JOIN common.region r1 ON r1.rg_id=n.province_id
+                  LEFT JOIN common.region r2 ON r2.rg_id=n.city_id
+                  LEFT JOIN osp.company_contacts cc ON cc.contacts_id=n.contacts_id
+                  LEFT JOIN own.staff osf ON osf.staff_id=n.staff_id
+                  LEFT JOIN own.staff osff ON osff.staff_id=n.operation_staff_id
+                  LEFT JOIN account.oil ao ON ao.ao_id=n.ao_id
+                  WHERE n.oss_id=8267 LIMIT 1
+
+[2020-09-15 10:55:18][SQL] --- SELECT app_id FROM osd.app_matching WHERE oss_source="16" LIMIT 1
+
+[2020-09-15 10:55:19][SQL] --- SELECT COUNT(*) FROM osd.station_matching os WHERE os.osp_id=11372 AND os.oss_id=8267 AND os.app_id=5002 LIMIT 1
+
+[2020-09-15 10:55:19][SQL] --- SELECT  os.*
+                    FROM osd.station_matching os
+                    WHERE os.osp_id=11372 AND os.oss_id=8267 AND os.app_id=5002
+                    ORDER BY os.dsm_id DESC LIMIT 0, 1
+
+[2020-09-15 10:55:19][SQL] --- SELECT rg_id rid, rg_name rname FROM common.region WHERE parent_id=1 AND status>=1 ORDER BY rg_rank DESC, rg_id
+
+[2020-09-15 10:55:19][SQL] --- SELECT rg_id rid, rg_name rname FROM common.region WHERE parent_id=310000 AND status>=1 ORDER BY rg_rank DESC, rg_id
+
+[2020-09-15 10:55:19][SQL] --- SELECT rg_id rid, rg_name rname FROM common.region WHERE parent_id=310100 AND status>=1 ORDER BY rg_rank DESC, rg_id
+
+[2020-09-15 10:55:19][SQL] --- SELECT * FROM osp.station_config WHERE delete_flag=0 AND oss_id=8267
+
+[2020-09-15 10:55:27][SQL] --- SELECT * FROM functions WHERE sf_module='station' AND sf_action='editpost' LIMIT 1
+
+[2020-09-15 10:55:27][SQL] --- SELECT *
+        FROM system.meta
+        WHERE meta_group='force:change:pwd' AND meta_key='userid:363' AND status='1' AND delete_flag='0' LIMIT 1
+
+
+2020-09-15T10:55:27+08:00 [REQ]-- /station/EditPost/id/8267
+[ReqBody] --{"id":"8267","ori_dsm_code":"1111","ori_dsm_name":"111","ori_dsm_ver":"1.0","dsm_id":"1659","ori_oss_source":"16","fcp_id":"11372","oss_name":"荣庆测试站点","oss_shortname":"荣庆测试站点","dsm_code":"1111","dsm_name":"111","dsm_ver":"1.0","oss_source":"17","oss_type":"35","oss_cate":"3","oss_shape":"10","business_type":"1","open_status":"1","province":"310000","city":"310100","district":"310104","address":"上海杨浦测试地址","longitude":"121.525727","latitude":"31.259822","tel":"021-12324511","dwz_rowNum":"1","fromtime":["14:24"],"totime":["23:24"],"opposite_station_flag":"0","opposite_pId":"","opposite_id":"0","opposite_sName":"","reconcile_flag":"0","is_master_card":"0","is_oiler_qr":"1","refuel_type":"2","voice_tips":"1","pos_audio_change":"1","pos_bill_changer":"0","gun_switch":"1","contacts_name":"raomingxiang","contacts_mobile":"15179020708","contacts_email":"","contacts_weixin":"","scm_id":"","remark":""}
+[User] --{"id":"363","username":"zhangjingjing","sa":true,"staffId":"694","staffName":"张晶晶"}
+
+-------------------
+[2020-09-15 10:55:27][SQL] --- SELECT  n.*,ost.oss_name as opposite_oss_name,ost.oss_shortname as opposite_oss_shortname,ost.osp_id as opposite_osp_id, c.osp_name, c.osp_shortname, r1.rg_name province_name, r2.rg_name city_name,
+                        cc.fullname contacts_name, cc.mobile contacts_mobile, cc.email contacts_email, cc.weixin contacts_weixin,
+                        osf.fullname staff_name, osf.mobile staff_mobile, osf.job_email staff_job_email, ao.ao_code, ao.ao_balance,osff.fullname operation_staff_name,osff.mobile operation_staff_mobile, osff.job_email operation_staff_job_email,
+                        n.merge_reconciliation as st_merge_reconciliation, n.opposite_station_id as st_opposite_station_id
+                FROM osp.station n
+                LEFT JOIN osp.station ost ON ost.oss_id = n.opposite_station_id
+                  LEFT JOIN osp.company c ON c.osp_id=n.osp_id
+                  LEFT JOIN common.region r1 ON r1.rg_id=n.province_id
+                  LEFT JOIN common.region r2 ON r2.rg_id=n.city_id
+                  LEFT JOIN osp.company_contacts cc ON cc.contacts_id=n.contacts_id
+                  LEFT JOIN own.staff osf ON osf.staff_id=n.staff_id
+                  LEFT JOIN own.staff osff ON osff.staff_id=n.operation_staff_id
+                  LEFT JOIN account.oil ao ON ao.ao_id=n.ao_id
+                  WHERE n.oss_id=8267 LIMIT 1
+
+[2020-09-15 10:55:27][SQL] --- SELECT oss_id FROM osp.station WHERE oss_id!=8267 AND oss_name='荣庆测试站点' LIMIT 1
+
+[2020-09-15 10:55:27][SQL] --- SELECT app_id FROM osd.app_matching WHERE oss_source="17" LIMIT 1
+
+[2020-09-15 10:55:27][SQL] --- SELECT COUNT(*) FROM osd.station_matching os WHERE os.dsm_code='1111' AND os.app_id=5004 LIMIT 1
+
+[2020-09-15 10:55:27][SQL] --- SELECT  os.*
+                    FROM osd.station_matching os
+                    WHERE os.dsm_code='1111' AND os.app_id=5004
+                    ORDER BY os.dsm_id DESC LIMIT 0, 1
+
+[2020-09-15 10:55:27][SQL]osd.station_matching --- UPDATE osd.station_matching SET oss_id='0',update_time=NOW() WHERE oss_id=8267
+
+[2020-09-15 10:55:27][SQL]osd.station_matching --- UPDATE osd.station_matching SET dsm_code='1111',dsm_name='111',dsm_ver='1.0',oss_id='8267',osp_id='11372',update_time=NOW() WHERE dsm_id=8931
+
+[2020-09-15 10:55:27][SQL] --- SELECT osg_id FROM osp.station_gun WHERE oss_id=8267
+
+[2020-09-15 10:55:27][SQL]osd.station_sku_gun_matching --- UPDATE osd.station_sku_gun_matching SET gun_id='0',delete_flag='1',update_time=NOW() WHERE gun_id IN (739,740,741,742,743,744,745,746)
+
+[2020-09-15 10:55:27][SQL]osp.station --- UPDATE osp.station SET osp_id='11372',oss_type='35',oss_cate='3',oss_shape='10',oss_name='荣庆测试站点',oss_shortname='荣庆测试站点',oss_source='17',province_id='310000',city_id='310100',district_id='310104',address='上海杨浦测试地址',tel='021-12324511',opentime='14:24-23:24',tags='',longitude='121.525727',latitude='31.259822',scm_id='',open_status='1',remark='',is_oiler_qr='1',is_user_qr='0',is_user_ss='0',refuel_type='2',voice_tips='1',opposite_station_flag='0',opposite_station_id='0',merge_reconciliation='0',master_card='0',gun_switch='1',business_type='1',update_time=NOW() WHERE oss_id=8267
+
+[2020-09-15 10:55:28][SQL]osp.station_maintenance --- INSERT INTO osp.station_maintenance SET osp_id='11372',oss_id='8267',staff_id='694',op_subject='修改站点',op_remarks='原油站来源：新壳牌',op_id='8267',create_time=NOW(),update_time=NOW()
+
+[2020-09-15 10:55:28][SQL] --- SELECT  n.*,ost.oss_name as opposite_oss_name,ost.oss_shortname as opposite_oss_shortname,ost.osp_id as opposite_osp_id, c.osp_name, c.osp_shortname, r1.rg_name province_name, r2.rg_name city_name,
+                        cc.fullname contacts_name, cc.mobile contacts_mobile, cc.email contacts_email, cc.weixin contacts_weixin,
+                        osf.fullname staff_name, osf.mobile staff_mobile, osf.job_email staff_job_email, ao.ao_code, ao.ao_balance,osff.fullname operation_staff_name,osff.mobile operation_staff_mobile, osff.job_email operation_staff_job_email,
+                        n.merge_reconciliation as st_merge_reconciliation, n.opposite_station_id as st_opposite_station_id
+                FROM osp.station n
+                LEFT JOIN osp.station ost ON ost.oss_id = n.opposite_station_id
+                  LEFT JOIN osp.company c ON c.osp_id=n.osp_id
+                  LEFT JOIN common.region r1 ON r1.rg_id=n.province_id
+                  LEFT JOIN common.region r2 ON r2.rg_id=n.city_id
+                  LEFT JOIN osp.company_contacts cc ON cc.contacts_id=n.contacts_id
+                  LEFT JOIN own.staff osf ON osf.staff_id=n.staff_id
+                  LEFT JOIN own.staff osff ON osff.staff_id=n.operation_staff_id
+                  LEFT JOIN account.oil ao ON ao.ao_id=n.ao_id
+                  WHERE n.oss_id=8267 LIMIT 1
+
+[2020-09-15 10:55:28][SQL] --- SELECT COUNT(*) FROM osp.reconciliation r WHERE  r.collating_status < 30 AND r.osp_id = 11372 AND r.oss_id = 8267 LIMIT 1
+
+[2020-09-15 10:55:28][SQL] --- SELECT * FROM osp.reconciliation r WHERE r.oss_id = 8267 AND r.status = 1 AND r.collating_status < 30  ORDER BY r.r_id DESC LIMIT 1
+
+[2020-09-15 10:55:28][SQL] --- SELECT * FROM osp.reconciliation r WHERE r.oss_id = 0 AND r.status = 1 AND r.collating_status < 30  ORDER BY r.r_id DESC LIMIT 1
+
+[2020-09-15 10:55:28][SQL] --- SELECT  n.*,ost.oss_name as opposite_oss_name,ost.oss_shortname as opposite_oss_shortname,ost.osp_id as opposite_osp_id, c.osp_name, c.osp_shortname, r1.rg_name province_name, r2.rg_name city_name,
+                        cc.fullname contacts_name, cc.mobile contacts_mobile, cc.email contacts_email, cc.weixin contacts_weixin,
+                        osf.fullname staff_name, osf.mobile staff_mobile, osf.job_email staff_job_email, ao.ao_code, ao.ao_balance,osff.fullname operation_staff_name,osff.mobile operation_staff_mobile, osff.job_email operation_staff_job_email,
+                        n.merge_reconciliation as st_merge_reconciliation, n.opposite_station_id as st_opposite_station_id
+                FROM osp.station n
+                LEFT JOIN osp.station ost ON ost.oss_id = n.opposite_station_id
+                  LEFT JOIN osp.company c ON c.osp_id=n.osp_id
+                  LEFT JOIN common.region r1 ON r1.rg_id=n.province_id
+                  LEFT JOIN common.region r2 ON r2.rg_id=n.city_id
+                  LEFT JOIN osp.company_contacts cc ON cc.contacts_id=n.contacts_id
+                  LEFT JOIN own.staff osf ON osf.staff_id=n.staff_id
+                  LEFT JOIN own.staff osff ON osff.staff_id=n.operation_staff_id
+                  LEFT JOIN account.oil ao ON ao.ao_id=n.ao_id
+                  WHERE n.oss_id=8267 LIMIT 1
+
+[2020-09-15 10:55:28][SQL] --- SELECT COUNT(*) FROM osp.reconciliation r WHERE  r.collating_status < 30 AND r.osp_id = 11372 AND r.oss_id = 8267 LIMIT 1
+
+[2020-09-15 10:55:28][SQL] --- SELECT * FROM osp.station_config WHERE delete_flag=0 AND config_type=1001 AND oss_id=8267 LIMIT 1
+
+[2020-09-15 10:55:28][SQL] --- SELECT * FROM osp.station_config WHERE delete_flag=0 AND config_type=1002 AND oss_id=8267 LIMIT 1
+
+[2020-09-15 10:55:28][SQL] --- SELECT * FROM osp.station_config WHERE delete_flag=0 AND config_type=1003 AND oss_id=8267 LIMIT 1
+
+[2020-09-15 10:55:28][SQL] --- UPDATE functions SET sf_done_count=sf_done_count+1 WHERE sf_id=186
+
+[2020-09-15 10:55:28][SQL]user_logs --- INSERT INTO user_logs SET su_id='363',sf_id='186',ul_remark='[张晶晶] 成功修改服务商站点信息[8267:荣庆测试站点]，发送消息成功,  【 NICE 】 。',ul_time=NOW(),ul_ip='172.18.0.1'
+
+[2020-09-15 10:55:28][SQL] --- SELECT * FROM functions WHERE sf_module='station' AND sf_action='list' LIMIT 1
+
+[2020-09-15 10:55:28][SQL] --- SELECT *
+        FROM system.meta
+        WHERE meta_group='force:change:pwd' AND meta_key='userid:363' AND status='1' AND delete_flag='0' LIMIT 1
+
+
+2020-09-15T10:55:28+08:00 [REQ]-- /Station/List/out/view/
+[ReqBody] --{"out":"view"}
+[User] --{"id":"363","username":"zhangjingjing","sa":true,"staffId":"694","staffName":"张晶晶"}
+
+-------------------
+[2020-09-15 10:55:28][SQL] --- SELECT team_id from own.bd_member WHERE staff_id=694 LIMIT 1
+
+[2020-09-15 10:55:28][SQL] --- SELECT team_id from own.bd_team WHERE team_head=694 LIMIT 1
+
+
+2020-09-15T10:55:28+08:00 bdPriv[148]-- {"sa":true,"staff_id":"694","staff_tid":0}
+-------------------
+[2020-09-15 10:55:28][SQL] --- SELECT COUNT(*) FROM osp.station n
+                LEFT JOIN own.bd_member obm ON obm.staff_id=n.staff_id
+                LEFT JOIN own.staff osf ON osf.staff_id=n.staff_id
+                LEFT JOIN osp.company c ON c.osp_id = n.osp_id
+                WHERE n.status=-100 AND n.data_status=1 LIMIT 1
+
+[2020-09-15 10:55:28][SQL] --- SELECT s.* FROM osp.station_rebate_log s WHERE s.start_time = "2020-10-01 00:00:00" AND s.status = 1
+
+[2020-09-15 10:55:28][SQL] --- SELECT s.*
+        FROM pricing.station_sku s
+        WHERE s.delete_flag=0
+
+[2020-09-15 10:55:29][SQL] --- SELECT rg_id rid, rg_name rname FROM common.region WHERE parent_id=1 AND status>=1 ORDER BY rg_rank DESC, rg_id
+
+[2020-09-15 11:23:13][SQL] --- SELECT * FROM functions WHERE sf_module='station' AND sf_action='sitesettlelist' LIMIT 1
+
+[2020-09-15 11:23:15][SQL] --- SELECT * FROM functions WHERE sf_module='image' AND sf_action='code' LIMIT 1
+
+[2020-09-15 11:23:21][SQL] --- SELECT u.*, s.fullname staff_name, s.mobile, s.job_number, s.job_title, s.job_email
+                FROM users u
+                  LEFT JOIN own.staff s ON u.staff_id=s.staff_id
+                WHERE u.username='zhangjingjing' LIMIT 1
+
+[2020-09-15 11:23:21][SQL] --- SELECT sf_id FROM functions WHERE sf_module='home' AND sf_action='loginpost' LIMIT 1
+
+[2020-09-15 11:23:21][SQL]user_logs --- INSERT INTO user_logs SET su_id='363',sf_id='1',ul_remark='[张晶晶] 登录OMS系统。',ul_time=NOW(),ul_ip='172.18.0.1'
+
+[2020-09-15 11:23:35][SQL] --- SELECT * FROM functions WHERE sf_module='order3' AND sf_action='saleslist' LIMIT 1
+
+[2020-09-15 11:23:35][SQL] --- SELECT *
+        FROM system.meta
+        WHERE meta_group='force:change:pwd' AND meta_key='userid:363' AND status='1' AND delete_flag='0' LIMIT 1
+
+
+2020-09-15T11:23:35+08:00 [REQ]-- /Order3/SalesList/out/view/
+[ReqBody] --{"out":"view"}
+[User] --{"id":"363","username":"zhangjingjing","sa":true,"staffId":"694","staffName":"张晶晶"}
+
+-------------------
+[2020-09-15 11:23:35][SQL] --- SELECT COUNT( DISTINCT o.order_id ) 
+                    FROM sales.retail o 
+                      LEFT JOIN osp.station n ON n.oss_id=o.oss_id 
+                      LEFT JOIN activity.sales_bill_order_rebate aso ON o.order_id = aso.order_id 
+                      LEFT JOIN biz.employee e ON e.employee_id=o.employee_id
+                    WHERE o.channel_id>1 AND o.status=-100 AND o.is_serv_order in (2,3,21) AND o.delete_flag = 0  LIMIT 1
+
+[2020-09-15 11:23:35][SQL] --- SELECT str.*, st.title
+                FROM osp.station_tag_relation str
+                LEFT JOIN osp.station_tag st ON st.t_id=str.t_id
+                WHERE st.status = 1  AND str.delete_flag = 0  AND st.delete_flag  = 0 
+
+[2020-09-15 11:23:35][SQL] --- SELECT rg_id rid, rg_name rname FROM common.region WHERE parent_id=1 AND status>=1 ORDER BY rg_rank DESC, rg_id
+
+[2020-09-15 11:23:37][SQL] --- SELECT * FROM functions WHERE sf_module='order3' AND sf_action='oilservicesaleslist' LIMIT 1
+
+[2020-09-15 11:23:37][SQL] --- SELECT *
+        FROM system.meta
+        WHERE meta_group='force:change:pwd' AND meta_key='userid:363' AND status='1' AND delete_flag='0' LIMIT 1
+
+
+2020-09-15T11:23:37+08:00 [REQ]-- /Order3/OilServiceSalesList/out/view/
+[ReqBody] --{"out":"view"}
+[User] --{"id":"363","username":"zhangjingjing","sa":true,"staffId":"694","staffName":"张晶晶"}
+
+-------------------
+[2020-09-15 11:35:23][SQL] --- SELECT * FROM functions WHERE sf_module='station' AND sf_action='list' LIMIT 1
+
+[2020-09-15 11:35:23][SQL] --- SELECT *
+        FROM system.meta
+        WHERE meta_group='force:change:pwd' AND meta_key='userid:363' AND status='1' AND delete_flag='0' LIMIT 1
+
+
+2020-09-15T11:35:23+08:00 [REQ]-- /station/List/out/view/
+[ReqBody] --{"out":"view","scp_id":"","bd_id":"0","do_id":"0","name":"","scp_cName":"","opposite_station_flag":"100","open_status":"100","status":"100","voice_tips":"100","title":"","bd_sName":"","rebate_type":"ALL","oss_cate":"100","data_status":"1","province":"0","city":"0","do_sName":"","external_number":"","sku_search":"100","oss_source":"17"}
+[User] --{"id":"363","username":"zhangjingjing","sa":true,"staffId":"694","staffName":"张晶晶"}
+
+-------------------
+[2020-09-15 11:35:23][SQL] --- SELECT team_id from own.bd_member WHERE staff_id=694 LIMIT 1
+
+[2020-09-15 11:35:23][SQL] --- SELECT team_id from own.bd_team WHERE team_head=694 LIMIT 1
+
+
+2020-09-15T11:35:23+08:00 bdPriv[148]-- {"sa":true,"staff_id":"694","staff_tid":0}
+-------------------
+[2020-09-15 11:35:23][SQL] --- SELECT COUNT(*) FROM osp.station n
+                LEFT JOIN own.bd_member obm ON obm.staff_id=n.staff_id
+                LEFT JOIN own.staff osf ON osf.staff_id=n.staff_id
+                LEFT JOIN osp.company c ON c.osp_id = n.osp_id
+                WHERE n.oss_source=17 AND n.data_status=1 LIMIT 1
+
+[2020-09-15 11:35:23][SQL] --- SELECT  n.*, c.osp_name, c.osp_shortname, r1.rg_name province_name, r2.rg_name city_name,
+                            cc.fullname contacts_name, cc.mobile contacts_mobile, osf.fullname staff_name, osf.mobile staff_mobile
+                    FROM osp.station n
+                    LEFT JOIN osp.company c ON c.osp_id=n.osp_id
+                    LEFT JOIN common.region r1 ON r1.rg_id=n.province_id
+                    LEFT JOIN common.region r2 ON r2.rg_id=n.city_id
+                    LEFT JOIN osp.company_contacts cc ON cc.contacts_id=n.contacts_id
+                    LEFT JOIN own.bd_member obm ON obm.staff_id=n.staff_id
+                    LEFT JOIN own.staff osf ON osf.staff_id=n.staff_id
+                    WHERE n.oss_source=17 AND n.data_status=1
+                    ORDER BY n.oss_id DESC LIMIT 0, 20
+
+[2020-09-15 11:35:23][SQL] --- SELECT s.* FROM osp.station_rebate_log s WHERE s.oss_id IN (8287,8286,8285,8281,8280,8279,8276,8275,8273,8268,8267,8256,8122,8119,749) AND s.start_time = "2020-10-01 00:00:00" AND s.status = 1
+
+[2020-09-15 11:35:23][SQL] --- SELECT s.*
+        FROM pricing.station_sku s
+        WHERE s.oss_id IN (8287,8286,8285,8281,8280,8279,8276,8275,8273,8268,8267,8256,8122,8119,749) AND s.delete_flag=0
+
+[2020-09-15 11:35:24][SQL] --- SELECT * FROM osd.app_matching WHERE delete_flag=0 AND oss_source IN (17)
+
+[2020-09-15 11:35:24][SQL] --- SELECT station.oss_id, setting.set_val FROM osd.station_matching station INNER JOIN osd.station_settings_matching setting ON (station.app_id = setting.app_id AND station.dsm_code=setting.dsm_code) WHERE station.status=1 AND station.delete_flag=0 AND (( station.app_id=5004 AND station.oss_id=8287) OR ( station.app_id=5004 AND station.oss_id=8286) OR ( station.app_id=5004 AND station.oss_id=8285) OR ( station.app_id=5004 AND station.oss_id=8281) OR ( station.app_id=5004 AND station.oss_id=8280) OR ( station.app_id=5004 AND station.oss_id=8279) OR ( station.app_id=5004 AND station.oss_id=8276) OR ( station.app_id=5004 AND station.oss_id=8275) OR ( station.app_id=5004 AND station.oss_id=8273) OR ( station.app_id=5004 AND station.oss_id=8268) OR ( station.app_id=5004 AND station.oss_id=8267) OR ( station.app_id=5004 AND station.oss_id=8256) OR ( station.app_id=5004 AND station.oss_id=8122) OR ( station.app_id=5004 AND station.oss_id=8119) OR ( station.app_id=5004 AND station.oss_id=749))
+
+[2020-09-15 11:35:24][SQL] --- SELECT COUNT(*) FROM account.oil o 
+                LEFT JOIN biz.company c ON c.company_id=o.company_id
+                LEFT JOIN own.sales_member osm ON osm.staff_id=c.staff_id 
+                WHERE o.ao_type IN (50) AND o.ao_uses=51 AND o.ao_uses_id IN (8287,8286,8285,8281,8280,8279,8276,8275,8273,8268,8267,8256,8122,8119,749) AND o.delete_flag=0 AND o.ao_type != 40 LIMIT 1
+
+[2020-09-15 11:35:24][SQL] --- SELECT o.*, c.company_name
+                    FROM account.oil o
+                    LEFT JOIN biz.company c ON c.company_id=o.company_id
+                    LEFT JOIN own.sales_member osm ON osm.staff_id=c.staff_id
+                    WHERE o.ao_type IN (50) AND o.ao_uses=51 AND o.ao_uses_id IN (8287,8286,8285,8281,8280,8279,8276,8275,8273,8268,8267,8256,8122,8119,749) AND o.delete_flag=0 AND o.ao_type != 40
+                    ORDER BY o.ao_id DESC LIMIT 0, 20
+
+[2020-09-15 11:35:24][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 11:35:24][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 11:35:24][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 11:35:24][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 11:35:24][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 11:35:24][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 11:35:24][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 11:35:24][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 11:35:24][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 11:35:24][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 11:35:24][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 11:35:24][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 11:35:24][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 11:35:24][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 11:35:24][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=2862 LIMIT 1
+
+[2020-09-15 11:35:24][SQL] --- SELECT rg_id rid, rg_name rname FROM common.region WHERE parent_id=1 AND status>=1 ORDER BY rg_rank DESC, rg_id
+
+[2020-09-15 11:35:33][SQL] --- SELECT * FROM functions WHERE sf_module='station' AND sf_action='details' LIMIT 1
+
+[2020-09-15 11:35:33][SQL] --- SELECT *
+        FROM system.meta
+        WHERE meta_group='force:change:pwd' AND meta_key='userid:363' AND status='1' AND delete_flag='0' LIMIT 1
+
+
+2020-09-15T11:35:33+08:00 [REQ]-- /station/Details/id/8267/
+[ReqBody] --{"id":"8267"}
+[User] --{"id":"363","username":"zhangjingjing","sa":true,"staffId":"694","staffName":"张晶晶"}
+
+-------------------
+[2020-09-15 11:35:34][SQL] --- SELECT team_id from own.bd_member WHERE staff_id=694 LIMIT 1
+
+[2020-09-15 11:35:34][SQL] --- SELECT team_id from own.bd_team WHERE team_head=694 LIMIT 1
+
+
+2020-09-15T11:35:34+08:00 bdPriv[148]-- {"sa":true,"staff_id":"694","staff_tid":0}
+-------------------
+[2020-09-15 11:35:34][SQL] --- SELECT  n.*,ost.oss_name as opposite_oss_name,ost.oss_shortname as opposite_oss_shortname,ost.osp_id as opposite_osp_id, c.osp_name, c.osp_shortname, r1.rg_name province_name, r2.rg_name city_name,
+                        cc.fullname contacts_name, cc.mobile contacts_mobile, cc.email contacts_email, cc.weixin contacts_weixin,
+                        osf.fullname staff_name, osf.mobile staff_mobile, osf.job_email staff_job_email, ao.ao_code, ao.ao_balance,osff.fullname operation_staff_name,osff.mobile operation_staff_mobile, osff.job_email operation_staff_job_email,
+                        n.merge_reconciliation as st_merge_reconciliation, n.opposite_station_id as st_opposite_station_id
+                FROM osp.station n
+                LEFT JOIN osp.station ost ON ost.oss_id = n.opposite_station_id
+                  LEFT JOIN osp.company c ON c.osp_id=n.osp_id
+                  LEFT JOIN common.region r1 ON r1.rg_id=n.province_id
+                  LEFT JOIN common.region r2 ON r2.rg_id=n.city_id
+                  LEFT JOIN osp.company_contacts cc ON cc.contacts_id=n.contacts_id
+                  LEFT JOIN own.staff osf ON osf.staff_id=n.staff_id
+                  LEFT JOIN own.staff osff ON osff.staff_id=n.operation_staff_id
+                  LEFT JOIN account.oil ao ON ao.ao_id=n.ao_id
+                  WHERE n.oss_id=8267 LIMIT 1
+
+[2020-09-15 11:35:34][SQL] --- SELECT sa_id, oss_id, rebate_type, status, staff_id, start_time, end_time, create_time, update_time FROM osp.station_rebate_log WHERE oss_id=8267 AND status=1 AND start_time='2020-10-01 00:00:00' AND delete_flag = 0 LIMIT 1
+
+[2020-09-15 11:35:34][SQL] --- SELECT * FROM osd.app_matching WHERE delete_flag=0 AND oss_source=17 LIMIT 1
+
+[2020-09-15 11:35:34][SQL] --- SELECT station.oss_id, setting.set_val FROM osd.station_matching station INNER JOIN osd.station_settings_matching setting ON (station.app_id = setting.app_id AND station.dsm_code=setting.dsm_code) WHERE station.status=1 AND station.delete_flag=0 AND station.app_id=5004 AND station.oss_id=8267 LIMIT 1
+
+[2020-09-15 11:35:34][SQL] --- SELECT COUNT(*) FROM osp.station_maintenance cl WHERE cl.oss_id=8267 LIMIT 1
+
+[2020-09-15 11:35:34][SQL] --- SELECT cl.*, s.oss_name, s.oss_shortname, f.fullname staff_name
+                    FROM osp.station_maintenance cl
+                      LEFT JOIN station s ON s.oss_id=cl.oss_id
+                      LEFT JOIN own.staff f ON f.staff_id=cl.staff_id
+                    WHERE cl.oss_id=8267
+                    ORDER BY cl.sm_id DESC LIMIT 0, 20
+
+[2020-09-15 11:35:34][SQL] --- SELECT sf_id FROM functions WHERE sf_module='station' AND sf_action='details' LIMIT 1
+
+[2020-09-15 11:35:34][SQL]user_logs --- INSERT INTO user_logs SET su_id='363',sf_id='187',ul_remark='[张晶晶] 查看了网点【8267:荣庆测试站点】的详情信息。',ul_time=NOW(),ul_ip='172.18.0.1'
+
+[2020-09-15 11:35:50][SQL] --- SELECT * FROM functions WHERE sf_module='station' AND sf_action='edit' LIMIT 1
+
+[2020-09-15 11:35:50][SQL] --- SELECT *
+        FROM system.meta
+        WHERE meta_group='force:change:pwd' AND meta_key='userid:363' AND status='1' AND delete_flag='0' LIMIT 1
+
+
+2020-09-15T11:35:50+08:00 [REQ]-- /station/Edit/id/8267/
+[ReqBody] --{"id":"8267"}
+[User] --{"id":"363","username":"zhangjingjing","sa":true,"staffId":"694","staffName":"张晶晶"}
+
+-------------------
+[2020-09-15 11:35:50][SQL] --- SELECT  n.*,ost.oss_name as opposite_oss_name,ost.oss_shortname as opposite_oss_shortname,ost.osp_id as opposite_osp_id, c.osp_name, c.osp_shortname, r1.rg_name province_name, r2.rg_name city_name,
+                        cc.fullname contacts_name, cc.mobile contacts_mobile, cc.email contacts_email, cc.weixin contacts_weixin,
+                        osf.fullname staff_name, osf.mobile staff_mobile, osf.job_email staff_job_email, ao.ao_code, ao.ao_balance,osff.fullname operation_staff_name,osff.mobile operation_staff_mobile, osff.job_email operation_staff_job_email,
+                        n.merge_reconciliation as st_merge_reconciliation, n.opposite_station_id as st_opposite_station_id
+                FROM osp.station n
+                LEFT JOIN osp.station ost ON ost.oss_id = n.opposite_station_id
+                  LEFT JOIN osp.company c ON c.osp_id=n.osp_id
+                  LEFT JOIN common.region r1 ON r1.rg_id=n.province_id
+                  LEFT JOIN common.region r2 ON r2.rg_id=n.city_id
+                  LEFT JOIN osp.company_contacts cc ON cc.contacts_id=n.contacts_id
+                  LEFT JOIN own.staff osf ON osf.staff_id=n.staff_id
+                  LEFT JOIN own.staff osff ON osff.staff_id=n.operation_staff_id
+                  LEFT JOIN account.oil ao ON ao.ao_id=n.ao_id
+                  WHERE n.oss_id=8267 LIMIT 1
+
+[2020-09-15 11:35:50][SQL] --- SELECT app_id FROM osd.app_matching WHERE oss_source="17" LIMIT 1
+
+[2020-09-15 11:35:50][SQL] --- SELECT COUNT(*) FROM osd.station_matching os WHERE os.osp_id=11372 AND os.oss_id=8267 AND os.app_id=5004 LIMIT 1
+
+[2020-09-15 11:35:50][SQL] --- SELECT  os.*
+                    FROM osd.station_matching os
+                    WHERE os.osp_id=11372 AND os.oss_id=8267 AND os.app_id=5004
+                    ORDER BY os.dsm_id DESC LIMIT 0, 1
+
+[2020-09-15 11:35:50][SQL] --- SELECT rg_id rid, rg_name rname FROM common.region WHERE parent_id=1 AND status>=1 ORDER BY rg_rank DESC, rg_id
+
+[2020-09-15 11:35:50][SQL] --- SELECT rg_id rid, rg_name rname FROM common.region WHERE parent_id=310000 AND status>=1 ORDER BY rg_rank DESC, rg_id
+
+[2020-09-15 11:35:50][SQL] --- SELECT rg_id rid, rg_name rname FROM common.region WHERE parent_id=310100 AND status>=1 ORDER BY rg_rank DESC, rg_id
+
+[2020-09-15 11:35:50][SQL] --- SELECT * FROM osp.station_config WHERE delete_flag=0 AND oss_id=8267
+
+[2020-09-15 11:35:53][SQL] --- SELECT * FROM functions WHERE sf_module='station' AND sf_action='editpost' LIMIT 1
+
+[2020-09-15 11:35:54][SQL] --- SELECT *
+        FROM system.meta
+        WHERE meta_group='force:change:pwd' AND meta_key='userid:363' AND status='1' AND delete_flag='0' LIMIT 1
+
+
+2020-09-15T11:35:54+08:00 [REQ]-- /station/EditPost/id/8267
+[ReqBody] --{"id":"8267","ori_dsm_code":"1111","ori_dsm_name":"111","ori_dsm_ver":"1.0","dsm_id":"8931","ori_oss_source":"17","fcp_id":"11372","oss_name":"荣庆测试站点","oss_shortname":"荣庆测试站点","dsm_code":"1111","dsm_name":"111","dsm_ver":"1.0","oss_source":"17","oss_type":"35","oss_cate":"3","oss_shape":"10","business_type":"1","open_status":"1","province":"310000","city":"310100","district":"310104","address":"上海杨浦测试地址","longitude":"121.525727","latitude":"31.259822","tel":"021-12324511","dwz_rowNum":"1","fromtime":["14:24"],"totime":["23:24"],"opposite_station_flag":"0","opposite_pId":"","opposite_id":"0","opposite_sName":"","reconcile_flag":"0","is_master_card":"0","is_oiler_qr":"1","refuel_type":"2","voice_tips":"1","pos_audio_change":"1","pos_bill_changer":"0","gun_switch":"1","contacts_name":"raomingxiang","contacts_mobile":"15179020708","contacts_email":"","contacts_weixin":"","scm_id":"","remark":""}
+[User] --{"id":"363","username":"zhangjingjing","sa":true,"staffId":"694","staffName":"张晶晶"}
+
+-------------------
+[2020-09-15 11:35:54][SQL] --- SELECT  n.*,ost.oss_name as opposite_oss_name,ost.oss_shortname as opposite_oss_shortname,ost.osp_id as opposite_osp_id, c.osp_name, c.osp_shortname, r1.rg_name province_name, r2.rg_name city_name,
+                        cc.fullname contacts_name, cc.mobile contacts_mobile, cc.email contacts_email, cc.weixin contacts_weixin,
+                        osf.fullname staff_name, osf.mobile staff_mobile, osf.job_email staff_job_email, ao.ao_code, ao.ao_balance,osff.fullname operation_staff_name,osff.mobile operation_staff_mobile, osff.job_email operation_staff_job_email,
+                        n.merge_reconciliation as st_merge_reconciliation, n.opposite_station_id as st_opposite_station_id
+                FROM osp.station n
+                LEFT JOIN osp.station ost ON ost.oss_id = n.opposite_station_id
+                  LEFT JOIN osp.company c ON c.osp_id=n.osp_id
+                  LEFT JOIN common.region r1 ON r1.rg_id=n.province_id
+                  LEFT JOIN common.region r2 ON r2.rg_id=n.city_id
+                  LEFT JOIN osp.company_contacts cc ON cc.contacts_id=n.contacts_id
+                  LEFT JOIN own.staff osf ON osf.staff_id=n.staff_id
+                  LEFT JOIN own.staff osff ON osff.staff_id=n.operation_staff_id
+                  LEFT JOIN account.oil ao ON ao.ao_id=n.ao_id
+                  WHERE n.oss_id=8267 LIMIT 1
+
+[2020-09-15 11:35:54][SQL] --- SELECT oss_id FROM osp.station WHERE oss_id!=8267 AND oss_name='荣庆测试站点' LIMIT 1
+
+[2020-09-15 11:35:54][SQL] --- SELECT app_id FROM osd.app_matching WHERE oss_source="17" LIMIT 1
+
+[2020-09-15 11:35:54][SQL] --- SELECT COUNT(*) FROM osd.station_matching os WHERE os.dsm_code='1111' AND os.app_id=5004 LIMIT 1
+
+[2020-09-15 11:35:54][SQL] --- SELECT  os.*
+                    FROM osd.station_matching os
+                    WHERE os.dsm_code='1111' AND os.app_id=5004
+                    ORDER BY os.dsm_id DESC LIMIT 0, 1
+
+[2020-09-15 11:35:54][SQL]osd.station_matching --- UPDATE osd.station_matching SET oss_id='0',osp_id='0',update_time=NOW() WHERE oss_id=8267
+
+[2020-09-15 11:35:54][SQL]osd.station_matching --- UPDATE osd.station_matching SET dsm_code='1111',dsm_name='111',dsm_ver='1.0',oss_id='8267',osp_id='11372',update_time=NOW() WHERE dsm_id=8931
+
+[2020-09-15 11:35:54][SQL]osp.station --- UPDATE osp.station SET osp_id='11372',oss_type='35',oss_cate='3',oss_shape='10',oss_name='荣庆测试站点',oss_shortname='荣庆测试站点',oss_source='17',province_id='310000',city_id='310100',district_id='310104',address='上海杨浦测试地址',tel='021-12324511',opentime='14:24-23:24',tags='',longitude='121.525727',latitude='31.259822',scm_id='',open_status='1',remark='',is_oiler_qr='1',is_user_qr='0',is_user_ss='0',refuel_type='2',voice_tips='1',opposite_station_flag='0',opposite_station_id='0',merge_reconciliation='0',master_card='0',gun_switch='1',business_type='1',update_time=NOW() WHERE oss_id=8267
+
+[2020-09-15 11:35:54][SQL]osp.station_maintenance --- INSERT INTO osp.station_maintenance SET osp_id='11372',oss_id='8267',staff_id='694',op_subject='修改站点',op_remarks='',op_id='8267',create_time=NOW(),update_time=NOW()
+
+[2020-09-15 11:35:54][SQL] --- SELECT  n.*,ost.oss_name as opposite_oss_name,ost.oss_shortname as opposite_oss_shortname,ost.osp_id as opposite_osp_id, c.osp_name, c.osp_shortname, r1.rg_name province_name, r2.rg_name city_name,
+                        cc.fullname contacts_name, cc.mobile contacts_mobile, cc.email contacts_email, cc.weixin contacts_weixin,
+                        osf.fullname staff_name, osf.mobile staff_mobile, osf.job_email staff_job_email, ao.ao_code, ao.ao_balance,osff.fullname operation_staff_name,osff.mobile operation_staff_mobile, osff.job_email operation_staff_job_email,
+                        n.merge_reconciliation as st_merge_reconciliation, n.opposite_station_id as st_opposite_station_id
+                FROM osp.station n
+                LEFT JOIN osp.station ost ON ost.oss_id = n.opposite_station_id
+                  LEFT JOIN osp.company c ON c.osp_id=n.osp_id
+                  LEFT JOIN common.region r1 ON r1.rg_id=n.province_id
+                  LEFT JOIN common.region r2 ON r2.rg_id=n.city_id
+                  LEFT JOIN osp.company_contacts cc ON cc.contacts_id=n.contacts_id
+                  LEFT JOIN own.staff osf ON osf.staff_id=n.staff_id
+                  LEFT JOIN own.staff osff ON osff.staff_id=n.operation_staff_id
+                  LEFT JOIN account.oil ao ON ao.ao_id=n.ao_id
+                  WHERE n.oss_id=8267 LIMIT 1
+
+[2020-09-15 11:35:54][SQL] --- SELECT COUNT(*) FROM osp.reconciliation r WHERE  r.collating_status < 30 AND r.osp_id = 11372 AND r.oss_id = 8267 LIMIT 1
+
+[2020-09-15 11:35:54][SQL] --- SELECT * FROM osp.reconciliation r WHERE r.oss_id = 8267 AND r.status = 1 AND r.collating_status < 30  ORDER BY r.r_id DESC LIMIT 1
+
+[2020-09-15 11:35:54][SQL] --- SELECT * FROM osp.reconciliation r WHERE r.oss_id = 0 AND r.status = 1 AND r.collating_status < 30  ORDER BY r.r_id DESC LIMIT 1
+
+[2020-09-15 11:35:54][SQL] --- SELECT  n.*,ost.oss_name as opposite_oss_name,ost.oss_shortname as opposite_oss_shortname,ost.osp_id as opposite_osp_id, c.osp_name, c.osp_shortname, r1.rg_name province_name, r2.rg_name city_name,
+                        cc.fullname contacts_name, cc.mobile contacts_mobile, cc.email contacts_email, cc.weixin contacts_weixin,
+                        osf.fullname staff_name, osf.mobile staff_mobile, osf.job_email staff_job_email, ao.ao_code, ao.ao_balance,osff.fullname operation_staff_name,osff.mobile operation_staff_mobile, osff.job_email operation_staff_job_email,
+                        n.merge_reconciliation as st_merge_reconciliation, n.opposite_station_id as st_opposite_station_id
+                FROM osp.station n
+                LEFT JOIN osp.station ost ON ost.oss_id = n.opposite_station_id
+                  LEFT JOIN osp.company c ON c.osp_id=n.osp_id
+                  LEFT JOIN common.region r1 ON r1.rg_id=n.province_id
+                  LEFT JOIN common.region r2 ON r2.rg_id=n.city_id
+                  LEFT JOIN osp.company_contacts cc ON cc.contacts_id=n.contacts_id
+                  LEFT JOIN own.staff osf ON osf.staff_id=n.staff_id
+                  LEFT JOIN own.staff osff ON osff.staff_id=n.operation_staff_id
+                  LEFT JOIN account.oil ao ON ao.ao_id=n.ao_id
+                  WHERE n.oss_id=8267 LIMIT 1
+
+[2020-09-15 11:35:54][SQL] --- SELECT COUNT(*) FROM osp.reconciliation r WHERE  r.collating_status < 30 AND r.osp_id = 11372 AND r.oss_id = 8267 LIMIT 1
+
+[2020-09-15 11:35:54][SQL] --- SELECT * FROM osp.station_config WHERE delete_flag=0 AND config_type=1001 AND oss_id=8267 LIMIT 1
+
+[2020-09-15 11:35:54][SQL] --- SELECT * FROM osp.station_config WHERE delete_flag=0 AND config_type=1002 AND oss_id=8267 LIMIT 1
+
+[2020-09-15 11:35:54][SQL] --- SELECT * FROM osp.station_config WHERE delete_flag=0 AND config_type=1003 AND oss_id=8267 LIMIT 1
+
+[2020-09-15 11:35:54][SQL] --- UPDATE functions SET sf_done_count=sf_done_count+1 WHERE sf_id=186
+
+[2020-09-15 11:35:54][SQL]user_logs --- INSERT INTO user_logs SET su_id='363',sf_id='186',ul_remark='[张晶晶] 成功修改服务商站点信息[8267:荣庆测试站点]，发送消息成功,  【 NICE 】 。',ul_time=NOW(),ul_ip='172.18.0.1'
+
+[2020-09-15 11:35:54][SQL] --- SELECT * FROM functions WHERE sf_module='station' AND sf_action='list' LIMIT 1
+
+[2020-09-15 11:35:54][SQL] --- SELECT *
+        FROM system.meta
+        WHERE meta_group='force:change:pwd' AND meta_key='userid:363' AND status='1' AND delete_flag='0' LIMIT 1
+
+
+2020-09-15T11:35:54+08:00 [REQ]-- /Station/List/out/view/
+[ReqBody] --{"out":"view"}
+[User] --{"id":"363","username":"zhangjingjing","sa":true,"staffId":"694","staffName":"张晶晶"}
+
+-------------------
+[2020-09-15 11:35:54][SQL] --- SELECT team_id from own.bd_member WHERE staff_id=694 LIMIT 1
+
+[2020-09-15 11:35:54][SQL] --- SELECT team_id from own.bd_team WHERE team_head=694 LIMIT 1
+
+
+2020-09-15T11:35:54+08:00 bdPriv[148]-- {"sa":true,"staff_id":"694","staff_tid":0}
+-------------------
+[2020-09-15 11:35:54][SQL] --- SELECT COUNT(*) FROM osp.station n
+                LEFT JOIN own.bd_member obm ON obm.staff_id=n.staff_id
+                LEFT JOIN own.staff osf ON osf.staff_id=n.staff_id
+                LEFT JOIN osp.company c ON c.osp_id = n.osp_id
+                WHERE n.status=-100 AND n.data_status=1 LIMIT 1
+
+[2020-09-15 11:35:54][SQL] --- SELECT s.* FROM osp.station_rebate_log s WHERE s.start_time = "2020-10-01 00:00:00" AND s.status = 1
+
+[2020-09-15 11:35:54][SQL] --- SELECT s.*
+        FROM pricing.station_sku s
+        WHERE s.delete_flag=0
+
+[2020-09-15 11:35:55][SQL] --- SELECT rg_id rid, rg_name rname FROM common.region WHERE parent_id=1 AND status>=1 ORDER BY rg_rank DESC, rg_id
+
+[2020-09-15 11:36:56][SQL] --- SELECT * FROM functions WHERE sf_module='station' AND sf_action='list' LIMIT 1
+
+[2020-09-15 11:36:56][SQL] --- SELECT *
+        FROM system.meta
+        WHERE meta_group='force:change:pwd' AND meta_key='userid:363' AND status='1' AND delete_flag='0' LIMIT 1
+
+
+2020-09-15T11:36:56+08:00 [REQ]-- /station/List/out/view/
+[ReqBody] --{"out":"view","scp_id":"","bd_id":"0","do_id":"0","name":"找油网点","scp_cName":"","opposite_station_flag":"100","open_status":"100","status":"100","voice_tips":"100","title":"","bd_sName":"","rebate_type":"ALL","oss_cate":"100","data_status":"1","province":"0","city":"0","do_sName":"","external_number":"","sku_search":"100","oss_source":"100"}
+[User] --{"id":"363","username":"zhangjingjing","sa":true,"staffId":"694","staffName":"张晶晶"}
+
+-------------------
+[2020-09-15 11:36:56][SQL] --- SELECT team_id from own.bd_member WHERE staff_id=694 LIMIT 1
+
+[2020-09-15 11:36:56][SQL] --- SELECT team_id from own.bd_team WHERE team_head=694 LIMIT 1
+
+
+2020-09-15T11:36:56+08:00 bdPriv[148]-- {"sa":true,"staff_id":"694","staff_tid":0}
+-------------------
+[2020-09-15 11:36:56][SQL] --- SELECT COUNT(*) FROM osp.station n
+                LEFT JOIN own.bd_member obm ON obm.staff_id=n.staff_id
+                LEFT JOIN own.staff osf ON osf.staff_id=n.staff_id
+                LEFT JOIN osp.company c ON c.osp_id = n.osp_id
+                WHERE n.oss_name LIKE '%找油网点%' AND n.data_status=1 LIMIT 1
+
+[2020-09-15 11:36:56][SQL] --- SELECT  n.*, c.osp_name, c.osp_shortname, r1.rg_name province_name, r2.rg_name city_name,
+                            cc.fullname contacts_name, cc.mobile contacts_mobile, osf.fullname staff_name, osf.mobile staff_mobile
+                    FROM osp.station n
+                    LEFT JOIN osp.company c ON c.osp_id=n.osp_id
+                    LEFT JOIN common.region r1 ON r1.rg_id=n.province_id
+                    LEFT JOIN common.region r2 ON r2.rg_id=n.city_id
+                    LEFT JOIN osp.company_contacts cc ON cc.contacts_id=n.contacts_id
+                    LEFT JOIN own.bd_member obm ON obm.staff_id=n.staff_id
+                    LEFT JOIN own.staff osf ON osf.staff_id=n.staff_id
+                    WHERE n.oss_name LIKE '%找油网点%' AND n.data_status=1
+                    ORDER BY n.oss_id DESC LIMIT 0, 20
+
+[2020-09-15 11:36:56][SQL] --- SELECT s.* FROM osp.station_rebate_log s WHERE s.oss_id IN (8288) AND s.start_time = "2020-10-01 00:00:00" AND s.status = 1
+
+[2020-09-15 11:36:56][SQL] --- SELECT s.*
+        FROM pricing.station_sku s
+        WHERE s.oss_id IN (8288) AND s.delete_flag=0
+
+[2020-09-15 11:36:56][SQL] --- SELECT * FROM osd.app_matching WHERE delete_flag=0 AND oss_source IN (8)
+
+[2020-09-15 11:36:56][SQL] --- SELECT station.oss_id, setting.set_val FROM osd.station_matching station INNER JOIN osd.station_settings_matching setting ON (station.app_id = setting.app_id AND station.dsm_code=setting.dsm_code) WHERE station.status=1 AND station.delete_flag=0 AND (( station.app_id=4801 AND station.oss_id=8288))
+
+[2020-09-15 11:36:56][SQL] --- SELECT COUNT(*) FROM account.oil o 
+                LEFT JOIN biz.company c ON c.company_id=o.company_id
+                LEFT JOIN own.sales_member osm ON osm.staff_id=c.staff_id 
+                WHERE o.ao_type IN (50) AND o.ao_uses=51 AND o.ao_uses_id IN (8288) AND o.delete_flag=0 AND o.ao_type != 40 LIMIT 1
+
+[2020-09-15 11:36:56][SQL] --- SELECT o.*, c.company_name
+                    FROM account.oil o
+                    LEFT JOIN biz.company c ON c.company_id=o.company_id
+                    LEFT JOIN own.sales_member osm ON osm.staff_id=c.staff_id
+                    WHERE o.ao_type IN (50) AND o.ao_uses=51 AND o.ao_uses_id IN (8288) AND o.delete_flag=0 AND o.ao_type != 40
+                    ORDER BY o.ao_id DESC LIMIT 0, 20
+
+[2020-09-15 11:36:56][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 11:36:56][SQL] --- SELECT rg_id rid, rg_name rname FROM common.region WHERE parent_id=1 AND status>=1 ORDER BY rg_rank DESC, rg_id
+
+[2020-09-15 11:37:00][SQL] --- SELECT * FROM functions WHERE sf_module='station' AND sf_action='edit' LIMIT 1
+
+[2020-09-15 11:37:00][SQL] --- SELECT *
+        FROM system.meta
+        WHERE meta_group='force:change:pwd' AND meta_key='userid:363' AND status='1' AND delete_flag='0' LIMIT 1
+
+
+2020-09-15T11:37:00+08:00 [REQ]-- /station/Edit/id/8288/
+[ReqBody] --{"id":"8288"}
+[User] --{"id":"363","username":"zhangjingjing","sa":true,"staffId":"694","staffName":"张晶晶"}
+
+-------------------
+[2020-09-15 11:37:00][SQL] --- SELECT  n.*,ost.oss_name as opposite_oss_name,ost.oss_shortname as opposite_oss_shortname,ost.osp_id as opposite_osp_id, c.osp_name, c.osp_shortname, r1.rg_name province_name, r2.rg_name city_name,
+                        cc.fullname contacts_name, cc.mobile contacts_mobile, cc.email contacts_email, cc.weixin contacts_weixin,
+                        osf.fullname staff_name, osf.mobile staff_mobile, osf.job_email staff_job_email, ao.ao_code, ao.ao_balance,osff.fullname operation_staff_name,osff.mobile operation_staff_mobile, osff.job_email operation_staff_job_email,
+                        n.merge_reconciliation as st_merge_reconciliation, n.opposite_station_id as st_opposite_station_id
+                FROM osp.station n
+                LEFT JOIN osp.station ost ON ost.oss_id = n.opposite_station_id
+                  LEFT JOIN osp.company c ON c.osp_id=n.osp_id
+                  LEFT JOIN common.region r1 ON r1.rg_id=n.province_id
+                  LEFT JOIN common.region r2 ON r2.rg_id=n.city_id
+                  LEFT JOIN osp.company_contacts cc ON cc.contacts_id=n.contacts_id
+                  LEFT JOIN own.staff osf ON osf.staff_id=n.staff_id
+                  LEFT JOIN own.staff osff ON osff.staff_id=n.operation_staff_id
+                  LEFT JOIN account.oil ao ON ao.ao_id=n.ao_id
+                  WHERE n.oss_id=8288 LIMIT 1
+
+[2020-09-15 11:37:00][SQL] --- SELECT app_id FROM osd.app_matching WHERE oss_source="8" LIMIT 1
+
+[2020-09-15 11:37:00][SQL] --- SELECT COUNT(*) FROM osd.station_matching os WHERE os.osp_id=11322 AND os.oss_id=8288 AND os.app_id=4801 LIMIT 1
+
+[2020-09-15 11:37:00][SQL] --- SELECT  os.*
+                    FROM osd.station_matching os
+                    WHERE os.osp_id=11322 AND os.oss_id=8288 AND os.app_id=4801
+                    ORDER BY os.dsm_id DESC LIMIT 0, 1
+
+[2020-09-15 11:37:00][SQL] --- SELECT rg_id rid, rg_name rname FROM common.region WHERE parent_id=1 AND status>=1 ORDER BY rg_rank DESC, rg_id
+
+[2020-09-15 11:37:00][SQL] --- SELECT rg_id rid, rg_name rname FROM common.region WHERE parent_id=310000 AND status>=1 ORDER BY rg_rank DESC, rg_id
+
+[2020-09-15 11:37:00][SQL] --- SELECT rg_id rid, rg_name rname FROM common.region WHERE parent_id=310100 AND status>=1 ORDER BY rg_rank DESC, rg_id
+
+[2020-09-15 11:37:00][SQL] --- SELECT * FROM osp.station_config WHERE delete_flag=0 AND oss_id=8288
+
+[2020-09-15 11:37:38][SQL] --- SELECT * FROM functions WHERE sf_module='station' AND sf_action='editpost' LIMIT 1
+
+[2020-09-15 11:37:38][SQL] --- SELECT *
+        FROM system.meta
+        WHERE meta_group='force:change:pwd' AND meta_key='userid:363' AND status='1' AND delete_flag='0' LIMIT 1
+
+
+2020-09-15T11:37:38+08:00 [REQ]-- /station/EditPost/id/8288
+[ReqBody] --{"id":"8288","ori_dsm_code":"169","ori_dsm_name":"","ori_dsm_ver":"","dsm_id":"8940","ori_oss_source":"8","fcp_id":"11322","oss_name":"找油网点","oss_shortname":"云会站点","dsm_code":"169","dsm_name":"","dsm_ver":"","oss_source":"8","oss_type":"35","oss_cate":"3","oss_shape":"10","business_type":"1","open_status":"1","province":"310000","city":"310100","district":"310101","address":"南京审计当","longitude":"121.48574067","latitude":"31.29659653","tel":"4009001211","dwz_rowNum":"1","fromtime":["00:00"],"totime":["23:55"],"opposite_station_flag":"0","opposite_pId":"","opposite_id":"0","opposite_sName":"","reconcile_flag":"0","is_master_card":"0","is_oiler_qr":"1","is_user_ss":"1","refuel_type":"2","voice_tips":"1","pos_audio_change":"1","pos_bill_changer":"1","gun_switch":"1","contacts_name":"jiangyunhui","contacts_mobile":"15100000001","contacts_email":"","contacts_weixin":"","scm_id":"","remark":""}
+[User] --{"id":"363","username":"zhangjingjing","sa":true,"staffId":"694","staffName":"张晶晶"}
+
+-------------------
+[2020-09-15 11:37:38][SQL] --- SELECT  n.*,ost.oss_name as opposite_oss_name,ost.oss_shortname as opposite_oss_shortname,ost.osp_id as opposite_osp_id, c.osp_name, c.osp_shortname, r1.rg_name province_name, r2.rg_name city_name,
+                        cc.fullname contacts_name, cc.mobile contacts_mobile, cc.email contacts_email, cc.weixin contacts_weixin,
+                        osf.fullname staff_name, osf.mobile staff_mobile, osf.job_email staff_job_email, ao.ao_code, ao.ao_balance,osff.fullname operation_staff_name,osff.mobile operation_staff_mobile, osff.job_email operation_staff_job_email,
+                        n.merge_reconciliation as st_merge_reconciliation, n.opposite_station_id as st_opposite_station_id
+                FROM osp.station n
+                LEFT JOIN osp.station ost ON ost.oss_id = n.opposite_station_id
+                  LEFT JOIN osp.company c ON c.osp_id=n.osp_id
+                  LEFT JOIN common.region r1 ON r1.rg_id=n.province_id
+                  LEFT JOIN common.region r2 ON r2.rg_id=n.city_id
+                  LEFT JOIN osp.company_contacts cc ON cc.contacts_id=n.contacts_id
+                  LEFT JOIN own.staff osf ON osf.staff_id=n.staff_id
+                  LEFT JOIN own.staff osff ON osff.staff_id=n.operation_staff_id
+                  LEFT JOIN account.oil ao ON ao.ao_id=n.ao_id
+                  WHERE n.oss_id=8288 LIMIT 1
+
+[2020-09-15 11:37:38][SQL] --- SELECT oss_id FROM osp.station WHERE oss_id!=8288 AND oss_name='找油网点' LIMIT 1
+
+[2020-09-15 11:37:38][SQL] --- SELECT app_id FROM osd.app_matching WHERE oss_source="8" LIMIT 1
+
+[2020-09-15 11:37:38][SQL] --- SELECT COUNT(*) FROM osd.station_matching os WHERE os.dsm_code='169' AND os.app_id=4801 LIMIT 1
+
+[2020-09-15 11:37:38][SQL] --- SELECT  os.*
+                    FROM osd.station_matching os
+                    WHERE os.dsm_code='169' AND os.app_id=4801
+                    ORDER BY os.dsm_id DESC LIMIT 0, 1
+
+[2020-09-15 11:37:38][SQL]osd.station_matching --- UPDATE osd.station_matching SET oss_id='0',osp_id='0',update_time=NOW() WHERE oss_id=8288
+
+[2020-09-15 11:37:38][SQL]osd.station_matching --- UPDATE osd.station_matching SET dsm_code='169',dsm_name='',dsm_ver='',oss_id='8288',osp_id='11322',update_time=NOW() WHERE dsm_id=8940
+
+[2020-09-15 11:37:38][SQL]osp.station --- UPDATE osp.station SET osp_id='11322',oss_type='35',oss_cate='3',oss_shape='10',oss_name='找油网点',oss_shortname='云会站点',oss_source='8',province_id='310000',city_id='310100',district_id='310101',address='南京审计当',tel='4009001211',opentime='00:00-23:55',tags='',longitude='121.48574067',latitude='31.29659653',scm_id='',open_status='1',remark='',is_oiler_qr='1',is_user_qr='0',is_user_ss='1',refuel_type='2',voice_tips='1',opposite_station_flag='0',opposite_station_id='0',merge_reconciliation='0',master_card='0',gun_switch='1',business_type='1',update_time=NOW() WHERE oss_id=8288
+
+[2020-09-15 11:37:38][SQL]osp.station_maintenance --- INSERT INTO osp.station_maintenance SET osp_id='11322',oss_id='8288',staff_id='694',op_subject='修改站点',op_remarks='',op_id='8288',create_time=NOW(),update_time=NOW()
+
+[2020-09-15 11:37:38][SQL] --- SELECT  n.*,ost.oss_name as opposite_oss_name,ost.oss_shortname as opposite_oss_shortname,ost.osp_id as opposite_osp_id, c.osp_name, c.osp_shortname, r1.rg_name province_name, r2.rg_name city_name,
+                        cc.fullname contacts_name, cc.mobile contacts_mobile, cc.email contacts_email, cc.weixin contacts_weixin,
+                        osf.fullname staff_name, osf.mobile staff_mobile, osf.job_email staff_job_email, ao.ao_code, ao.ao_balance,osff.fullname operation_staff_name,osff.mobile operation_staff_mobile, osff.job_email operation_staff_job_email,
+                        n.merge_reconciliation as st_merge_reconciliation, n.opposite_station_id as st_opposite_station_id
+                FROM osp.station n
+                LEFT JOIN osp.station ost ON ost.oss_id = n.opposite_station_id
+                  LEFT JOIN osp.company c ON c.osp_id=n.osp_id
+                  LEFT JOIN common.region r1 ON r1.rg_id=n.province_id
+                  LEFT JOIN common.region r2 ON r2.rg_id=n.city_id
+                  LEFT JOIN osp.company_contacts cc ON cc.contacts_id=n.contacts_id
+                  LEFT JOIN own.staff osf ON osf.staff_id=n.staff_id
+                  LEFT JOIN own.staff osff ON osff.staff_id=n.operation_staff_id
+                  LEFT JOIN account.oil ao ON ao.ao_id=n.ao_id
+                  WHERE n.oss_id=8288 LIMIT 1
+
+[2020-09-15 11:37:38][SQL] --- SELECT COUNT(*) FROM osp.reconciliation r WHERE  r.collating_status < 30 AND r.osp_id = 11322 AND r.oss_id = 8288 LIMIT 1
+
+[2020-09-15 11:37:38][SQL]osp.reconciliation --- UPDATE osp.reconciliation SET type='50' WHERE oss_id=8288
+
+[2020-09-15 11:37:38][SQL] --- SELECT * FROM osp.reconciliation r WHERE r.oss_id = 8288 AND r.status = 1 AND r.collating_status < 30  ORDER BY r.r_id DESC LIMIT 1
+
+[2020-09-15 11:37:38][SQL] --- SELECT * FROM osp.reconciliation r WHERE r.oss_id = 0 AND r.status = 1 AND r.collating_status < 30  ORDER BY r.r_id DESC LIMIT 1
+
+[2020-09-15 11:37:38][SQL] --- SELECT  n.*,ost.oss_name as opposite_oss_name,ost.oss_shortname as opposite_oss_shortname,ost.osp_id as opposite_osp_id, c.osp_name, c.osp_shortname, r1.rg_name province_name, r2.rg_name city_name,
+                        cc.fullname contacts_name, cc.mobile contacts_mobile, cc.email contacts_email, cc.weixin contacts_weixin,
+                        osf.fullname staff_name, osf.mobile staff_mobile, osf.job_email staff_job_email, ao.ao_code, ao.ao_balance,osff.fullname operation_staff_name,osff.mobile operation_staff_mobile, osff.job_email operation_staff_job_email,
+                        n.merge_reconciliation as st_merge_reconciliation, n.opposite_station_id as st_opposite_station_id
+                FROM osp.station n
+                LEFT JOIN osp.station ost ON ost.oss_id = n.opposite_station_id
+                  LEFT JOIN osp.company c ON c.osp_id=n.osp_id
+                  LEFT JOIN common.region r1 ON r1.rg_id=n.province_id
+                  LEFT JOIN common.region r2 ON r2.rg_id=n.city_id
+                  LEFT JOIN osp.company_contacts cc ON cc.contacts_id=n.contacts_id
+                  LEFT JOIN own.staff osf ON osf.staff_id=n.staff_id
+                  LEFT JOIN own.staff osff ON osff.staff_id=n.operation_staff_id
+                  LEFT JOIN account.oil ao ON ao.ao_id=n.ao_id
+                  WHERE n.oss_id=8288 LIMIT 1
+
+[2020-09-15 11:37:39][SQL] --- SELECT COUNT(*) FROM osp.reconciliation r WHERE  r.collating_status < 30 AND r.osp_id = 11322 AND r.oss_id = 8288 LIMIT 1
+
+[2020-09-15 11:37:39][SQL] --- SELECT COUNT(*) from osp.station s  WHERE s.oss_id = 8288 AND s.master_card = 1 LIMIT 1
+
+[2020-09-15 11:37:39][SQL]osp.reconciliation --- UPDATE osp.reconciliation SET type='50' WHERE oss_id=8288
+
+[2020-09-15 11:37:39][SQL] --- SELECT * FROM osp.station_config WHERE delete_flag=0 AND config_type=1001 AND oss_id=8288 LIMIT 1
+
+[2020-09-15 11:37:39][SQL] --- SELECT * FROM osp.station_config WHERE delete_flag=0 AND config_type=1002 AND oss_id=8288 LIMIT 1
+
+[2020-09-15 11:37:39][SQL] --- SELECT * FROM osp.station_config WHERE delete_flag=0 AND config_type=1003 AND oss_id=8288 LIMIT 1
+
+[2020-09-15 11:37:39][SQL] --- UPDATE functions SET sf_done_count=sf_done_count+1 WHERE sf_id=186
+
+[2020-09-15 11:37:39][SQL]user_logs --- INSERT INTO user_logs SET su_id='363',sf_id='186',ul_remark='[张晶晶] 成功修改服务商站点信息[8288:找油网点]，发送消息成功,  【 NICE 】 。',ul_time=NOW(),ul_ip='172.18.0.1'
+
+[2020-09-15 11:37:39][SQL] --- SELECT * FROM functions WHERE sf_module='station' AND sf_action='list' LIMIT 1
+
+[2020-09-15 11:37:39][SQL] --- SELECT *
+        FROM system.meta
+        WHERE meta_group='force:change:pwd' AND meta_key='userid:363' AND status='1' AND delete_flag='0' LIMIT 1
+
+
+2020-09-15T11:37:39+08:00 [REQ]-- /Station/List/out/view/
+[ReqBody] --{"out":"view"}
+[User] --{"id":"363","username":"zhangjingjing","sa":true,"staffId":"694","staffName":"张晶晶"}
+
+-------------------
+[2020-09-15 11:37:39][SQL] --- SELECT team_id from own.bd_member WHERE staff_id=694 LIMIT 1
+
+[2020-09-15 11:37:39][SQL] --- SELECT team_id from own.bd_team WHERE team_head=694 LIMIT 1
+
+
+2020-09-15T11:37:39+08:00 bdPriv[148]-- {"sa":true,"staff_id":"694","staff_tid":0}
+-------------------
+[2020-09-15 11:37:39][SQL] --- SELECT COUNT(*) FROM osp.station n
+                LEFT JOIN own.bd_member obm ON obm.staff_id=n.staff_id
+                LEFT JOIN own.staff osf ON osf.staff_id=n.staff_id
+                LEFT JOIN osp.company c ON c.osp_id = n.osp_id
+                WHERE n.status=-100 AND n.data_status=1 LIMIT 1
+
+[2020-09-15 11:37:39][SQL] --- SELECT s.* FROM osp.station_rebate_log s WHERE s.start_time = "2020-10-01 00:00:00" AND s.status = 1
+
+[2020-09-15 11:37:39][SQL] --- SELECT s.*
+        FROM pricing.station_sku s
+        WHERE s.delete_flag=0
+
+[2020-09-15 11:37:40][SQL] --- SELECT rg_id rid, rg_name rname FROM common.region WHERE parent_id=1 AND status>=1 ORDER BY rg_rank DESC, rg_id
+
+[2020-09-15 11:37:54][SQL] --- SELECT * FROM functions WHERE sf_module='station' AND sf_action='list' LIMIT 1
+
+[2020-09-15 11:37:54][SQL] --- SELECT *
+        FROM system.meta
+        WHERE meta_group='force:change:pwd' AND meta_key='userid:363' AND status='1' AND delete_flag='0' LIMIT 1
+
+
+2020-09-15T11:37:54+08:00 [REQ]-- /station/List/out/view/
+[ReqBody] --{"out":"view","scp_id":"","bd_id":"0","do_id":"0","name":"找油网点","scp_cName":"","opposite_station_flag":"100","open_status":"100","status":"100","voice_tips":"100","title":"","bd_sName":"","rebate_type":"ALL","oss_cate":"100","data_status":"1","province":"0","city":"0","do_sName":"","external_number":"","sku_search":"100","oss_source":"100"}
+[User] --{"id":"363","username":"zhangjingjing","sa":true,"staffId":"694","staffName":"张晶晶"}
+
+-------------------
+[2020-09-15 11:37:54][SQL] --- SELECT team_id from own.bd_member WHERE staff_id=694 LIMIT 1
+
+[2020-09-15 11:37:54][SQL] --- SELECT team_id from own.bd_team WHERE team_head=694 LIMIT 1
+
+
+2020-09-15T11:37:54+08:00 bdPriv[148]-- {"sa":true,"staff_id":"694","staff_tid":0}
+-------------------
+[2020-09-15 11:37:54][SQL] --- SELECT COUNT(*) FROM osp.station n
+                LEFT JOIN own.bd_member obm ON obm.staff_id=n.staff_id
+                LEFT JOIN own.staff osf ON osf.staff_id=n.staff_id
+                LEFT JOIN osp.company c ON c.osp_id = n.osp_id
+                WHERE n.oss_name LIKE '%找油网点%' AND n.data_status=1 LIMIT 1
+
+[2020-09-15 11:37:54][SQL] --- SELECT  n.*, c.osp_name, c.osp_shortname, r1.rg_name province_name, r2.rg_name city_name,
+                            cc.fullname contacts_name, cc.mobile contacts_mobile, osf.fullname staff_name, osf.mobile staff_mobile
+                    FROM osp.station n
+                    LEFT JOIN osp.company c ON c.osp_id=n.osp_id
+                    LEFT JOIN common.region r1 ON r1.rg_id=n.province_id
+                    LEFT JOIN common.region r2 ON r2.rg_id=n.city_id
+                    LEFT JOIN osp.company_contacts cc ON cc.contacts_id=n.contacts_id
+                    LEFT JOIN own.bd_member obm ON obm.staff_id=n.staff_id
+                    LEFT JOIN own.staff osf ON osf.staff_id=n.staff_id
+                    WHERE n.oss_name LIKE '%找油网点%' AND n.data_status=1
+                    ORDER BY n.oss_id DESC LIMIT 0, 20
+
+[2020-09-15 11:37:54][SQL] --- SELECT s.* FROM osp.station_rebate_log s WHERE s.oss_id IN (8288) AND s.start_time = "2020-10-01 00:00:00" AND s.status = 1
+
+[2020-09-15 11:37:54][SQL] --- SELECT s.*
+        FROM pricing.station_sku s
+        WHERE s.oss_id IN (8288) AND s.delete_flag=0
+
+[2020-09-15 11:37:54][SQL] --- SELECT * FROM osd.app_matching WHERE delete_flag=0 AND oss_source IN (8)
+
+[2020-09-15 11:37:54][SQL] --- SELECT station.oss_id, setting.set_val FROM osd.station_matching station INNER JOIN osd.station_settings_matching setting ON (station.app_id = setting.app_id AND station.dsm_code=setting.dsm_code) WHERE station.status=1 AND station.delete_flag=0 AND (( station.app_id=4801 AND station.oss_id=8288))
+
+[2020-09-15 11:37:54][SQL] --- SELECT COUNT(*) FROM account.oil o 
+                LEFT JOIN biz.company c ON c.company_id=o.company_id
+                LEFT JOIN own.sales_member osm ON osm.staff_id=c.staff_id 
+                WHERE o.ao_type IN (50) AND o.ao_uses=51 AND o.ao_uses_id IN (8288) AND o.delete_flag=0 AND o.ao_type != 40 LIMIT 1
+
+[2020-09-15 11:37:55][SQL] --- SELECT o.*, c.company_name
+                    FROM account.oil o
+                    LEFT JOIN biz.company c ON c.company_id=o.company_id
+                    LEFT JOIN own.sales_member osm ON osm.staff_id=c.staff_id
+                    WHERE o.ao_type IN (50) AND o.ao_uses=51 AND o.ao_uses_id IN (8288) AND o.delete_flag=0 AND o.ao_type != 40
+                    ORDER BY o.ao_id DESC LIMIT 0, 20
+
+[2020-09-15 11:37:55][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=0 LIMIT 1
+
+[2020-09-15 11:37:55][SQL] --- SELECT rg_id rid, rg_name rname FROM common.region WHERE parent_id=1 AND status>=1 ORDER BY rg_rank DESC, rg_id
+
+[2020-09-15 11:38:00][SQL] --- SELECT * FROM functions WHERE sf_module='station' AND sf_action='edit' LIMIT 1
+
+[2020-09-15 11:38:00][SQL] --- SELECT *
+        FROM system.meta
+        WHERE meta_group='force:change:pwd' AND meta_key='userid:363' AND status='1' AND delete_flag='0' LIMIT 1
+
+
+2020-09-15T11:38:00+08:00 [REQ]-- /station/Edit/id/8288/
+[ReqBody] --{"id":"8288"}
+[User] --{"id":"363","username":"zhangjingjing","sa":true,"staffId":"694","staffName":"张晶晶"}
+
+-------------------
+[2020-09-15 11:38:00][SQL] --- SELECT  n.*,ost.oss_name as opposite_oss_name,ost.oss_shortname as opposite_oss_shortname,ost.osp_id as opposite_osp_id, c.osp_name, c.osp_shortname, r1.rg_name province_name, r2.rg_name city_name,
+                        cc.fullname contacts_name, cc.mobile contacts_mobile, cc.email contacts_email, cc.weixin contacts_weixin,
+                        osf.fullname staff_name, osf.mobile staff_mobile, osf.job_email staff_job_email, ao.ao_code, ao.ao_balance,osff.fullname operation_staff_name,osff.mobile operation_staff_mobile, osff.job_email operation_staff_job_email,
+                        n.merge_reconciliation as st_merge_reconciliation, n.opposite_station_id as st_opposite_station_id
+                FROM osp.station n
+                LEFT JOIN osp.station ost ON ost.oss_id = n.opposite_station_id
+                  LEFT JOIN osp.company c ON c.osp_id=n.osp_id
+                  LEFT JOIN common.region r1 ON r1.rg_id=n.province_id
+                  LEFT JOIN common.region r2 ON r2.rg_id=n.city_id
+                  LEFT JOIN osp.company_contacts cc ON cc.contacts_id=n.contacts_id
+                  LEFT JOIN own.staff osf ON osf.staff_id=n.staff_id
+                  LEFT JOIN own.staff osff ON osff.staff_id=n.operation_staff_id
+                  LEFT JOIN account.oil ao ON ao.ao_id=n.ao_id
+                  WHERE n.oss_id=8288 LIMIT 1
+
+[2020-09-15 11:38:00][SQL] --- SELECT app_id FROM osd.app_matching WHERE oss_source="8" LIMIT 1
+
+[2020-09-15 11:38:00][SQL] --- SELECT COUNT(*) FROM osd.station_matching os WHERE os.osp_id=11322 AND os.oss_id=8288 AND os.app_id=4801 LIMIT 1
+
+[2020-09-15 11:38:00][SQL] --- SELECT  os.*
+                    FROM osd.station_matching os
+                    WHERE os.osp_id=11322 AND os.oss_id=8288 AND os.app_id=4801
+                    ORDER BY os.dsm_id DESC LIMIT 0, 1
+
+[2020-09-15 11:38:00][SQL] --- SELECT rg_id rid, rg_name rname FROM common.region WHERE parent_id=1 AND status>=1 ORDER BY rg_rank DESC, rg_id
+
+[2020-09-15 11:38:00][SQL] --- SELECT rg_id rid, rg_name rname FROM common.region WHERE parent_id=310000 AND status>=1 ORDER BY rg_rank DESC, rg_id
+
+[2020-09-15 11:38:00][SQL] --- SELECT rg_id rid, rg_name rname FROM common.region WHERE parent_id=310100 AND status>=1 ORDER BY rg_rank DESC, rg_id
+
+[2020-09-15 11:38:00][SQL] --- SELECT * FROM osp.station_config WHERE delete_flag=0 AND oss_id=8288
+
+[2020-09-15 14:16:24][SQL] --- SELECT * FROM functions WHERE sf_module='image' AND sf_action='code' LIMIT 1
+
+[2020-09-15 14:16:31][SQL] --- SELECT u.*, s.fullname staff_name, s.mobile, s.job_number, s.job_title, s.job_email
+                FROM users u
+                  LEFT JOIN own.staff s ON u.staff_id=s.staff_id
+                WHERE u.username='zhangjingjing' LIMIT 1
+
+[2020-09-15 14:16:31][SQL] --- SELECT sf_id FROM functions WHERE sf_module='home' AND sf_action='loginpost' LIMIT 1
+
+[2020-09-15 14:16:31][SQL]user_logs --- INSERT INTO user_logs SET su_id='363',sf_id='1',ul_remark='[张晶晶] 登录OMS系统。',ul_time=NOW(),ul_ip='172.18.0.1'
+
+[2020-09-15 14:16:32][SQL] --- SELECT COUNT(*) cnt FROM biz.company WHERE status>=1 AND create_time>='2020-09-15 00:00:00' AND create_time<='2020-09-15 23:59:59' LIMIT 1
+
+[2020-09-15 14:16:32][SQL] --- SELECT COUNT(*) cnt FROM contract.sales WHERE status>=1 AND create_time>='2020-09-15 00:00:00' AND create_time<='2020-09-15 23:59:59' LIMIT 1
+
+[2020-09-15 14:16:32][SQL] --- SELECT COUNT(*) cnt FROM osp.station WHERE create_time>='2020-09-15 00:00:00' AND create_time<='2020-09-15 23:59:59' LIMIT 1
+
+[2020-09-15 14:16:32][SQL] --- SELECT COUNT(*) cnt FROM osp.station WHERE status IN (0,1) LIMIT 1
+
+[2020-09-15 14:16:32][SQL] --- SELECT COUNT(*) cnt FROM app.member WHERE status>=1 AND create_time>='2020-09-15 00:00:00' AND create_time<='2020-09-15 23:59:59' LIMIT 1
+
+[2020-09-15 14:16:32][SQL] --- SELECT COUNT(*) cnt FROM sales.retail WHERE status=3 AND create_time>='2020-09-15 00:00:00' AND create_time<='2020-09-15 23:59:59' LIMIT 1
+
+[2020-09-15 14:16:33][SQL] --- SELECT COUNT(*) FROM user_logs ul WHERE ul.su_id=363 LIMIT 1
+
+[2020-09-15 14:16:33][SQL] --- SELECT ul.*, u.username, f.sf_name
+                    FROM user_logs ul
+                      LEFT JOIN users u ON ul.su_id=u.user_id
+                      LEFT JOIN functions f ON ul.sf_id=f.sf_id
+                    WHERE ul.su_id=363
+                    ORDER BY ul.ul_id DESC LIMIT 0, 15
+
+[2020-09-15 14:16:33][SQL] --- SELECT u.*, s.fullname staff_name, s.mobile, s.job_number, s.job_title, s.job_email
+                FROM users u
+                  LEFT JOIN own.staff s ON u.staff_id=s.staff_id
+                WHERE u.user_id=363 LIMIT 1
+
+[2020-09-15 14:16:33][SQL] --- SELECT * FROM functions WHERE sf_menu_on=1 AND sf_status>=0 ORDER BY sf_app,sf_module_name,sf_menu_order
+
+[2020-09-15 14:16:47][SQL] --- SELECT * FROM functions WHERE sf_module='order' AND sf_action='osplist' LIMIT 1
+
+[2020-09-15 14:16:47][SQL] --- SELECT *
+        FROM system.meta
+        WHERE meta_group='force:change:pwd' AND meta_key='userid:363' AND status='1' AND delete_flag='0' LIMIT 1
+
+
+2020-09-15T14:16:47+08:00 [REQ]-- /Order/OspList/out/view/
+[ReqBody] --{"out":"view"}
+[User] --{"id":"363","username":"zhangjingjing","sa":true,"staffId":"694","staffName":"张晶晶"}
+
+-------------------
+[2020-09-15 14:16:47][SQL] --- SELECT team_id from own.bd_member WHERE staff_id=694 LIMIT 1
+
+[2020-09-15 14:16:47][SQL] --- SELECT team_id from own.bd_team WHERE team_head=694 LIMIT 1
+
+
+2020-09-15T14:16:47+08:00 bdPriv[148]-- {"sa":true,"staff_id":"694","staff_tid":0}
+-------------------
+[2020-09-15 14:16:47][SQL] --- SELECT COUNT( DISTINCT o.order_id ) 
+                    FROM sales.retail o 
+                      LEFT JOIN osp.station n ON n.oss_id=o.oss_id 
+                      LEFT JOIN activity.sales_bill_order_rebate aso ON o.order_id = aso.order_id 
+                      LEFT JOIN biz.employee e ON e.employee_id=o.employee_id
+                    WHERE o.status=-100 AND o.is_serv_order in (1,3,11) AND o.delete_flag = 0  LIMIT 1
+
+[2020-09-15 14:16:48][SQL] --- SELECT rg_id rid, rg_name rname FROM common.region WHERE parent_id=1 AND status>=1 ORDER BY rg_rank DESC, rg_id
+
+[2020-09-15 14:16:53][SQL] --- SELECT * FROM functions WHERE sf_module='order' AND sf_action='osplist' LIMIT 1
+
+[2020-09-15 14:16:53][SQL] --- SELECT *
+        FROM system.meta
+        WHERE meta_group='force:change:pwd' AND meta_key='userid:363' AND status='1' AND delete_flag='0' LIMIT 1
+
+
+2020-09-15T14:16:53+08:00 [REQ]-- /order/OspList/out/view/
+[ReqBody] --{"out":"view","oc_id":"","sp_id":"","sps_id":"","spe_id":"","c_appId":"","date1":"","date2":"","spe_eMobile":"","employee_mobile":"","province":"0","city":"0","sp_cName":"","oc_cName":"","ao_code":"","sku":"100","sn":"202009151032123262863541","sps_sName":"","c_appName":"","status":"100","mode_type":"100","channelId":"","type":"100"}
+[User] --{"id":"363","username":"zhangjingjing","sa":true,"staffId":"694","staffName":"张晶晶"}
+
+-------------------
+[2020-09-15 14:16:53][SQL] --- SELECT team_id from own.bd_member WHERE staff_id=694 LIMIT 1
+
+[2020-09-15 14:16:53][SQL] --- SELECT team_id from own.bd_team WHERE team_head=694 LIMIT 1
+
+
+2020-09-15T14:16:53+08:00 bdPriv[148]-- {"sa":true,"staff_id":"694","staff_tid":0}
+-------------------
+[2020-09-15 14:16:53][SQL] --- SELECT COUNT( DISTINCT o.order_id ) 
+                    FROM sales.retail o 
+                      LEFT JOIN osp.station n ON n.oss_id=o.oss_id 
+                      LEFT JOIN activity.sales_bill_order_rebate aso ON o.order_id = aso.order_id 
+                      LEFT JOIN biz.employee e ON e.employee_id=o.employee_id
+                    WHERE o.order_sn LIKE '202009151032123262863541%' AND o.is_serv_order in (1,3,11) AND o.delete_flag = 0  LIMIT 1
+
+[2020-09-15 14:16:53][SQL] --- SELECT o.*, e.employee_name, e.employee_mobile, b.branch_name, c.company_name, c.company_shortname, r.rg_name city_name,
+                                p.osp_shortname, p.osp_name, n.oss_name, f.staff_name, f.staff_mobile, k.sku_name,IFNULL(t.truck_number,'-') truck_number, aso.oss_type,
+                                IFNULL(m.create_time,'') pay_time , IFNULL(bo.rebate_amount,0) used_rebate_amount
+                                
+                        FROM sales.retail o
+                          LEFT JOIN biz.employee e ON e.employee_id=o.employee_id
+                          LEFT JOIN biz.company_branch b ON b.cb_id=o.branch_id
+                          LEFT JOIN biz.company c ON c.company_id=o.company_id
+                          LEFT JOIN common.region r ON r.rg_id=o.city_id
+                          LEFT JOIN osp.company p ON p.osp_id=o.osp_id
+                          LEFT JOIN osp.station n ON n.oss_id=o.oss_id
+                          LEFT JOIN osp.station_staff f ON f.staff_id=o.staff_id
+                          LEFT JOIN common.product_sku k ON k.sku_code=o.sku_code
+                          LEFT JOIN biz.company_truck t ON o.truck_id=t.truck_id
+                          LEFT JOIN activity.sales_bill_order_rebate aso ON o.order_id = aso.order_id AND aso.delete_flag=0
+                          LEFT JOIN sales.retail_payment m ON o.order_id=m.order_id AND m.pay_status=30
+                          LEFT JOIN statement.osp_bill_order bo ON bo.order_id = o.order_id
+                          LEFT JOIN sales.retail_extension sre ON sre.order_id = o.order_id
+                          
+                       WHERE o.order_sn LIKE '202009151032123262863541%' AND o.is_serv_order in (1,3,11) AND o.delete_flag = 0 
+                       GROUP BY o.order_id
+                       ORDER BY o.order_id DESC LIMIT 0, 20
+
+[2020-09-15 14:16:54][SQL] --- SELECT * FROM sales.retail_extension where order_id IN (1188265)
+
+[2020-09-15 14:16:54][SQL] --- SELECT o.*,n.con_id
+        FROM statement.osp_bill_order o
+        LEFT JOIN statement.osp_bill b ON o.bill_id=b.bill_id
+        LEFT JOIN contract.osp_station n ON o.cos_id=n.cos_id
+        WHERE o.order_id IN (1188265) AND o.delete_flag=0
+
+[2020-09-15 14:16:54][SQL] --- SELECT channel_id,channel_shortname,channel_name FROM partner.channel WHERE channel_id=1 LIMIT 1
+
+[2020-09-15 14:16:54][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=71703 LIMIT 1
+
+[2020-09-15 14:16:54][SQL] --- SELECT o.*,n.con_id
+        FROM statement.osp_bill_order o
+        LEFT JOIN statement.osp_bill b ON o.bill_id=b.bill_id
+        LEFT JOIN contract.osp_station n ON o.cos_id=n.cos_id
+        WHERE o.order_id IN (1188265) AND o.delete_flag=0
+
+[2020-09-15 14:16:54][SQL] --- SELECT p.*,IFNULL(s.own_name,'') own_name,bank_account
+        FROM contract.osp p
+        LEFT JOIN own.subsidiary s ON p.own_id=s.own_id
+         WHERE p.con_id IN (368) AND p.delete_flag=0
+
+[2020-09-15 14:16:54][SQL] --- SELECT rg_id rid, rg_name rname FROM common.region WHERE parent_id=1 AND status>=1 ORDER BY rg_rank DESC, rg_id
+
+[2020-09-15 14:16:58][SQL] --- SELECT * FROM functions WHERE sf_module='order' AND sf_action='salesdrop' LIMIT 1
+
+[2020-09-15 14:16:58][SQL] --- SELECT *
+        FROM system.meta
+        WHERE meta_group='force:change:pwd' AND meta_key='userid:363' AND status='1' AND delete_flag='0' LIMIT 1
+
+
+2020-09-15T14:16:58+08:00 [REQ]-- /order/SalesDrop/id/1188265/
+[ReqBody] --{"id":"1188265"}
+[User] --{"id":"363","username":"zhangjingjing","sa":true,"staffId":"694","staffName":"张晶晶"}
+
+-------------------
+[2020-09-15 14:16:58][SQL] --- SELECT o.*,re.price_settlement, e.employee_name, e.employee_mobile, b.branch_name, c.company_name, c.company_shortname, r.rg_name city_name,re.third_flag,
+                        p.osp_shortname, n.oss_name, n.opposite_station_flag, op.oss_shortname as opposite_oss_shortname, f.staff_name, f.staff_mobile, k.sku_name,p.osp_name,
+                        pc.channel_shortname
+                FROM sales.retail o
+                  LEFT JOIN biz.employee e ON e.employee_id=o.employee_id
+                  LEFT JOIN biz.company_branch b ON b.cb_id=o.branch_id
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                  LEFT JOIN common.region r ON r.rg_id=o.city_id
+                  LEFT JOIN osp.company p ON p.osp_id=o.osp_id
+                  LEFT JOIN osp.station n ON n.oss_id=o.oss_id
+                  LEFT JOIN osp.station op ON op.oss_id=n.opposite_station_id
+                  LEFT JOIN osp.station_staff f ON f.staff_id=o.staff_id
+                  LEFT JOIN common.product_sku k ON k.sku_code=o.sku_code
+                  LEFT JOIN sales.retail_extension re ON re.order_id = o.order_id
+                  LEFT JOIN partner.channel pc ON pc.channel_id = o.channel_id
+            WHERE o.order_id=1188265 LIMIT 1
+
+[2020-09-15 14:16:59][SQL] --- SELECT o.*, c.company_name
+                FROM account.oil o
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                WHERE o.ao_id=71703 LIMIT 1
+
+[2020-09-15 14:16:59][SQL] --- SELECT s.*,t.unit
+                FROM common.product_sku s
+                LEFT JOIN common.product t ON s.pro_id=t.pro_id
+                WHERE s.sku_code IN ('D100G06') LIMIT 1
+
+[2020-09-15 14:17:02][SQL] --- SELECT * FROM functions WHERE sf_module='order' AND sf_action='salesdroppost' LIMIT 1
+
+[2020-09-15 14:17:03][SQL] --- SELECT *
+        FROM system.meta
+        WHERE meta_group='force:change:pwd' AND meta_key='userid:363' AND status='1' AND delete_flag='0' LIMIT 1
+
+
+2020-09-15T14:17:03+08:00 [REQ]-- /order/SalesDropPost/id/1188265/
+[ReqBody] --{"id":"1188265","duty_type":"10","remark":"sdsd"}
+[User] --{"id":"363","username":"zhangjingjing","sa":true,"staffId":"694","staffName":"张晶晶"}
+
+-------------------
+[2020-09-15 14:17:03][SQL] --- SELECT o.*,re.price_settlement, e.employee_name, e.employee_mobile, b.branch_name, c.company_name, c.company_shortname, r.rg_name city_name,re.third_flag,
+                        p.osp_shortname, n.oss_name, n.opposite_station_flag, op.oss_shortname as opposite_oss_shortname, f.staff_name, f.staff_mobile, k.sku_name,p.osp_name,
+                        pc.channel_shortname
+                FROM sales.retail o
+                  LEFT JOIN biz.employee e ON e.employee_id=o.employee_id
+                  LEFT JOIN biz.company_branch b ON b.cb_id=o.branch_id
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                  LEFT JOIN common.region r ON r.rg_id=o.city_id
+                  LEFT JOIN osp.company p ON p.osp_id=o.osp_id
+                  LEFT JOIN osp.station n ON n.oss_id=o.oss_id
+                  LEFT JOIN osp.station op ON op.oss_id=n.opposite_station_id
+                  LEFT JOIN osp.station_staff f ON f.staff_id=o.staff_id
+                  LEFT JOIN common.product_sku k ON k.sku_code=o.sku_code
+                  LEFT JOIN sales.retail_extension re ON re.order_id = o.order_id
+                  LEFT JOIN partner.channel pc ON pc.channel_id = o.channel_id
+            WHERE o.order_id=1188265 LIMIT 1
+
+[2020-09-15 14:17:03][SQL] --- SELECT COUNT(*) from sales_bill_order_rebate as sbor 
+                LEFT JOIN sales_bill_rebate as sbr ON sbr.rebate_bill_id=sbor.bill_id
+                WHERE (sbr.own_comfirm_status=1 OR sbr.cs_comfirm_status=1) AND sbor.order_id=1188265 LIMIT 1
+
+[2020-09-15 14:17:03][SQL] --- SELECT a.*
+        FROM app.meta a
+        WHERE a.app_id=1801 AND a.meta_group='oss_change_osp' AND a.meta_key='oss_change_osp_1174' AND a.status=1 AND a.delete_flag=0 LIMIT 1
+
+[2020-09-15 14:17:03][SQL] --- SELECT COUNT(*) 
+                FROM statement.osp_paypackage_detail opd 
+                LEFT JOIN statement.osp_paypackage op ON opd.paypackage_id = op.paypackage_id
+                WHERE opd.rel_type = 10 AND opd.rel_id = 1188265 AND (op.pay_id > 0 OR (op.status = 99 AND op.package_amount = 0))
+                 LIMIT 1
+
+[2020-09-15 14:17:03][SQL] --- SELECT COUNT(op.pay_id) 
+                FROM statement.osp_paypackage op
+                WHERE op.time_from <= '2020-09-15 10:32:12' AND op.time_last > '2020-09-15 10:32:12' AND op.pay_id > 0 AND op.osp_id = 10346 LIMIT 1
+
+[2020-09-15 14:17:03][SQL] --- UPDATE functions SET sf_done_count=sf_done_count+1 WHERE sf_id=128
+
+[2020-09-15 14:17:03][SQL]user_logs --- INSERT INTO user_logs SET su_id='363',sf_id='128',ul_remark='[张晶晶] 该订单已经生成付款包，不能进行此操作',ul_time=NOW(),ul_ip='172.18.0.1'
+
+[2020-09-15 14:18:21][SQL] --- SELECT * FROM functions WHERE sf_module='order' AND sf_action='salesdroppost' LIMIT 1
+
+[2020-09-15 14:18:21][SQL] --- SELECT *
+        FROM system.meta
+        WHERE meta_group='force:change:pwd' AND meta_key='userid:363' AND status='1' AND delete_flag='0' LIMIT 1
+
+
+2020-09-15T14:18:22+08:00 [REQ]-- /order/SalesDropPost/id/1188265/
+[ReqBody] --{"id":"1188265","duty_type":"10","remark":"sdsd"}
+[User] --{"id":"363","username":"zhangjingjing","sa":true,"staffId":"694","staffName":"张晶晶"}
+
+-------------------
+[2020-09-15 14:18:22][SQL] --- SELECT o.*,re.price_settlement, e.employee_name, e.employee_mobile, b.branch_name, c.company_name, c.company_shortname, r.rg_name city_name,re.third_flag,
+                        p.osp_shortname, n.oss_name, n.opposite_station_flag, op.oss_shortname as opposite_oss_shortname, f.staff_name, f.staff_mobile, k.sku_name,p.osp_name,
+                        pc.channel_shortname
+                FROM sales.retail o
+                  LEFT JOIN biz.employee e ON e.employee_id=o.employee_id
+                  LEFT JOIN biz.company_branch b ON b.cb_id=o.branch_id
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                  LEFT JOIN common.region r ON r.rg_id=o.city_id
+                  LEFT JOIN osp.company p ON p.osp_id=o.osp_id
+                  LEFT JOIN osp.station n ON n.oss_id=o.oss_id
+                  LEFT JOIN osp.station op ON op.oss_id=n.opposite_station_id
+                  LEFT JOIN osp.station_staff f ON f.staff_id=o.staff_id
+                  LEFT JOIN common.product_sku k ON k.sku_code=o.sku_code
+                  LEFT JOIN sales.retail_extension re ON re.order_id = o.order_id
+                  LEFT JOIN partner.channel pc ON pc.channel_id = o.channel_id
+            WHERE o.order_id=1188265 LIMIT 1
+
+[2020-09-15 14:18:22][SQL] --- SELECT COUNT(*) from sales_bill_order_rebate as sbor 
+                LEFT JOIN sales_bill_rebate as sbr ON sbr.rebate_bill_id=sbor.bill_id
+                WHERE (sbr.own_comfirm_status=1 OR sbr.cs_comfirm_status=1) AND sbor.order_id=1188265 LIMIT 1
+
+[2020-09-15 14:18:22][SQL] --- SELECT a.*
+        FROM app.meta a
+        WHERE a.app_id=1801 AND a.meta_group='oss_change_osp' AND a.meta_key='oss_change_osp_1174' AND a.status=1 AND a.delete_flag=0 LIMIT 1
+
+[2020-09-15 14:18:22][SQL] --- SELECT COUNT(*) 
+                FROM statement.osp_paypackage_detail opd 
+                LEFT JOIN statement.osp_paypackage op ON opd.paypackage_id = op.paypackage_id
+                WHERE opd.rel_type = 10 AND opd.rel_id = 1188265 AND (op.pay_id > 0 OR (op.status = 99 AND op.package_amount = 0))
+                 LIMIT 1
+
+[2020-09-15 14:18:22][SQL] --- SELECT COUNT(op.pay_id) 
+                FROM statement.osp_paypackage op
+                WHERE op.time_from <= '2020-09-15 10:32:12' AND op.time_last > '2020-09-15 10:32:12' AND op.pay_id > 0 AND op.osp_id = 10346 LIMIT 1
+
+[2020-09-15 14:18:22][SQL] --- UPDATE functions SET sf_done_count=sf_done_count+1 WHERE sf_id=128
+
+[2020-09-15 14:18:22][SQL]user_logs --- INSERT INTO user_logs SET su_id='363',sf_id='128',ul_remark='[张晶晶] 该订单已经生成付款包，不能进行此操作',ul_time=NOW(),ul_ip='172.18.0.1'
+
+[2020-09-15 14:19:57][SQL] --- SELECT * FROM functions WHERE sf_module='order' AND sf_action='salesdroppost' LIMIT 1
+
+[2020-09-15 14:19:57][SQL] --- SELECT *
+        FROM system.meta
+        WHERE meta_group='force:change:pwd' AND meta_key='userid:363' AND status='1' AND delete_flag='0' LIMIT 1
+
+
+2020-09-15T14:19:57+08:00 [REQ]-- /order/SalesDropPost/id/1188265/
+[ReqBody] --{"id":"1188265","duty_type":"10","remark":"sdsd"}
+[User] --{"id":"363","username":"zhangjingjing","sa":true,"staffId":"694","staffName":"张晶晶"}
+
+-------------------
+[2020-09-15 14:19:58][SQL] --- SELECT o.*,re.price_settlement, e.employee_name, e.employee_mobile, b.branch_name, c.company_name, c.company_shortname, r.rg_name city_name,re.third_flag,
+                        p.osp_shortname, n.oss_name, n.opposite_station_flag, op.oss_shortname as opposite_oss_shortname, f.staff_name, f.staff_mobile, k.sku_name,p.osp_name,
+                        pc.channel_shortname
+                FROM sales.retail o
+                  LEFT JOIN biz.employee e ON e.employee_id=o.employee_id
+                  LEFT JOIN biz.company_branch b ON b.cb_id=o.branch_id
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                  LEFT JOIN common.region r ON r.rg_id=o.city_id
+                  LEFT JOIN osp.company p ON p.osp_id=o.osp_id
+                  LEFT JOIN osp.station n ON n.oss_id=o.oss_id
+                  LEFT JOIN osp.station op ON op.oss_id=n.opposite_station_id
+                  LEFT JOIN osp.station_staff f ON f.staff_id=o.staff_id
+                  LEFT JOIN common.product_sku k ON k.sku_code=o.sku_code
+                  LEFT JOIN sales.retail_extension re ON re.order_id = o.order_id
+                  LEFT JOIN partner.channel pc ON pc.channel_id = o.channel_id
+            WHERE o.order_id=1188265 LIMIT 1
+
+[2020-09-15 14:19:58][SQL] --- SELECT COUNT(*) from sales_bill_order_rebate as sbor 
+                LEFT JOIN sales_bill_rebate as sbr ON sbr.rebate_bill_id=sbor.bill_id
+                WHERE (sbr.own_comfirm_status=1 OR sbr.cs_comfirm_status=1) AND sbor.order_id=1188265 LIMIT 1
+
+[2020-09-15 14:19:58][SQL] --- SELECT a.*
+        FROM app.meta a
+        WHERE a.app_id=1801 AND a.meta_group='oss_change_osp' AND a.meta_key='oss_change_osp_1174' AND a.status=1 AND a.delete_flag=0 LIMIT 1
+
+[2020-09-15 14:19:58][SQL] --- SELECT COUNT(*) 
+                FROM statement.osp_paypackage_detail opd 
+                LEFT JOIN statement.osp_paypackage op ON opd.paypackage_id = op.paypackage_id
+                WHERE opd.rel_type = 10 AND opd.rel_id = 1188265 AND (op.pay_id > 0 OR (op.status = 99 AND op.package_amount = 0))
+                 LIMIT 1
+
+[2020-09-15 14:19:58][SQL] --- SELECT COUNT(op.pay_id) 
+                FROM statement.osp_paypackage op
+                WHERE op.time_from <= '2020-09-15 10:32:12' AND op.time_last > '2020-09-15 10:32:12' AND op.pay_id > 0 AND op.osp_id = 10346 LIMIT 1
+
+[2020-09-15 14:19:59][SQL] --- UPDATE functions SET sf_done_count=sf_done_count+1 WHERE sf_id=128
+
+[2020-09-15 14:19:59][SQL]user_logs --- INSERT INTO user_logs SET su_id='363',sf_id='128',ul_remark='[张晶晶] 该订单已经生成付款包，不能进行此操作',ul_time=NOW(),ul_ip='172.18.0.1'
+
+[2020-09-15 14:20:38][SQL] --- SELECT * FROM functions WHERE sf_module='order' AND sf_action='salesdroppost' LIMIT 1
+
+[2020-09-15 14:20:39][SQL] --- SELECT *
+        FROM system.meta
+        WHERE meta_group='force:change:pwd' AND meta_key='userid:363' AND status='1' AND delete_flag='0' LIMIT 1
+
+
+2020-09-15T14:20:39+08:00 [REQ]-- /order/SalesDropPost/id/1188265/
+[ReqBody] --{"id":"1188265","duty_type":"10","remark":"sdsd"}
+[User] --{"id":"363","username":"zhangjingjing","sa":true,"staffId":"694","staffName":"张晶晶"}
+
+-------------------
+[2020-09-15 14:20:39][SQL] --- SELECT o.*,re.price_settlement, e.employee_name, e.employee_mobile, b.branch_name, c.company_name, c.company_shortname, r.rg_name city_name,re.third_flag,
+                        p.osp_shortname, n.oss_name, n.opposite_station_flag, op.oss_shortname as opposite_oss_shortname, f.staff_name, f.staff_mobile, k.sku_name,p.osp_name,
+                        pc.channel_shortname
+                FROM sales.retail o
+                  LEFT JOIN biz.employee e ON e.employee_id=o.employee_id
+                  LEFT JOIN biz.company_branch b ON b.cb_id=o.branch_id
+                  LEFT JOIN biz.company c ON c.company_id=o.company_id
+                  LEFT JOIN common.region r ON r.rg_id=o.city_id
+                  LEFT JOIN osp.company p ON p.osp_id=o.osp_id
+                  LEFT JOIN osp.station n ON n.oss_id=o.oss_id
+                  LEFT JOIN osp.station op ON op.oss_id=n.opposite_station_id
+                  LEFT JOIN osp.station_staff f ON f.staff_id=o.staff_id
+                  LEFT JOIN common.product_sku k ON k.sku_code=o.sku_code
+                  LEFT JOIN sales.retail_extension re ON re.order_id = o.order_id
+                  LEFT JOIN partner.channel pc ON pc.channel_id = o.channel_id
+            WHERE o.order_id=1188265 LIMIT 1
+
+[2020-09-15 14:20:39][SQL] --- SELECT COUNT(*) from sales_bill_order_rebate as sbor 
+                LEFT JOIN sales_bill_rebate as sbr ON sbr.rebate_bill_id=sbor.bill_id
+                WHERE (sbr.own_comfirm_status=1 OR sbr.cs_comfirm_status=1) AND sbor.order_id=1188265 LIMIT 1
+
+[2020-09-15 14:20:39][SQL] --- SELECT a.*
+        FROM app.meta a
+        WHERE a.app_id=1801 AND a.meta_group='oss_change_osp' AND a.meta_key='oss_change_osp_1174' AND a.status=1 AND a.delete_flag=0 LIMIT 1
+
+[2020-09-15 14:20:39][SQL] --- SELECT COUNT(*) 
+                FROM statement.osp_paypackage_detail opd 
+                LEFT JOIN statement.osp_paypackage op ON opd.paypackage_id = op.paypackage_id
+                WHERE opd.rel_type = 10 AND opd.rel_id = 1188265 AND (op.pay_id > 0 OR (op.status = 99 AND op.package_amount = 0))
+                 LIMIT 1
+
+[2020-09-15 14:20:39][SQL] --- SELECT COUNT(op.pay_id) 
+                FROM statement.osp_paypackage op
+                WHERE op.time_from <= '2020-09-15 10:32:12' AND op.time_last > '2020-09-15 10:32:12' AND op.pay_id > 0 AND op.osp_id = 10346 LIMIT 1
+
+[2020-09-15 14:20:39][SQL] --- UPDATE functions SET sf_done_count=sf_done_count+1 WHERE sf_id=128
+
+[2020-09-15 14:20:39][SQL]user_logs --- INSERT INTO user_logs SET su_id='363',sf_id='128',ul_remark='[张晶晶] 该订单已经生成付款包，不能进行此操作',ul_time=NOW(),ul_ip='172.18.0.1'
+
+[2020-09-15 16:06:22][SQL] --- SELECT COUNT(*) cnt FROM biz.company WHERE status>=1 AND create_time>='2020-09-15 00:00:00' AND create_time<='2020-09-15 23:59:59' LIMIT 1
+
+[2020-09-15 16:06:22][SQL] --- SELECT COUNT(*) cnt FROM contract.sales WHERE status>=1 AND create_time>='2020-09-15 00:00:00' AND create_time<='2020-09-15 23:59:59' LIMIT 1
+
+[2020-09-15 16:06:22][SQL] --- SELECT COUNT(*) cnt FROM osp.station WHERE create_time>='2020-09-15 00:00:00' AND create_time<='2020-09-15 23:59:59' LIMIT 1
+
+[2020-09-15 16:06:22][SQL] --- SELECT COUNT(*) cnt FROM osp.station WHERE status IN (0,1) LIMIT 1
+
+[2020-09-15 16:06:22][SQL] --- SELECT COUNT(*) cnt FROM app.member WHERE status>=1 AND create_time>='2020-09-15 00:00:00' AND create_time<='2020-09-15 23:59:59' LIMIT 1
+
+[2020-09-15 16:06:23][SQL] --- SELECT COUNT(*) cnt FROM sales.retail WHERE status=3 AND create_time>='2020-09-15 00:00:00' AND create_time<='2020-09-15 23:59:59' LIMIT 1
+
+[2020-09-15 16:06:23][SQL] --- SELECT COUNT(*) FROM user_logs ul WHERE ul.su_id=363 LIMIT 1
+
+[2020-09-15 16:06:24][SQL] --- SELECT ul.*, u.username, f.sf_name
+                    FROM user_logs ul
+                      LEFT JOIN users u ON ul.su_id=u.user_id
+                      LEFT JOIN functions f ON ul.sf_id=f.sf_id
+                    WHERE ul.su_id=363
+                    ORDER BY ul.ul_id DESC LIMIT 0, 15
+
+[2020-09-15 16:06:24][SQL] --- SELECT u.*, s.fullname staff_name, s.mobile, s.job_number, s.job_title, s.job_email
+                FROM users u
+                  LEFT JOIN own.staff s ON u.staff_id=s.staff_id
+                WHERE u.user_id=363 LIMIT 1
+
+[2020-09-15 16:06:24][SQL] --- SELECT * FROM functions WHERE sf_menu_on=1 AND sf_status>=0 ORDER BY sf_app,sf_module_name,sf_menu_order
+
+[2020-09-15 16:06:26][SQL] --- SELECT COUNT(*) FROM user_logs ul WHERE ul.su_id=363 LIMIT 1
+
+[2020-09-15 16:06:26][SQL] --- SELECT ul.*, u.username, f.sf_name
+                    FROM user_logs ul
+                      LEFT JOIN users u ON ul.su_id=u.user_id
+                      LEFT JOIN functions f ON ul.sf_id=f.sf_id
+                    WHERE ul.su_id=363
+                    ORDER BY ul.ul_id DESC LIMIT 0, 15
+
+[2020-09-15 16:06:26][SQL] --- SELECT u.*, s.fullname staff_name, s.mobile, s.job_number, s.job_title, s.job_email
+                FROM users u
+                  LEFT JOIN own.staff s ON u.staff_id=s.staff_id
+                WHERE u.user_id=363 LIMIT 1
+
+[2020-09-15 16:06:26][SQL] --- SELECT * FROM functions WHERE sf_menu_on=1 AND sf_status>=0 ORDER BY sf_app,sf_module_name,sf_menu_order
+
