@@ -79,8 +79,3 @@ url: http://ip:端口/website/_mapping/article
 }
 ````
 
-## 修改Field
-
-> 无法修改
-
-![1535277759731](https://github.com/jackylee92/Blog/blob/master/Images/es_demo1.png)

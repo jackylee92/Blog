@@ -1,5 +1,42 @@
 
 
+## Golang
+
+* channel
+* goroutine
+* 
+
+## PHP
+
+## Linux
+
+## Docker
+
+## MySQL
+
+## Redis
+
+## Elasticsearch
+
+## Kong
+
+## 算法
+
+## TCP/IP、HTTP(网络协议)
+
+## DevOps
+
+## MongoDB
+
+## ETCD
+
+## AES(ddb、rib、elb)
+
+## elop
+
+
+
+
 * goroutine
 
   go通过语言层面实现了协成，比系统层面的线程更轻量，其实就使goroutine，是程序执行流的最小单位，当启动main函数时就创建了一个主goroutine，同时也可以通过go方法创建更多goroutine，goroutine同样也支持并发，可以运行在多个线程之上，线程连接go的处理器，通过处理器调度goroutine，控制它的运行和等待，这是MPG模型，不同的goroutine之间通过channel来实现通讯。
