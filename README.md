@@ -21,19 +21,17 @@ GitHub：https://github.com/jackylee92
 
 ### 专业技能
 
-* PHP
-* Golang
-* MySQL
-* Nginx
-* ELK
-* Kong
-* Redis
-* Docker
-* Git
+* PHP、Golang
+* MySQL、Redis
+* Nginx、Kong
+* ELK、Docker、Git
 * Linux
 
-### 个人经历
+---
 
+
+
+### 个人经历
 | 时间            | 公司                     | 职位             | 工作内容                                                     |
 | --------------- | ------------------------ | ---------------- | ------------------------------------------------------------ |
 | 2017/05-至今    | 上海找油科技有限公司     | PHP/GO开发工程师 | 维护基于ThinkPHP3.2后台系统，维护ElasticSearch服务，维护所有Go基础服务、部分PHP业务服务。 |
@@ -69,6 +67,10 @@ GitHub：https://github.com/jackylee92
   * 部分PHP服务开发。
   * 基于yaf 的OMS管理系统开发维护。
 
+  ---
+
+  
+
 * **零售系统**
 
   __时间：__2017/04 - 2019/09
@@ -83,6 +85,10 @@ GitHub：https://github.com/jackylee92
   * 功能开发
   * 系统维护
 
+  ---
+
+  
+
 * __财务系统__
 
     __时间：__2017/04 - 2019/09
@@ -95,6 +101,10 @@ GitHub：https://github.com/jackylee92
 
     * 功能开发
     * 系统维护
+
+    ---
+
+    
 
 * **视频直播间**
 
@@ -111,6 +121,10 @@ GitHub：https://github.com/jackylee92
   * 设计数据库；
   * 拆分开发任务，部分模块开发；
 
+  ---
+
+  
+
 * **翰墨唐电商官网开发**
 
   __时间：__2015/06 - 2016/02
@@ -119,9 +133,13 @@ GitHub：https://github.com/jackylee92
 
   __简介：__企业官网+电商
 
-  职责：
+  __职责：__
 
-  ​	后台模块开发
+  * 后台模块开发
+
+  ---
+
+  
 
 * **挂号系统**
 
@@ -135,6 +153,10 @@ GitHub：https://github.com/jackylee92
 
   * 项目前后端开发
   
+  ---
+  
+  
+  
 * **Case型外包项目**
   
   __时间：__2014/05-2015/05
@@ -145,8 +167,11 @@ GitHub：https://github.com/jackylee92
   
   __职责：__
   
-  	* 基于CI框架PHP功能开发
-  	* 移动端+PC端页面开发
+  * 基于CI框架PHP功能开发
+  
+  * 移动端+PC端页面开发
+  
+    
 ---
 
 
