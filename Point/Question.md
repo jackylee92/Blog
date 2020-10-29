@@ -36,7 +36,7 @@
 
 ## AES(ddb、rib、elb)
 
-## elop
+## Epoll/Select
 
 
 
