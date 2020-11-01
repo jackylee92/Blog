@@ -24,6 +24,7 @@
 
 * 冒泡
 * 快排
+* LRU
 
 ## TCP/IP、HTTP(网络协议)
 
@@ -35,7 +36,7 @@
 
 ## AES(ddb、rib、elb)
 
-## elop
+## Epoll/Select
 
 ## 正则表达式
 
