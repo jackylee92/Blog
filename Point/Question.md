@@ -38,7 +38,11 @@
 
 ## Epoll/Select
 
+select ：时间复杂度O(n)，通过rset里面位表示，轮训每个流的状态；
 
+Epoll：时间复杂度时O(1)，epoll会将每个时间的I/O事件通知我们，并关联事件产生的数据，然后我们只需要读取对应空间中的数据，减少了select很多无用的轮训空读；
+
+## Ohter
 
 
 * goroutine
