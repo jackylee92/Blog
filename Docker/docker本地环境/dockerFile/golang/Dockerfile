@@ -8,3 +8,4 @@ RUN set -ex \
     && mkdir -p /local/Package \
     && cp /usr/local/go/bin/go /bin/ \
     && ln -s /go/src /local/Code \
+    && mkdir -p /etc/dev \

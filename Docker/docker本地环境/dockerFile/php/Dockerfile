@@ -104,3 +104,4 @@ RUN set -ex \
        && chmod u+x /usr/local/bin/composer \
        && mkdir -p /local/Package \
        && ln -s /usr/share/nginx/html /local/Code \
+       && mkdir -p /etc/dev \
