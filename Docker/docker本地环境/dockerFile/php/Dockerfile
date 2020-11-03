@@ -9,11 +9,11 @@ RUN set -ex \
     && docker-php-source extract \
     # install autoconf
     && apk update \
-    && apk add --no-cache autoconf gcc g++ make  libmcrypt-dev  libpng-dev freetype-dev libjpeg-turbo-dev  gettext-dev  libxml2-dev librdkafka-dev \
+    && apk add --no-cache autoconf gcc g++ make  libmcrypt-dev  libpng-dev freetype-dev libjpeg-turbo-dev  gettext-dev  libxml2-dev librdkafka-dev unzip \
     && php -v \
         && cd /tmp \
         && curl -SL "https://github.com/swoole/swoole-src/archive/v4.3.6.zip" -o swoole.zip \  
-        && curl -SL "https://github.com/phpredis/phpredis/archive/master.zip" -o redis.zip \
+        && curl -SL "https://github.com/phpredis/phpredis/archive/develop.zip" -o redis.zip \
         && curl -SL "https://github.com/TarsPHP/tars-extension/archive/master.zip" -o tars.zip \
         && curl -SL "https://github.com/alexeyrybak/blitz/archive/php7.zip" -o blitz.zip \
         && curl -SL "https://github.com/laruence/yaf/archive/yaf-3.0.7.zip" -o yaf.zip \
@@ -23,7 +23,7 @@ RUN set -ex \
         && unzip redis.zip \
         && rm redis.zip \
                 && ( \
-                    cd phpredis-master \
+                    cd phpredis-develop \
                     && phpize \
                     && ./configure \
                     && make && make install \
