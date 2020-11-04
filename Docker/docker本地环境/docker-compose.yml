@@ -1,0 +1,41 @@
+version: '2'
+services:
+    php:
+        image: dev/php:v1
+        container_name: php
+        ports:
+            - "9000:9000"
+        environment:
+            - TZ=Asia/Shanghai
+        volumes:
+            - ${DOCKER_CODEDIR}/PHP:/usr/share/nginx/html
+            - ${DOCKER_CODEDIR}/Package:/local/Package
+            - ${DOCKER_LOGDIR}/oms:/data/oms
+            - ${DOCKER_LOGDIR}/php:/var/log/php
+            - ${DOCKER_CONFDIR}/php/phpconf:/usr/local/etc/php
+            - ${DOCKER_CONFDIR}/php/fpmconf/php-fpm.conf:/usr/local/etc/php-fpm.conf
+            - ${DOCKER_CONFDIR}/php/fpmconf/php-fpm.d:/usr/local/etc/php-fpm.d
+            - ${DOCKER_CONFDIR}/env/:/etc/dev
+    nginx:
+        image: dev/nginx:v1
+        container_name: nginx
+        volumes: 
+            - ${DOCKER_CODEDIR}/PHP:/usr/share/nginx/html
+            - ${DOCKER_CONFDIR}/nginx:/etc/nginx/conf.d
+            - ${DOCKER_LOGDIR}/nginx:/var/log/nginx
+        ports: 
+            - "80:80"
+        links: 
+            - php
+    go:
+        image: dev/go:v4
+        container_name: go
+        volumes: 
+            - ${DOCKER_CODEDIR}/Golang:/go
+            - ${DOCKER_CODEDIR}/Package:/local/Package
+            - ${DOCKER_CONFDIR}/env/:/etc/dev
+        tty: true
+networks:
+    default:
+        external:
+            name: docker 

@@ -1,5 +1,0 @@
-[14-Sep-2020 10:17:34 UTC] PHP Parse error:  syntax error, unexpected '$c' (T_VARIABLE) in /usr/share/nginx/html/phpinfo/index.php on line 3
-[14-Sep-2020 10:17:34 UTC] PHP Parse error:  syntax error, unexpected '$c' (T_VARIABLE) in /usr/share/nginx/html/phpinfo/index.php on line 3
-[14-Sep-2020 11:05:26 UTC] PHP Parse error:  syntax error, unexpected '$c' (T_VARIABLE) in /usr/share/nginx/html/phpinfo/index.php on line 3
-[14-Sep-2020 11:05:26 UTC] PHP Parse error:  syntax error, unexpected '$c' (T_VARIABLE) in /usr/share/nginx/html/phpinfo/index.php on line 3
-[15-Sep-2020 11:23:37 PRC] PHP Recoverable fatal error:  Yaf_Application::run(): There is no method oilservicesaleslistAction in Order3Controller in /usr/share/nginx/html/OMS/app/index.php on line 29
