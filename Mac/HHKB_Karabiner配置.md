@@ -121,6 +121,8 @@ xxx.json
 
 但是实际tab+hjkl也无效，只能使用left_option，将right_shift改成left_option
 
+__最终：__
+
 ````
 {
     "title": "xxx配置",

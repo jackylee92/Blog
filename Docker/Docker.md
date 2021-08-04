@@ -149,4 +149,18 @@
   password: $password
   ```
 
-  
+
+## 添加pdo_mysql扩展
+
+```
+docker-php-ext-install pdo pdo_mysql
+```
+
+## 升级
+
+修改好dockerFile后 ``docker build -t ljd/php:v4 .`` ，注意修改docker名称``ljd/php`` 和``v4``版本号
+
+新建一个Tag``docker tag ljd/php:v5 registry.cn-hangzhou.aliyuncs.com/lijundong/php:v2``
+
+push这个Tag``docker push registry.cn-hangzhou.aliyuncs.com/lijundong/php:v2``
+

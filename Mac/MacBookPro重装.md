@@ -14,8 +14,10 @@
   sudo /Applications/Install\ {系统版本}/Contents/Resources/createinstallmedia --volume /Volumes/{U盘名称} --applicationpath /Applications/Install\{系统版本} --nointeraction
   ````
 
-  出现：
+  sudo /Applications/Install\ {系统版本}/Contents/Resources/createinstallmedia --volume /Volumes/{U盘名称} --applicationpath /Applications/Install\{系统版本} --nointeraction
 
+  出现：
+  
   ````
   If you wish to continue type (Y) then press return: y
   Erasing Disk: 0%... 10%... 20%... 30%...100%...

@@ -4,7 +4,6 @@
 
 * channel
 * goroutine
-* 
 
 ## PHP
 

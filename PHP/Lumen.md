@@ -97,8 +97,7 @@ __自定义公共函数__
 
 * 在``app``中添加``Common\function.php`` 这当中写入公共函数；
 * 在根目录composer.json中添加自动加载
-  *
-
+  
   ````
     "autoload": {
         "psr-4": {

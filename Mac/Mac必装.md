@@ -5,7 +5,7 @@
 * iterm2：终端替换工具
 * vim：编辑器 => 转neovim
 * docker：就是docker
-* paste：剪切板增强
+* paste：剪切板增强=>用Alfred代替了
 * karabiner：换键 HHKB必用
 * jietu：截图、录制
 * navicate：数据库客户端
@@ -21,18 +21,16 @@
 * WPS
 * 钉钉
 * 阿里旺旺
-* V2ray：科学上网
 * 百度网盘
 * 迅雷
-* EasyConnect：公司VPN
 * QQ
 * PostMan
 * keka：解压工具
 * Photoshop
 * Axure
 * 微信开发者工具
-* v2ray
-* IDE
+* NVIM
+* Shadowsocks
 
 开发
 

@@ -21,3 +21,9 @@ git checkout {{commint}} {{file_path}}
 
 
 
+### 回退到上一版本
+
+```shell
+git reset --hard HEAD^
+```
+
